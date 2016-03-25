@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/client_relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.feather.activity.ClientActivity"
+    android:background="@drawable/login_background">
+
+	<ImageView 
+	    android:id="@+id/icar_logo"
+	    android:contentDescription="@string/app_name"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="60dip"
+	    android:layout_width="100dip"
+	    android:layout_height="70dip"
+	    android:src="@drawable/icarlogo"
+	    />
+    <TextView
+        android:id="@+id/icar_name"
+        android:gravity="center"
+        android:layout_width="1000px"
+        android:layout_height="100px"
+        android:layout_below="@id/icar_logo"
+        android:text="汽车空调控制系统"
+        android:textSize="40px"
+        android:textColor="#3366cc"
+        />
+    <EditText
+        android:id="@+id/client_account"
+        android:layout_below="@id/icar_name"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginTop="20dip"
+        android:hint="账号"
+        android:singleLine="true"
+ 
+        android:background="@drawable/edit_bg_selector"
+        android:paddingLeft="15dip"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
+        
+        android:textCursorDrawable="@null"
+        android:textColorHint="#cccccc"
+        />
+    <EditText 
+        android:id = "@+id/client_password"
+        android:layout_below="@id/client_account"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:inputType="textPassword"
+        android:hint="密码"
+        android:singleLine="true"
+        android:background="@drawable/edit_bg_selector"
+        android:paddingLeft="15dip"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip"
+        
+        android:textCursorDrawable="@null"
+        android:textColorHint="#cccccc"
+
+        />
+    <Button
+       	android:id="@+id/client_login"
+       	android:layout_below="@id/client_password"
+        android:layout_width="fill_parent"
+      	android:layout_height="40dip"
+      	android:layout_centerHorizontal="true"
+      	android:layout_marginTop="10dip"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+       	android:text="登录"
+       	android:textColor="#ffffff"
+       	android:background="@drawable/button_bg_selector"
+      	/>
+    <Button
+       	android:id="@+id/client_bluetooth"
+       	android:layout_below="@id/client_login"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dip"
+        android:layout_marginLeft="15dip"
+        android:layout_marginRight="15dip"
+        android:text="测试模式"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_bg_selector"
+        />
+
+
+
+</RelativeLayout>

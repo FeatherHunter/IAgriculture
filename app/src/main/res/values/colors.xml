@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color_default">#00bb00</color>
+    <color name="ice_blue">#3366cc</color>
+    <color name="hot_red">#cc0000</color>
+    <color name="display_background">#dfdfdf</color>
+    <color name="black">#000000</color>
+    <color name="temp_32">#bb0000</color>
+    <color name="temp_31">#990000</color>
+    <color name="temp_30">#770000</color>
+    <color name="temp_29">#773300</color>
+    <color name="temp_28">#774400</color>
+    <color name="temp_27">#665500</color>
+    <color name="temp_26">#556600</color>
+    <color name="temp_25">#337700</color>
+    <color name="temp_24">#119911</color>
+    <color name="temp_23">#007722</color>
+    <color name="temp_22">#006644</color>
+    <color name="temp_21">#005577</color>
+    <color name="temp_20">#005599</color>
+    <color name="temp_19">#004499</color>
+    <color name="temp_18">#0044bb</color>
+    <color name="temp_17">#0033bb</color>
+    <color name="temp_16">#0000bb</color>
+
+</resources>

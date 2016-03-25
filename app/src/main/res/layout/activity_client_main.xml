@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.feather.activity.ClientMainActivity" 
+    android:id="@+id/relative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+    <include  
+        android:id="@+id/bottom_layout"  
+        layout="@layout/bottombar" /> 
+    <RelativeLayout 
+        android:id="@+id/main_window"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        
+        ></RelativeLayout> 
+	
+
+</RelativeLayout>

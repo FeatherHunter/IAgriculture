@@ -1,0 +1,62 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ifuture.iagriculture">
+
+    <uses-sdk
+        android:minSdkVersion="13"
+        android:targetSdkVersion="20" />
+    android:versionCode="1"
+    android:versionName="1.0" >
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 以下是wifi访问网络需要的权限 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 文件权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/feather"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup" >
+        <activity
+            android:name="com.ifuture.iagriculture.activity.ClientActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.ifuture.iagriculture.activity.ClientMainActivity"
+            android:label="hello" />
+
+        <service android:name="com.ifuture.iagriculture.service.IHomeService" >
+        </service>
+
+        <activity
+            android:name="com.ifuture.iagriculture.activity.OptionActivity1"
+            android:label="@string/title_activity_option1" >
+        </activity>
+        <activity
+            android:name="com.ifuture.iagriculture.activity.AirerActivity2"
+            android:label="@string/title_activity_airer" >
+
+        </activity>
+        <activity
+            android:name="com.ifuture.iagriculture.activity.AirConditionerActivity3">
+
+        </activity>
+        <activity android:name="com.ifuture.iagriculture.activity.AirControler">
+        </activity>
+    </application>
+
+</manifest>
