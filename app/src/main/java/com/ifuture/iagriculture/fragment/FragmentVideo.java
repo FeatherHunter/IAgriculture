@@ -16,10 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.feather.activity.ClientMainActivity;
-import com.feather.activity.Instruction;
-import com.feather.bottombar.BaseFragment;
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.activity.ClientMainActivity;
+import com.ifuture.iagriculture.Instruction.Instruction;
+import com.ifuture.iagriculture.bottombar.BaseFragment;
+import com.ifuture.iagriculture.R;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -177,95 +177,95 @@ public class FragmentVideo extends BaseFragment{
 		@Override
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
-			int lampid = view.getId();
-			byte type = Instruction.COMMAND_CONTRL;
-			byte subtype = Instruction.CTL_LAMP;
-			byte operator = 0;
-			String IDString = new String("");
-
-			int textColor = getResources().getColor(R.color.text_color_default);
-			switch(lampid)			{
-				case R.id.room_led1_button:
-				{
-					IDString = new String("0");
-					int currentColor = bedroom_led1.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						operator = Instruction.LAMP_ON;
-					}
-					else
-					{
-						operator = Instruction.LAMP_OFF;
-					}
-
-				}
-				break;
-				case R.id.room_led2_button:
-				{
-
-					IDString = new String("1");
-					int currentColor = bedroom_led2.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						operator = Instruction.LAMP_ON;
-					}
-					else
-					{
-						operator = Instruction.LAMP_OFF;
-					}
-
-				}
-				break;
-				case R.id.room_led3_button:
-				{
-
-					IDString = new String("2");
-					int currentColor = bedroom_led3.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						operator = Instruction.LAMP_ON;
-					}
-					else
-					{
-						operator = Instruction.LAMP_OFF;
-					}
-
-				}
-				break;
-			}//end of switch
-
-			try {
-				/*需要发送的指令,byte数组*/
-				byte typeBytes[] = {type,Instruction.COMMAND_SEPERATOR};
-				byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,subtype, Instruction.COMMAND_SEPERATOR};
-				byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR};
-				byte IDBytes[] = IDString.getBytes("UTF-8");
-				byte endBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-				byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length
-						+IDBytes.length+endBytes.length];
-
-				/*转换account后面所有指令*/
-				int start = 0;
-				System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
-				start+=subtypeBytes.length;
-				System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
-				start+=operatorBytes.length;
-				System.arraycopy(IDBytes,0,buffer,start, IDBytes.length);
-				start+=IDBytes.length;
-				System.arraycopy(endBytes   ,0,buffer,start, endBytes.length);
-
-				/*发送广播给Service，让其发送信息给服务器*/
-				Intent intent = new Intent();
-				intent.putExtra("type", "send");
-				intent.putExtra("onefield", typeBytes);
-				intent.putExtra("twofield", buffer);
-				intent.setAction(intent.ACTION_MAIN);
-				getActivity().sendBroadcast(intent);
-
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			int lampid = view.getId();
+//			byte type = Instruction.COMMAND_CONTRL;
+//			byte subtype = Instruction.CTL_LAMP;
+//			byte operator = 0;
+//			String IDString = new String("");
+//
+//			int textColor = getResources().getColor(R.color.text_color_default);
+//			switch(lampid)			{
+//				case R.id.room_led1_button:
+//				{
+//					IDString = new String("0");
+//					int currentColor = bedroom_led1.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						operator = Instruction.LAMP_ON;
+//					}
+//					else
+//					{
+//						operator = Instruction.LAMP_OFF;
+//					}
+//
+//				}
+//				break;
+//				case R.id.room_led2_button:
+//				{
+//
+//					IDString = new String("1");
+//					int currentColor = bedroom_led2.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						operator = Instruction.LAMP_ON;
+//					}
+//					else
+//					{
+//						operator = Instruction.LAMP_OFF;
+//					}
+//
+//				}
+//				break;
+//				case R.id.room_led3_button:
+//				{
+//
+//					IDString = new String("2");
+//					int currentColor = bedroom_led3.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						operator = Instruction.LAMP_ON;
+//					}
+//					else
+//					{
+//						operator = Instruction.LAMP_OFF;
+//					}
+//
+//				}
+//				break;
+//			}//end of switch
+//
+//			try {
+//				/*需要发送的指令,byte数组*/
+//				byte typeBytes[] = {type,Instruction.COMMAND_SEPERATOR};
+//				byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,subtype, Instruction.COMMAND_SEPERATOR};
+//				byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR};
+//				byte IDBytes[] = IDString.getBytes("UTF-8");
+//				byte endBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//				byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length
+//						+IDBytes.length+endBytes.length];
+//
+//				/*转换account后面所有指令*/
+//				int start = 0;
+//				System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
+//				start+=subtypeBytes.length;
+//				System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
+//				start+=operatorBytes.length;
+//				System.arraycopy(IDBytes,0,buffer,start, IDBytes.length);
+//				start+=IDBytes.length;
+//				System.arraycopy(endBytes   ,0,buffer,start, endBytes.length);
+//
+//				/*发送广播给Service，让其发送信息给服务器*/
+//				Intent intent = new Intent();
+//				intent.putExtra("type", "send");
+//				intent.putExtra("onefield", typeBytes);
+//				intent.putExtra("twofield", buffer);
+//				intent.setAction(intent.ACTION_MAIN);
+//				getActivity().sendBroadcast(intent);
+//
+//			} catch (UnsupportedEncodingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 
 	}

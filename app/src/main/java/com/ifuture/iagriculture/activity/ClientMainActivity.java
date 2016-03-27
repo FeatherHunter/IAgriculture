@@ -16,13 +16,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.feather.bottombar.BaseFragment;
-import com.feather.bottombar.BottomBarPanel;
-import com.feather.bottombar.BottomBarPanel.BottomPanelCallback;
-import com.feather.bottombar.Constant;
-import com.feather.fragment.FragmentIHome;
-import com.feather.fragment.FragmentVideo;
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.bottombar.BaseFragment;
+import com.ifuture.iagriculture.bottombar.BottomBarPanel;
+import com.ifuture.iagriculture.bottombar.BottomBarPanel.BottomPanelCallback;
+import com.ifuture.iagriculture.bottombar.Constant;
+import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentVideo;
+import com.ifuture.iagriculture.R;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -114,10 +114,10 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 		/*初始化界面*/
 		currFragTag = "";
 		initUI();
-		
+
 		fragmentManager = getFragmentManager();
 		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IHOME);
-		
+
 		Intent intent = getIntent();
 		int mode = intent.getIntExtra("mode", 2); //得到模式信息，默认为蓝牙模式2
 		if(mode == 1)//ethnet模式
@@ -135,7 +135,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 			contrlReceiver = new ContrlReceiver();
 			IntentFilter filter = new IntentFilter();
 			filter.addAction(CONTRL_ACTION);
-			registerReceiver(contrlReceiver, filter);//注册 
+			registerReceiver(contrlReceiver, filter);//注册
 		} catch (IllegalArgumentException  e) {
 			// TODO: handle exception
 			System.out.println("had been registerReceiver");
@@ -327,12 +327,12 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 	*
 	*
 	* */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.menu_main, menu);
+//		return true;
+//	}
 	private void initUI(){
 		bottomPanel = (BottomBarPanel)findViewById(R.id.bottom_layout);
 		if(bottomPanel != null){

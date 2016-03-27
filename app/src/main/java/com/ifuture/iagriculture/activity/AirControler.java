@@ -11,7 +11,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.Instruction.Instruction;
+import com.ifuture.iagriculture.R;
 
 public class AirControler extends Activity implements NumberPicker.OnValueChangeListener, NumberPicker.OnScrollListener,NumberPicker.Formatter {
 

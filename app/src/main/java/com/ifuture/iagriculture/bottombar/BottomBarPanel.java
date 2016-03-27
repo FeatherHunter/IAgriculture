@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,19 +47,19 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
     public void initBottomPanel(){
 		if(mMsgBtn != null){
 			mMsgBtn.setImage(R.drawable.news_unselected);
-			mMsgBtn.setText("IHome");
+			mMsgBtn.setText(Constant.FRAGMENT_TEXT_HOUSE);
 		}
 		if(mContactsBtn != null){
 			mContactsBtn.setImage(R.drawable.setting_unselected);
-			mContactsBtn.setText("遥控");
+			mContactsBtn.setText(Constant.FRAGMENT_TEXT_CONTRL);
 		}
 		if(mNewsBtn != null){
 			mNewsBtn.setImage(R.drawable.contacts_unselected);
-			mNewsBtn.setText("视频");
+			mNewsBtn.setText(Constant.FRAGMENT_TEXT_VIDEO);
 		}
 		if(mSettingBtn != null){
 			mSettingBtn.setImage(R.drawable.message_unselected);
-			mSettingBtn.setText("客服");
+			mSettingBtn.setText(Constant.FRAGMENT_TEXT_CSERVICE);
 		}
 		setBtnListener();
 	} 

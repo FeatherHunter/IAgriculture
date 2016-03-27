@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ifuture.iagriculture.activity.ClientMainActivity;
-import com.ifuture.iagriculture.activity.Instruction;
+import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.bottombar.*;
 import com.ifuture.iagriculture.R;
 
@@ -52,7 +52,7 @@ public class FragmentIHome extends BaseFragment{
 	Button IHome_button;
 	boolean ihome_mode = false;
 	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		return inflater.inflate(R.layout.ihome_fragment1, container, false);
@@ -67,42 +67,42 @@ public class FragmentIHome extends BaseFragment{
 		/*要在onCreateView之后得到空间才是有效的*/
 		bedroom_tempValue = (TextView) getActivity().findViewById(R.id.bedroom_tempValue);
 		bedroom_humiValue = (TextView) getActivity().findViewById(R.id.bedroom_humiValue);
-		bedroom_led1 = (Button) getActivity().findViewById(R.id.bedroom_led1_button);
-		bedroom_led2 = (Button) getActivity().findViewById(R.id.bedroom_led2_button);
-		bedroom_led3 = (Button) getActivity().findViewById(R.id.bedroom_led3_button);
-		IHome_button = (Button) getActivity().findViewById(R.id.ihome_button);
-		bedroom_tempControl = (Button)getActivity().findViewById(R.id.bedroom_tempControl);
+//		bedroom_led1 = (Button) getActivity().findViewById(R.id.bedroom_led1_button);
+//		bedroom_led2 = (Button) getActivity().findViewById(R.id.bedroom_led2_button);
+//		bedroom_led3 = (Button) getActivity().findViewById(R.id.bedroom_led3_button);
+//		IHome_button = (Button) getActivity().findViewById(R.id.ihome_button);
+//		bedroom_tempControl = (Button)getActivity().findViewById(R.id.bedroom_tempControl);
 
 		/*demo*/
-		balcony_win1 = (Button) getActivity().findViewById(R.id.balcony_win1);
-		balcony_win2 = (Button) getActivity().findViewById(R.id.balcony_win2);
-		balcony_win3 = (Button) getActivity().findViewById(R.id.balcony_win3);
-		balcony_win4 = (Button) getActivity().findViewById(R.id.balcony_win4);
-		bedroom_win1 = (Button) getActivity().findViewById(R.id.bedroom_win1_button);
-		bedroom_win2 = (Button) getActivity().findViewById(R.id.bedroom_win2_button);
-		kitchen_win1 = (Button) getActivity().findViewById(R.id.kitchen_win1_button);
-		kitchen_win2 = (Button) getActivity().findViewById(R.id.kitchen_win2_button);
-		kitchen_door = (Button) getActivity().findViewById(R.id.kitchen_door_button);
-		bedroom_door = (Button) getActivity().findViewById(R.id.bedroom_door_button);
-		bedroom_humiControl = (Button) getActivity().findViewById(R.id.bedroom_humiControl);
-		/*设置监听器*/
-		bedroom_led1.setOnClickListener(new LampButtonListener());
-		bedroom_led2.setOnClickListener(new LampButtonListener());
-		bedroom_led3.setOnClickListener(new LampButtonListener());
-		IHome_button.setOnClickListener(new IHomeButtonListener());
+//		balcony_win1 = (Button) getActivity().findViewById(R.id.balcony_win1);
+//		balcony_win2 = (Button) getActivity().findViewById(R.id.balcony_win2);
+//		balcony_win3 = (Button) getActivity().findViewById(R.id.balcony_win3);
+//		balcony_win4 = (Button) getActivity().findViewById(R.id.balcony_win4);
+//		bedroom_win1 = (Button) getActivity().findViewById(R.id.bedroom_win1_button);
+//		bedroom_win2 = (Button) getActivity().findViewById(R.id.bedroom_win2_button);
+//		kitchen_win1 = (Button) getActivity().findViewById(R.id.kitchen_win1_button);
+//		kitchen_win2 = (Button) getActivity().findViewById(R.id.kitchen_win2_button);
+//		kitchen_door = (Button) getActivity().findViewById(R.id.kitchen_door_button);
+//		bedroom_door = (Button) getActivity().findViewById(R.id.bedroom_door_button);
+//		bedroom_humiControl = (Button) getActivity().findViewById(R.id.bedroom_humiControl);
+//		/*设置监听器*/
+//		bedroom_led1.setOnClickListener(new LampButtonListener());
+//		bedroom_led2.setOnClickListener(new LampButtonListener());
+//		bedroom_led3.setOnClickListener(new LampButtonListener());
+//		IHome_button.setOnClickListener(new IHomeButtonListener());
 		//bedroom_tempControl.setOnClickListener(new tempCtrlButtonListener());
 		/*set demo listenner*/
-		balcony_win1.setOnClickListener(new demoButtonListener());
-		balcony_win2.setOnClickListener(new demoButtonListener());
-		balcony_win3.setOnClickListener(new demoButtonListener());
-		balcony_win4.setOnClickListener(new demoButtonListener());
-		bedroom_win1.setOnClickListener(new demoButtonListener());
-		bedroom_win2.setOnClickListener(new demoButtonListener());
-		kitchen_win1.setOnClickListener(new demoButtonListener());
-		kitchen_win2.setOnClickListener(new demoButtonListener());
-		kitchen_door.setOnClickListener(new demoButtonListener());
-		bedroom_door.setOnClickListener(new demoButtonListener());
-		bedroom_humiControl.setOnClickListener(new demoButtonListener());
+//		balcony_win1.setOnClickListener(new demoButtonListener());
+//		balcony_win2.setOnClickListener(new demoButtonListener());
+//		balcony_win3.setOnClickListener(new demoButtonListener());
+//		balcony_win4.setOnClickListener(new demoButtonListener());
+//		bedroom_win1.setOnClickListener(new demoButtonListener());
+//		bedroom_win2.setOnClickListener(new demoButtonListener());
+//		kitchen_win1.setOnClickListener(new demoButtonListener());
+//		kitchen_win2.setOnClickListener(new demoButtonListener());
+//		kitchen_door.setOnClickListener(new demoButtonListener());
+//		bedroom_door.setOnClickListener(new demoButtonListener());
+//		bedroom_humiControl.setOnClickListener(new demoButtonListener());
 	}
 
 
@@ -193,108 +193,108 @@ public class FragmentIHome extends BaseFragment{
 		}
 	};
 
-	/**
-	 * 灯按键监听器
-	 * @Descrption： 如果当前按钮的颜色为绿色则表示需要开启灯
-	 */
-
-	class LampButtonListener implements OnClickListener{
-
-		@Override
-		public void onClick(View view) {
-			// TODO Auto-generated method stub
-			int lampid = view.getId();
-			byte type = Instruction.COMMAND_CONTRL;
-			byte subtype = Instruction.CTL_LAMP;
-			byte operator = 0;
-			String IDString = new String("");
-
-			int textColor = getResources().getColor(R.color.text_color_default);
-			switch(lampid)			{
-				case R.id.bedroom_led1_button:
-					{
-						IDString = new String("0");
-						int currentColor = bedroom_led1.getCurrentTextColor();
-						if(currentColor == textColor)
-						{
-							operator = Instruction.LAMP_ON;
-						}
-						else
-						{
-							operator = Instruction.LAMP_OFF;
-						}
-
-					}
-					break;
-				case R.id.bedroom_led2_button:
-					{
-
-						IDString = new String("1");
-						int currentColor = bedroom_led2.getCurrentTextColor();
-						if(currentColor == textColor)
-						{
-							operator = Instruction.LAMP_ON;
-						}
-						else
-						{
-							operator = Instruction.LAMP_OFF;
-						}
-
-					}
-				    break;
-				case R.id.bedroom_led3_button:
-					{
-
-						IDString = new String("2");
-						int currentColor = bedroom_led3.getCurrentTextColor();
-						if(currentColor == textColor)
-						{
-							operator = Instruction.LAMP_ON;
-						}
-						else
-						{
-							operator = Instruction.LAMP_OFF;
-						}
-
-					}
-					break;
-			}//end of switch
-
-			try {
-				/*需要发送的指令,byte数组*/
-				byte typeBytes[] = {type,Instruction.COMMAND_SEPERATOR};
-				byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,subtype, Instruction.COMMAND_SEPERATOR};
-				byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR};
-				byte IDBytes[] = IDString.getBytes("UTF-8");
-				byte endBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-				byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length
-				                       +IDBytes.length+endBytes.length];
-
-				/*转换account后面所有指令*/
-				int start = 0;
-				System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
-				start+=subtypeBytes.length;
-				System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
-				start+=operatorBytes.length;
-				System.arraycopy(IDBytes,0,buffer,start, IDBytes.length);
-				start+=IDBytes.length;
-				System.arraycopy(endBytes   ,0,buffer,start, endBytes.length);
-
-				/*发送广播给Service，让其发送信息给服务器*/
-				Intent intent = new Intent();
-				intent.putExtra("type", "send");
-				intent.putExtra("onefield", typeBytes);
-				intent.putExtra("twofield", buffer);
-				intent.setAction(intent.ACTION_MAIN);
-				getActivity().sendBroadcast(intent);
-
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-	}
+//	/**
+//	 * 灯按键监听器
+//	 * @Descrption： 如果当前按钮的颜色为绿色则表示需要开启灯
+//	 */
+//
+//	class LampButtonListener implements OnClickListener{
+//
+//		@Override
+//		public void onClick(View view) {
+//			// TODO Auto-generated method stub
+//			int lampid = view.getId();
+//			byte type = Instruction.COMMAND_CONTRL;
+//			byte subtype = Instruction.CTL_LAMP;
+//			byte operator = 0;
+//			String IDString = new String("");
+//
+//			int textColor = getResources().getColor(R.color.text_color_default);
+//			switch(lampid)			{
+//				case R.id.bedroom_led1_button:
+//					{
+//						IDString = new String("0");
+//						int currentColor = bedroom_led1.getCurrentTextColor();
+//						if(currentColor == textColor)
+//						{
+//							operator = Instruction.LAMP_ON;
+//						}
+//						else
+//						{
+//							operator = Instruction.LAMP_OFF;
+//						}
+//
+//					}
+//					break;
+//				case R.id.bedroom_led2_button:
+//					{
+//
+//						IDString = new String("1");
+//						int currentColor = bedroom_led2.getCurrentTextColor();
+//						if(currentColor == textColor)
+//						{
+//							operator = Instruction.LAMP_ON;
+//						}
+//						else
+//						{
+//							operator = Instruction.LAMP_OFF;
+//						}
+//
+//					}
+//				    break;
+//				case R.id.bedroom_led3_button:
+//					{
+//
+//						IDString = new String("2");
+//						int currentColor = bedroom_led3.getCurrentTextColor();
+//						if(currentColor == textColor)
+//						{
+//							operator = Instruction.LAMP_ON;
+//						}
+//						else
+//						{
+//							operator = Instruction.LAMP_OFF;
+//						}
+//
+//					}
+//					break;
+//			}//end of switch
+//
+//			try {
+//				/*需要发送的指令,byte数组*/
+//				byte typeBytes[] = {type,Instruction.COMMAND_SEPERATOR};
+//				byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,subtype, Instruction.COMMAND_SEPERATOR};
+//				byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR};
+//				byte IDBytes[] = IDString.getBytes("UTF-8");
+//				byte endBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//				byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length
+//				                       +IDBytes.length+endBytes.length];
+//
+//				/*转换account后面所有指令*/
+//				int start = 0;
+//				System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
+//				start+=subtypeBytes.length;
+//				System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
+//				start+=operatorBytes.length;
+//				System.arraycopy(IDBytes,0,buffer,start, IDBytes.length);
+//				start+=IDBytes.length;
+//				System.arraycopy(endBytes   ,0,buffer,start, endBytes.length);
+//
+//				/*发送广播给Service，让其发送信息给服务器*/
+//				Intent intent = new Intent();
+//				intent.putExtra("type", "send");
+//				intent.putExtra("onefield", typeBytes);
+//				intent.putExtra("twofield", buffer);
+//				intent.setAction(intent.ACTION_MAIN);
+//				getActivity().sendBroadcast(intent);
+//
+//			} catch (UnsupportedEncodingException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//
+//	}
 
 	class tempCtrlButtonListener implements  OnClickListener{
 
@@ -307,215 +307,215 @@ public class FragmentIHome extends BaseFragment{
 		}
 	}
 
-	/**
-	 * 智能家居模式开启按键
-	 */
-	class IHomeButtonListener implements OnClickListener{
+//	/**
+//	 * 智能家居模式开启按键
+//	 */
+//	class IHomeButtonListener implements OnClickListener{
+//
+//		@Override
+//		public void onClick(View view) {
+//			// TODO Auto-generated method stub
+//			byte operator = Instruction.IHome_STOP;
+//			String IDString = new String("");
+//			if(ihome_mode == false)
+//			{
+//				operator = Instruction.IHome_START;
+//			}
+//			else
+//			{
+//				operator = Instruction.IHome_STOP;
+//			}
+//			/*需要发送的指令,byte数组*/
+//			byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
+//			byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_IHome, Instruction.COMMAND_SEPERATOR};
+//			byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR,Instruction.COMMAND_END};
+//			byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length];
+//
+//			/*转换account后面所有指令*/
+//			int start = 0;
+//			System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
+//			start+=subtypeBytes.length;
+//			System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
+//
+//			/*发送广播给Service，让其发送信息给服务器*/
+//			Intent intent = new Intent();
+//			intent.putExtra("type", "send");
+//			intent.putExtra("onefield", typeBytes);
+//			intent.putExtra("twofield", buffer);
+//			intent.setAction(intent.ACTION_MAIN);
+//			getActivity().sendBroadcast(intent);
+//
+//		}
+//
+//	}
 
-		@Override
-		public void onClick(View view) {
-			// TODO Auto-generated method stub
-			byte operator = Instruction.IHome_STOP;
-			String IDString = new String("");
-			if(ihome_mode == false)
-			{
-				operator = Instruction.IHome_START;
-			}
-			else
-			{
-				operator = Instruction.IHome_STOP;
-			}
-			/*需要发送的指令,byte数组*/
-			byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
-			byte subtypeBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_IHome, Instruction.COMMAND_SEPERATOR};
-			byte operatorBytes[] = {operator, Instruction.COMMAND_SEPERATOR,Instruction.COMMAND_END};
-			byte buffer[] = new byte[subtypeBytes.length+operatorBytes.length];
 
-			/*转换account后面所有指令*/
-			int start = 0;
-			System.arraycopy(subtypeBytes ,0,buffer,start, subtypeBytes.length);
-			start+=subtypeBytes.length;
-			System.arraycopy(operatorBytes ,0,buffer,start, operatorBytes.length);
-
-			/*发送广播给Service，让其发送信息给服务器*/
-			Intent intent = new Intent();
-			intent.putExtra("type", "send");
-			intent.putExtra("onefield", typeBytes);
-			intent.putExtra("twofield", buffer);
-			intent.setAction(intent.ACTION_MAIN);
-			getActivity().sendBroadcast(intent);
-
-		}
-
-	}
-
-
-	/**
-	 * 用于演示各个开关的用途，包括门窗等
-	 */
-	class demoButtonListener implements  OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-			int id = v.getId();
-			int textColor = getResources().getColor(R.color.text_color_default);
-			switch(id)			{
-				case R.id.balcony_win1:
-				{
-					int currentColor = balcony_win1.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						balcony_win1.setTextColor(Color.RED);
-					}
-					else
-					{
-						balcony_win1.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.balcony_win2:
-				{
-					int currentColor = balcony_win2.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						balcony_win2.setTextColor(Color.RED);
-					}
-					else
-					{
-						balcony_win2.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.balcony_win3:
-				{
-					int currentColor = balcony_win3.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						balcony_win3.setTextColor(Color.RED);
-					}
-					else
-					{
-						balcony_win3.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.balcony_win4:
-				{
-					int currentColor = balcony_win4.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						balcony_win4.setTextColor(Color.RED);
-					}
-					else
-					{
-						balcony_win4.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.bedroom_win1_button:
-				{
-					int currentColor = bedroom_win1.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						bedroom_win1.setTextColor(Color.RED);
-					}
-					else
-					{
-						bedroom_win1.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.bedroom_win2_button:
-				{
-					int currentColor = bedroom_win2.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						bedroom_win2.setTextColor(Color.RED);
-					}
-					else
-					{
-						bedroom_win2.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.bedroom_door_button:
-				{
-					int currentColor = bedroom_door.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						bedroom_door.setTextColor(Color.RED);
-					}
-					else
-					{
-						bedroom_door.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.kitchen_win1_button:
-				{
-					int currentColor = kitchen_win1.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						kitchen_win1.setTextColor(Color.RED);
-					}
-					else
-					{
-						kitchen_win1.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.kitchen_win2_button:
-				{
-					int currentColor = kitchen_win2.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						kitchen_win2.setTextColor(Color.RED);
-					}
-					else
-					{
-						kitchen_win2.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.kitchen_door_button:
-				{
-					int currentColor = kitchen_door.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						kitchen_door.setTextColor(Color.RED);
-					}
-					else
-					{
-						kitchen_door.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-				case R.id.bedroom_humiControl:
-				{
-					int currentColor = bedroom_humiControl.getCurrentTextColor();
-					if(currentColor == textColor)
-					{
-						bedroom_humiControl.setTextColor(Color.RED);
-					}
-					else
-					{
-						bedroom_humiControl.setTextColor(getResources().getColor(R.color.text_color_default));
-					}
-
-				}
-				break;
-			}//end of switch
-		}
-	}
+//	/**
+//	 * 用于演示各个开关的用途，包括门窗等
+//	 */
+//	class demoButtonListener implements  OnClickListener{
+//
+//		@Override
+//		public void onClick(View v) {
+//			int id = v.getId();
+//			int textColor = getResources().getColor(R.color.text_color_default);
+//			switch(id)			{
+//				case R.id.balcony_win1:
+//				{
+//					int currentColor = balcony_win1.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						balcony_win1.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						balcony_win1.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.balcony_win2:
+//				{
+//					int currentColor = balcony_win2.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						balcony_win2.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						balcony_win2.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.balcony_win3:
+//				{
+//					int currentColor = balcony_win3.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						balcony_win3.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						balcony_win3.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.balcony_win4:
+//				{
+//					int currentColor = balcony_win4.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						balcony_win4.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						balcony_win4.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.bedroom_win1_button:
+//				{
+//					int currentColor = bedroom_win1.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						bedroom_win1.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						bedroom_win1.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.bedroom_win2_button:
+//				{
+//					int currentColor = bedroom_win2.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						bedroom_win2.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						bedroom_win2.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.bedroom_door_button:
+//				{
+//					int currentColor = bedroom_door.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						bedroom_door.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						bedroom_door.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.kitchen_win1_button:
+//				{
+//					int currentColor = kitchen_win1.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						kitchen_win1.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						kitchen_win1.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.kitchen_win2_button:
+//				{
+//					int currentColor = kitchen_win2.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						kitchen_win2.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						kitchen_win2.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.kitchen_door_button:
+//				{
+//					int currentColor = kitchen_door.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						kitchen_door.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						kitchen_door.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//				case R.id.bedroom_humiControl:
+//				{
+//					int currentColor = bedroom_humiControl.getCurrentTextColor();
+//					if(currentColor == textColor)
+//					{
+//						bedroom_humiControl.setTextColor(Color.RED);
+//					}
+//					else
+//					{
+//						bedroom_humiControl.setTextColor(getResources().getColor(R.color.text_color_default));
+//					}
+//
+//				}
+//				break;
+//			}//end of switch
+//		}
+//	}
 	
 }

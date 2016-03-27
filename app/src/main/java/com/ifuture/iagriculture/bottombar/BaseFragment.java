@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.feather.fragment.FragmentIHome;
-import com.feather.fragment.FragmentVideo;
+import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentVideo;
 
 
 public class BaseFragment extends Fragment {

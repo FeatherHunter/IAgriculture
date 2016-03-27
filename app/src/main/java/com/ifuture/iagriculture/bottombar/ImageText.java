@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.R;
 
 public class ImageText extends LinearLayout{  
     private Context mContext = null;  
@@ -70,7 +70,7 @@ public class ImageText extends LinearLayout{
         int checkDrawableId = -1;  
         switch (itemID){  
         case Constant.BTN_FLAG_IHOME:  
-            checkDrawableId = R.drawable.news_selected;  
+            checkDrawableId = R.drawable.greenhouse_selected;
             break;  
         case Constant.BTN_FLAG_CONTRL:  
             checkDrawableId = R.drawable.setting_selected;  

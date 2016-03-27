@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.feather.adapter.OptionAdapter;
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.adapter.OptionAdapter;
+import com.ifuture.iagriculture.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,12 +54,12 @@ public class AirerActivity2 extends Activity {
             }
         });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
     public List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

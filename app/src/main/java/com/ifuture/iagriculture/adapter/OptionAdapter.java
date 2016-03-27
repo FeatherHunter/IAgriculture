@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.R;
 
 import java.util.List;
 import java.util.Map;

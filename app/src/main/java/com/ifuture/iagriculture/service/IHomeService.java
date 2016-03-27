@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 
-import com.feather.activity.Instruction;
+import com.ifuture.iagriculture.Instruction.Instruction;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -54,14 +54,14 @@ public class IHomeService extends Service{
 
 	private boolean getTHthread = false;
 	private boolean stopallthread = false; //停止所有线程
-	byte buffer[] = new byte[8192]; //4096字节的指令缓冲区
+	private String message = null; //4096字节的指令缓冲区
 	
 	private ServiceReceiver serviceReceiver;
 	private String SERVICE_ACTION = "android.intent.action.MAIN";
 	
 	private String serverString = "139.129.19.115";
 	private String contrlCenterString = "192.168.1.108";
-	private String carServerIP = "192.168.191.1";
+	private String carServerIP = "192.168.191.10";
 	//private String carServerIP = "120.27.104.75";
 	private int carServerPort = 8080;
 	private int generalPort = 8080;
@@ -272,7 +272,7 @@ public class IHomeService extends Service{
 						e.printStackTrace();
 						isConnected = false; //连接失败
 						try {
-							Thread.sleep(2500);  //失败后等待3s连接
+							Thread.sleep(1500);  //失败后等待3s连接
 						} catch (InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -293,9 +293,8 @@ public class IHomeService extends Service{
 					intent.putExtra("disconnect", "authing");
 					sendBroadcast(intent);
 					/*用户身份验证请求*/
-					//String sendString = new String("nanjing2016");
-						/*需要发送的指令,byte数组*/
-					if(!sendMsg("##"+account+"&##"+password+"##&"+'\0'))
+					//发送账号密码
+					if(!sendMsg(Instruction.loginMsg(account, password)))
 					{
 						try {
 							Thread.sleep(2500);  //身份验证失败后等待3s
@@ -372,9 +371,11 @@ public class IHomeService extends Service{
 
 	Runnable demo_revMsgRunnable = new Runnable() {
 
+		byte[] buffer = new byte[8096];
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			message = "";
 			while (true) {
 				if (stopallthread) {
 					break;
@@ -382,9 +383,8 @@ public class IHomeService extends Service{
 				while (isConnected == false)//断开连接，先等待重新链接
 				{
 					System.out.println("rev msg runnable is sleeeping");
-					if (stopallthread) {
-						break;
-					}
+					if (stopallthread) break;
+
 					try {
 						Thread.sleep(1000);//先休眠一秒等待链接
 					} catch (InterruptedException e) {
@@ -392,14 +392,10 @@ public class IHomeService extends Service{
 						e.printStackTrace();
 					}
 				}
-				if (stopallthread) {
-					break;
-				}
+				if (stopallthread) break;
+
 				int temp = 0;
 				try {
-
-					//System.out.println("rev msg runnable is running");
-
 					/*得到服务器返回信息*/
 					temp = inputStream.read(buffer);
 					System.out.println(""+temp);
@@ -417,574 +413,679 @@ public class IHomeService extends Service{
 					isAuthed = false;
 				}
 				String revmsg = new String(buffer, 0, temp);
-				System.out.println("receive msg:"+ revmsg + "END");
-				if(revmsg.contains("login ok"))
+				message += revmsg;
+				if(message.length() > 8086) //长度过长,直接遗弃
 				{
-					Intent intent = new Intent();
-					intent.setAction(intent.ACTION_ANSWER);
-
-					intent.putExtra("result", "car");
-					intent.putExtra("car", "success");
-
-					sendBroadcast(intent);
-					isAuthed = true; //身份认真成功
-
-					//System.out.println("身份认证成功");
-
-					/*身份认证成功*/
-					intent.setAction(intent.ACTION_EDIT);
-					intent.putExtra("type", "disconnect");
-					intent.putExtra("disconnect", "authed");
-					sendBroadcast(intent);
+					message = "";
+					continue;     //继续等待接收
 				}
-				else if(revmsg.contains("pass wrong"))//失败
-				{
-					Intent intent = new Intent();
-					intent.setAction(intent.ACTION_ANSWER);
 
-					intent.putExtra("result", "car");
-					intent.putExtra("car", "failed");
+				int index;
+				int msgLength;
+				System.out.println(message);
 
-					sendBroadcast(intent);
-					isAuthed = false; //身份认真成功
-				}
-			}
-		}
-	};
-
-	
-	/**
-	* @Function: revMsgRunnable;
-	* @Description:
-	*      用于接受并且处理服务器发送来的信息
-	**/
-	Runnable revMsgRunnable = new Runnable() {
-
-		private byte handleBuffer[] = new byte[16384];
-		private String pathString;
-		private int picture_number = 0;
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			int i;
-			int start;
-			int end;
-			int msgStart = 0;
-			int bufferEnd = 0;
-			int type;
-			int subtype = 0;
-			int res;
-			String accountString;
-			String dataLengthString;
-			int dataLength;
-			
-			while(true)
-			{
-				if(stopallthread)
+				while((index = 0) < (msgLength  = message.length()))//处理接收到的数据中所有完整的指令，末尾的指令如果不完整等待下一个完整指令
 				{
-					break;
-				}
-				if(isTestWifi == true)//正在测试wifi能否连接到stm32
-				{
-					try {
-						Thread.sleep(1000);//先休眠一秒
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					continue;
-				}
-				while(isConnected == false)//断开连接，先等待重新链接
-				{
-					System.out.println("rev msg runnable is sleeeping");
-					if(stopallthread)
+					/*找到第一个HEAD*/
+					while(index < msgLength)
 					{
-						break;
+						if(message.charAt(index) == Instruction.CMD_HEAD) break;
+						index++;
 					}
-					try {
-						Thread.sleep(1000);//先休眠一秒等待链接
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				if(stopallthread)
-				{
-					break;
-				}
-				try {
-
-					//System.out.println("rev msg runnable is running");
-
-					/*得到服务器返回信息*/
-					int temp = inputStream.read(buffer);
-					if(temp <= 0)
+					if(index != 0) //抛弃指令头的垃圾数据
 					{
-						if(temp == -1)
+						if(index == msgLength)//直到数据的结尾都没找到
 						{
-							System.out.println("temo -1");
+							message = "";
+							break;
 						}
+						message = message.substring(index);
 						continue;
-//						else
-//						{
-//							System.out.println("断开连接");
-//							throw new Exception("断开连接");
-//						}
 					}
-					//先复制到处理的缓冲区中
-					if( ((bufferEnd + temp) >= 16384) || (bufferEnd < 0))
-					{
-						bufferEnd = 0;
-					}
-					if(temp >= 16384 )
-					{
-						temp = 16383;
-					}
-					System.arraycopy(buffer    ,0, handleBuffer, bufferEnd, temp);
-					bufferEnd += temp;
 
-					//System.out.println("rev msg's length: " + temp);
-					i = 0;
-					while(true)//可能有多组信息
+					index += 1;  //跳过第一个CMD_HEAD字节
+					if(index >= msgLength) break;
+
+					/*为结果指令*/
+					if(message.charAt(index) == Instruction.CMD_RES) //检查主要大类指令
 					{
-						if(i >= bufferEnd)
+						index += 1;
+						if(index >= msgLength) break;
+						if(message.charAt(index) == Instruction.RES_LOGIN) //检查次类指令
 						{
-							if(i > bufferEnd)
+							index += 1;
+							int res = dealResLogin(message, index);
+							if(res > 0)//正确返回截短
 							{
-								i = bufferEnd;
+								index += res;
+								message = message.substring(index);
 							}
-							if(handleBuffer[i-1] != Instruction.COMMAND_END) //没有正常结尾
+							else if(res == 0)//正好处理完
 							{
-								if(bufferEnd > msgStart)
-								{
-									//System.out.println("fetch up handleBuffer's end, msgStart:" + msgStart + " bufferEnd:" + bufferEnd);
-									System.arraycopy(handleBuffer    , msgStart ,handleBuffer, 0, bufferEnd - msgStart);
-									bufferEnd = bufferEnd - msgStart;
-								}
-								else
-								{
-									bufferEnd = 0;
-								}
-								//System.out.println("fetch up handleBuffer's end, noting");
-								break; //处理完handleBuffer中所有完整的信息，只剩下不完整的指令。
+								message = "";
+								break; //结束
 							}
-							else //正常结束
+						}
+					}
+					else //什么指令都不是
+					{
+						/*找到END或者HEAD*/
+						while(index < msgLength)
+						{
+							if((message.charAt(index) == Instruction.CMD_HEAD) || (message.charAt(index) == Instruction.CMD_END) )
 							{
-								//System.out.println("正常到指令末尾");
-								bufferEnd = 0; //清空缓冲区
+								message = message.substring(index);
 								break;
 							}
+							index++;
 						}
-						msgStart = i; //记录本次处理的信息头
-						/*获得指令主type*/
-						if((i + 1 < bufferEnd )&&(handleBuffer[i+1] ==Instruction.COMMAND_SEPERATOR))
-						{
-							type = handleBuffer[i];
-							i+=2;
-							if(type == Instruction.COMMAND_PULSE)
-							{
-								i++;
-								continue;
-							}
+					}
+				}//end of one cmd
 
-						}
-						else {
-							/*当前指令错误则跳转到下一个指令*/
-							while( (i+1<bufferEnd) && ((handleBuffer[i+1])!=Instruction.COMMAND_END) && ((handleBuffer[i+1])!=Instruction.COMMAND_SEPERATOR) )
-							{
-								i++;
-							}
-							if(i+1 == bufferEnd)
-							{
-								i += 1;
-							}
-							else if((handleBuffer[i+1]) == Instruction.COMMAND_END)
-							{
-								i += 2;
-								msgStart = i;
-							}
-							else if(handleBuffer[i+1] == Instruction.COMMAND_SEPERATOR)
-							{
-								;
-							}
-							continue;
-						}
-							/*获得账户*/
-						for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-						{
-							;
-						}
-						i++;
-						accountString = new String(handleBuffer, start, end - start); //字符串长度end - start
-						//System.out.println("account:"+accountString);
-							/*确定来自于自己的控制中心或者SERVER*/
-						if(!accountString.equals(account+'h')&&!accountString.equals("SERVER"))
-						{
-							//System.out.println("account check failed account:" + accountString.length());
-							/*当前指令错误则跳转到下一个指令*/
-							while((i<bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
-							{
-								i++;
-							}
-							i++;
-							continue;
-						}
-						//System.out.println("account check success");
-					   /*-------------------先处理视频指令------------------------*/
-						if(type == Instruction.COMMAND_VIDEO)
-						{
-							//System.out.println("COMMAND_VIDEO magstart :  " + msgStart + "  i: " + i);
-							/*获得摄像头ID*/
-							for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-							{
-								;
-							}
-							i++;
-							cameraIDString = new String(handleBuffer, start, end - start); //end - start 重点注意！
-							if(cameraIDString.equals(cameraIDString))//确定为需要的视频ID：20000
-							{
-								if((i + 1 < bufferEnd)&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
-								{
-									subtype = handleBuffer[i];
-									if(subtype == Instruction.VIDEO_START)//视频流开始
-									{
-										//System.out.println("video start");
-										i += 3;
-										try {
-											pathString = "mnt/sdcard/camera"+picture_number+".jpg";
-											jpegOutputStream = new FileOutputStream(pathString);
-										} catch (Exception e) {
-											// TODO: handle exception
-											e.printStackTrace();
-										}
-										msgStart = i;
-
-									}//end of video_start
-									else if(subtype == Instruction.VIDEO_STOP)//数据流结束
-									{
-										//System.out.println("video stop");
-										i += 3;
-
-										if(jpegOutputStream != null)
-										{
-											try {
-												jpegOutputStream.close();//关闭输出流
-											} catch (Exception e) {
-												// TODO: handle exception
-												e.printStackTrace();
-											}
-											Intent intent = new Intent();
-											intent.setAction(intent.ACTION_EDIT);
-											intent.putExtra("type", "videofinish");
-											intent.putExtra("videofinish", pathString);
-											picture_number++;
-											if(picture_number == 1000) picture_number = 0;
-											sendBroadcast(intent);
-										}
-										msgStart = i;
-									}//end of video stop
-								}
-								else {
-									//System.out.println("video data====================================");
-									/*获得数据长度*/
-									for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-									{
-										;
-									}
-									i++;
-									dataLengthString = new String(handleBuffer, start, end - start);
-									if((end - start) == 0)//接收到的数据长度<=0
-									{
-										dataLength = 0;
-									}
-									else/*数据长度*/
-										dataLength = Integer.valueOf(dataLengthString);
-									//说明为数据
-
-									if(i + dataLength <= bufferEnd)//收到所有的数据
-									{
-										try {
-											jpegOutputStream.write(handleBuffer, i, dataLength);
-										} catch (Exception e) {
-											// TODO: handle exception
-											e.printStackTrace();
-										}
-									}
-									else {//没有受到所有数据
-										//System.out.println("没有接收到正常长度的数据");
-										i = bufferEnd; //直接跳转到结尾结束处理
-										continue; //等待接收好下一个指令再作打算
-									}
-									i += dataLength;
-									//System.out.println("datalength: "+ dataLength + " i :" + i);
-									msgStart = i; //正常完成处理
-								}//end of 是数据
-								continue;
-
-							}//end of camera id
-
-						}//end of 视频指令
-						if(type == Instruction.COMMAND_RESULT)
-						{
-							type = 0; //清空type
-							/*获得指令subtype*/
-							if((i + 1 < bufferEnd )&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
-							{
-								subtype = handleBuffer[i];
-								i+=2;
-							}
-							else {
-								while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
-								{
-									i++;
-								}
-								i++;
-								continue;
-							}
-								/*---------------rev res_ihome----------*/
-							if(subtype == Instruction.RES_IHome)
-							{
-								if((i + 1 < bufferEnd )&&(handleBuffer[i+1] == Instruction.COMMAND_SEPERATOR))
-								{
-									subtype = handleBuffer[i];
-									i+=2;
-								}
-								else {
-									while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
-									{
-										i++;
-									}
-									i++;
-									continue;
-								}
-
-								Intent intent = new Intent();
-								intent.setAction(intent.ACTION_EDIT);
-								if(subtype == Instruction.IHome_START)
-								{
-									/*返回ihome模式开启情况*/
-									intent.putExtra("type", "ihome");
-									intent.putExtra("ihome", "start");
-									sendBroadcast(intent);
-									msgStart = i;
-								}
-								else if(subtype == Instruction.IHome_STOP){
-										/*返回ihome模式开启情况*/
-									intent.putExtra("type", "ihome");
-									intent.putExtra("ihome", "stop");
-									sendBroadcast(intent);
-									msgStart = i;
-								}
-							}//end of res_ihome
-							else if(subtype == Instruction.RES_LOGIN)
-							{
-								//System.out.println("MAN_LOGIN");
-								if((i + 1 < bufferEnd)&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
-								{
-									subtype = handleBuffer[i];
-									i+=2;
-									if(subtype == Instruction.LOGIN_SUCCESS)//登陆成功
-									{
-										Intent intent = new Intent();
-										intent.setAction(intent.ACTION_ANSWER);
-										if(accountString.equals("SERVER"))
-										{
-											intent.putExtra("result", "server");
-											intent.putExtra("server", "success");
-										}
-										else {
-											intent.putExtra("result", "center");
-											intent.putExtra("center", "success");
-										}
-										sendBroadcast(intent);
-										isAuthed = true; //身份认真成功
-
-										//System.out.println("身份认证成功");
-
-							            /*身份认证成功*/
-										intent.setAction(intent.ACTION_EDIT);
-										intent.putExtra("type", "disconnect");
-										intent.putExtra("disconnect", "authed");
-										sendBroadcast(intent);
-										msgStart = i;
-									}
-									else
-									{
-										Intent intent = new Intent();
-										intent.setAction(intent.ACTION_ANSWER);
-										if(accountString.equals("SERVER"))
-										{
-											intent.putExtra("result", "server");
-											intent.putExtra("server", "failed");
-										}
-										else {
-											intent.putExtra("result", "center");
-											intent.putExtra("center", "failed");
-										}
-										sendBroadcast(intent);
-										isAuthed = false;    //认证失败
-										accountReady = false;  //信息错误
-										//System.out.println("身份认证失败");
-										msgStart = i;
-									}//end of login state
-								}
-								else
-								{
-									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
-									{
-										i++;
-									}
-									i++;
-									continue;
-								}
-							}//end of man_login
-								/*灯的状态*/
-							else if(subtype == Instruction.RES_LAMP)
-							{
-								//System.out.println("res_lamp");
-								Intent intent = new Intent();
-								intent.setAction(intent.ACTION_EDIT);
-									/*获得灯的状态*/
-								if((i + 1 < bufferEnd )&&( handleBuffer[i+1] ==Instruction.COMMAND_SEPERATOR))
-								{
-									res = handleBuffer[i];
-									i+=2;
-								}
-								else {
-									/*不符合指令格式*/
-									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
-									{
-										i++;
-									}
-									i++;
-									continue;
-								}
-								if(res == Instruction.LAMP_ON)
-								{
-										/*获得灯ID*/
-									for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-									{
-										;
-									}
-									i++;
-									String IDString = new String(handleBuffer, start, end - start);
-									intent.putExtra("type", "ledon");
-									intent.putExtra("ledon", IDString);
-									msgStart = i;
-								}
-								else if(res == Instruction.LAMP_OFF)
-								{
-										/*获得灯ID*/
-									for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-									{
-										;
-									}
-									i++;
-									String IDString = new String(handleBuffer, start, end - start);
-									intent.putExtra("type", "ledoff");
-									intent.putExtra("ledoff", IDString);
-									msgStart = i;
-								}
-								sendBroadcast(intent);
-							}
-							else if(subtype == Instruction.RES_TEMP)/*获取温度*/
-							{
-								Intent intent = new Intent();
-								intent.setAction(intent.ACTION_EDIT);
-								/*获得设备ID*/
-								for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-								{
-									;
-								}
-								i++;
-								String IDString = new String(handleBuffer, start, end - start);
-								/*获得value*/
-								if((i + 1 < bufferEnd)&&( handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
-								{
-									res = handleBuffer[i];
-									i+=2;
-								}
-								else {
-									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
-									{
-										i++;
-									}
-									i++;
-									continue;
-								}
-								intent.putExtra("type", "temp");
-								intent.putExtra("temp", IDString);//发送设备ID
-								intent.putExtra(IDString, res + "");
-								sendBroadcast(intent);
-								msgStart = i;
-							}
-							/*湿度*/
-							else if(subtype == Instruction.RES_HUMI)
-							{
-								Intent intent = new Intent();
-								intent.setAction(intent.ACTION_EDIT);
-								/*获得设备ID*/
-								for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
-								{
-									;
-								}
-								i++;
-								String IDString = new String(handleBuffer, start, end - start);
-								/*获得value*/
-								if((i + 1 < bufferEnd)&&( handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
-								{
-									res = handleBuffer[i];
-									i+=2;
-								}
-								else {
-									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
-									{
-										i++;
-									}
-									i++;
-									continue;
-								}
-								intent.putExtra("type", "humi");
-								intent.putExtra("humi", IDString);//发送设备ID
-								intent.putExtra(IDString, res + "");
-								sendBroadcast(intent);
-								msgStart = i;
-							}
-						}
-						else //不在规定指令内，所以是无效指令，滤去
-						{
-							while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
-							{
-								i++;
-							}
-							i++;
-							if((i - 1) == bufferEnd)
-							{
-								;
-							}
-							else
-							{
-								msgStart = i;
-							}
-							continue;
-						}
-
-					}//end of while(i < bufferEnd) 处理多组信息
-					//System.out.println("处理完一组信息");
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					System.out.println("revmsg runnable 连接断开认证失效1");
-					isConnected = false; //断开连接
-					isAuthed = false;    //认证失效
-				}
 			}
-			//System.out.println("跳出了while循环");
-			
 		}
-		
 	};
+
+	/**
+	 * 	 @Function: private int dealResLogin(String msg, int index)
+	 * 	 @Input:  String msg:需要处理的信息
+	 * 	           int dex:   msg中的偏移量
+	 *   @Return: -1: 指令不全
+	 *				0: 正好处理完全
+	 *             >0：在String中偏移的值
+	 * */
+
+	private int dealResLogin(String msg, int index)
+	{
+		int i = index;
+		int msgLength = msg.length();
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+
+		if(msg.charAt(i) == Instruction.LOGIN_SUCCESS)
+		{
+			if(!isAuthed)//如果没有认证成功
+			{
+				Intent intent = new Intent();
+				intent.setAction(intent.ACTION_ANSWER);
+				intent.putExtra("result", "car");
+				intent.putExtra("car", "success");
+				sendBroadcast(intent);
+				isAuthed = true; //身份认真成功
+
+				/*身份认证成功*/
+				intent.setAction(intent.ACTION_EDIT);
+				intent.putExtra("type", "disconnect");
+				intent.putExtra("disconnect", "authed");
+				sendBroadcast(intent);
+			}
+		}
+		else if(msg.charAt(i) == Instruction.LOGIN_FAILED)//登录失败
+		{
+			if(isAuthed)//如果已经认证成功，则失败
+			{
+				Intent intent = new Intent();
+				intent.setAction(intent.ACTION_ANSWER);
+
+				intent.putExtra("result", "car");
+				intent.putExtra("car", "failed");
+
+				sendBroadcast(intent);
+				isAuthed = false; //登录失败
+			}
+		}
+
+		for(int count = 2; count > 0; count--)
+		{
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+
+		i += 2;
+		if(i > msgLength) return -1; //越界
+		if(i == msgLength) return 0;
+		return i - index;
+	}
+
+	
+//	/**
+//	* @Function: revMsgRunnable;
+//	* @Description:
+//	*      用于接受并且处理服务器发送来的信息
+//	**/
+//	Runnable revMsgRunnable = new Runnable() {
+//
+//		private byte handleBuffer[] = new byte[16384];
+//		private String pathString;
+//		private int picture_number = 0;
+//		@Override
+//		public void run() {
+//			// TODO Auto-generated method stub
+//			int i;
+//			int start;
+//			int end;
+//			int msgStart = 0;
+//			int bufferEnd = 0;
+//			int type;
+//			int subtype = 0;
+//			int res;
+//			String accountString;
+//			String dataLengthString;
+//			int dataLength;
+//
+//			while(true)
+//			{
+//				if(stopallthread)
+//				{
+//					break;
+//				}
+//				if(isTestWifi == true)//正在测试wifi能否连接到stm32
+//				{
+//					try {
+//						Thread.sleep(1000);//先休眠一秒
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					continue;
+//				}
+//				while(isConnected == false)//断开连接，先等待重新链接
+//				{
+//					System.out.println("rev msg runnable is sleeeping");
+//					if(stopallthread)
+//					{
+//						break;
+//					}
+//					try {
+//						Thread.sleep(1000);//先休眠一秒等待链接
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//				if(stopallthread)
+//				{
+//					break;
+//				}
+//				try {
+//
+//					//System.out.println("rev msg runnable is running");
+//
+//					/*得到服务器返回信息*/
+//					int temp = inputStream.read(buffer);
+//					if(temp <= 0)
+//					{
+//						if(temp == -1)
+//						{
+//							System.out.println("temo -1");
+//						}
+//						continue;
+////						else
+////						{
+////							System.out.println("断开连接");
+////							throw new Exception("断开连接");
+////						}
+//					}
+//					//先复制到处理的缓冲区中
+//					if( ((bufferEnd + temp) >= 16384) || (bufferEnd < 0))
+//					{
+//						bufferEnd = 0;
+//					}
+//					if(temp >= 16384 )
+//					{
+//						temp = 16383;
+//					}
+//					System.arraycopy(buffer    ,0, handleBuffer, bufferEnd, temp);
+//					bufferEnd += temp;
+//
+//					//System.out.println("rev msg's length: " + temp);
+//					i = 0;
+//					while(true)//可能有多组信息
+//					{
+//						if(i >= bufferEnd)
+//						{
+//							if(i > bufferEnd)
+//							{
+//								i = bufferEnd;
+//							}
+//							if(handleBuffer[i-1] != Instruction.COMMAND_END) //没有正常结尾
+//							{
+//								if(bufferEnd > msgStart)
+//								{
+//									//System.out.println("fetch up handleBuffer's end, msgStart:" + msgStart + " bufferEnd:" + bufferEnd);
+//									System.arraycopy(handleBuffer    , msgStart ,handleBuffer, 0, bufferEnd - msgStart);
+//									bufferEnd = bufferEnd - msgStart;
+//								}
+//								else
+//								{
+//									bufferEnd = 0;
+//								}
+//								//System.out.println("fetch up handleBuffer's end, noting");
+//								break; //处理完handleBuffer中所有完整的信息，只剩下不完整的指令。
+//							}
+//							else //正常结束
+//							{
+//								//System.out.println("正常到指令末尾");
+//								bufferEnd = 0; //清空缓冲区
+//								break;
+//							}
+//						}
+//						msgStart = i; //记录本次处理的信息头
+//						/*获得指令主type*/
+//						if((i + 1 < bufferEnd )&&(handleBuffer[i+1] ==Instruction.COMMAND_SEPERATOR))
+//						{
+//							type = handleBuffer[i];
+//							i+=2;
+//							if(type == Instruction.COMMAND_PULSE)
+//							{
+//								i++;
+//								continue;
+//							}
+//
+//						}
+//						else {
+//							/*当前指令错误则跳转到下一个指令*/
+//							while( (i+1<bufferEnd) && ((handleBuffer[i+1])!=Instruction.COMMAND_END) && ((handleBuffer[i+1])!=Instruction.COMMAND_SEPERATOR) )
+//							{
+//								i++;
+//							}
+//							if(i+1 == bufferEnd)
+//							{
+//								i += 1;
+//							}
+//							else if((handleBuffer[i+1]) == Instruction.COMMAND_END)
+//							{
+//								i += 2;
+//								msgStart = i;
+//							}
+//							else if(handleBuffer[i+1] == Instruction.COMMAND_SEPERATOR)
+//							{
+//								;
+//							}
+//							continue;
+//						}
+//							/*获得账户*/
+//						for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//						{
+//							;
+//						}
+//						i++;
+//						accountString = new String(handleBuffer, start, end - start); //字符串长度end - start
+//						//System.out.println("account:"+accountString);
+//							/*确定来自于自己的控制中心或者SERVER*/
+//						if(!accountString.equals(account+'h')&&!accountString.equals("SERVER"))
+//						{
+//							//System.out.println("account check failed account:" + accountString.length());
+//							/*当前指令错误则跳转到下一个指令*/
+//							while((i<bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
+//							{
+//								i++;
+//							}
+//							i++;
+//							continue;
+//						}
+//						//System.out.println("account check success");
+//					   /*-------------------先处理视频指令------------------------*/
+//						if(type == Instruction.COMMAND_VIDEO)
+//						{
+//							//System.out.println("COMMAND_VIDEO magstart :  " + msgStart + "  i: " + i);
+//							/*获得摄像头ID*/
+//							for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//							{
+//								;
+//							}
+//							i++;
+//							cameraIDString = new String(handleBuffer, start, end - start); //end - start 重点注意！
+//							if(cameraIDString.equals(cameraIDString))//确定为需要的视频ID：20000
+//							{
+//								if((i + 1 < bufferEnd)&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
+//								{
+//									subtype = handleBuffer[i];
+//									if(subtype == Instruction.VIDEO_START)//视频流开始
+//									{
+//										//System.out.println("video start");
+//										i += 3;
+//										try {
+//											pathString = "mnt/sdcard/camera"+picture_number+".jpg";
+//											jpegOutputStream = new FileOutputStream(pathString);
+//										} catch (Exception e) {
+//											// TODO: handle exception
+//											e.printStackTrace();
+//										}
+//										msgStart = i;
+//
+//									}//end of video_start
+//									else if(subtype == Instruction.VIDEO_STOP)//数据流结束
+//									{
+//										//System.out.println("video stop");
+//										i += 3;
+//
+//										if(jpegOutputStream != null)
+//										{
+//											try {
+//												jpegOutputStream.close();//关闭输出流
+//											} catch (Exception e) {
+//												// TODO: handle exception
+//												e.printStackTrace();
+//											}
+//											Intent intent = new Intent();
+//											intent.setAction(intent.ACTION_EDIT);
+//											intent.putExtra("type", "videofinish");
+//											intent.putExtra("videofinish", pathString);
+//											picture_number++;
+//											if(picture_number == 1000) picture_number = 0;
+//											sendBroadcast(intent);
+//										}
+//										msgStart = i;
+//									}//end of video stop
+//								}
+//								else {
+//									//System.out.println("video data====================================");
+//									/*获得数据长度*/
+//									for(start = i, end = start; (end<bufferEnd)&&((handleBuffer[end] !=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//									{
+//										;
+//									}
+//									i++;
+//									dataLengthString = new String(handleBuffer, start, end - start);
+//									if((end - start) == 0)//接收到的数据长度<=0
+//									{
+//										dataLength = 0;
+//									}
+//									else/*数据长度*/
+//										dataLength = Integer.valueOf(dataLengthString);
+//									//说明为数据
+//
+//									if(i + dataLength <= bufferEnd)//收到所有的数据
+//									{
+//										try {
+//											jpegOutputStream.write(handleBuffer, i, dataLength);
+//										} catch (Exception e) {
+//											// TODO: handle exception
+//											e.printStackTrace();
+//										}
+//									}
+//									else {//没有受到所有数据
+//										//System.out.println("没有接收到正常长度的数据");
+//										i = bufferEnd; //直接跳转到结尾结束处理
+//										continue; //等待接收好下一个指令再作打算
+//									}
+//									i += dataLength;
+//									//System.out.println("datalength: "+ dataLength + " i :" + i);
+//									msgStart = i; //正常完成处理
+//								}//end of 是数据
+//								continue;
+//
+//							}//end of camera id
+//
+//						}//end of 视频指令
+//						if(type == Instruction.COMMAND_RESULT)
+//						{
+//							type = 0; //清空type
+//							/*获得指令subtype*/
+//							if((i + 1 < bufferEnd )&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
+//							{
+//								subtype = handleBuffer[i];
+//								i+=2;
+//							}
+//							else {
+//								while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
+//								{
+//									i++;
+//								}
+//								i++;
+//								continue;
+//							}
+//								/*---------------rev res_ihome----------*/
+//							if(subtype == Instruction.RES_IHome)
+//							{
+//								if((i + 1 < bufferEnd )&&(handleBuffer[i+1] == Instruction.COMMAND_SEPERATOR))
+//								{
+//									subtype = handleBuffer[i];
+//									i+=2;
+//								}
+//								else {
+//									while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
+//									{
+//										i++;
+//									}
+//									i++;
+//									continue;
+//								}
+//
+//								Intent intent = new Intent();
+//								intent.setAction(intent.ACTION_EDIT);
+//								if(subtype == Instruction.IHome_START)
+//								{
+//									/*返回ihome模式开启情况*/
+//									intent.putExtra("type", "ihome");
+//									intent.putExtra("ihome", "start");
+//									sendBroadcast(intent);
+//									msgStart = i;
+//								}
+//								else if(subtype == Instruction.IHome_STOP){
+//										/*返回ihome模式开启情况*/
+//									intent.putExtra("type", "ihome");
+//									intent.putExtra("ihome", "stop");
+//									sendBroadcast(intent);
+//									msgStart = i;
+//								}
+//							}//end of res_ihome
+//							else if(subtype == Instruction.RES_LOGIN)
+//							{
+//								//System.out.println("MAN_LOGIN");
+//								if((i + 1 < bufferEnd)&&(handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
+//								{
+//									subtype = handleBuffer[i];
+//									i+=2;
+//									if(subtype == Instruction.LOGIN_SUCCESS)//登陆成功
+//									{
+//										Intent intent = new Intent();
+//										intent.setAction(intent.ACTION_ANSWER);
+//										if(accountString.equals("SERVER"))
+//										{
+//											intent.putExtra("result", "server");
+//											intent.putExtra("server", "success");
+//										}
+//										else {
+//											intent.putExtra("result", "center");
+//											intent.putExtra("center", "success");
+//										}
+//										sendBroadcast(intent);
+//										isAuthed = true; //身份认真成功
+//
+//										//System.out.println("身份认证成功");
+//
+//							            /*身份认证成功*/
+//										intent.setAction(intent.ACTION_EDIT);
+//										intent.putExtra("type", "disconnect");
+//										intent.putExtra("disconnect", "authed");
+//										sendBroadcast(intent);
+//										msgStart = i;
+//									}
+//									else
+//									{
+//										Intent intent = new Intent();
+//										intent.setAction(intent.ACTION_ANSWER);
+//										if(accountString.equals("SERVER"))
+//										{
+//											intent.putExtra("result", "server");
+//											intent.putExtra("server", "failed");
+//										}
+//										else {
+//											intent.putExtra("result", "center");
+//											intent.putExtra("center", "failed");
+//										}
+//										sendBroadcast(intent);
+//										isAuthed = false;    //认证失败
+//										accountReady = false;  //信息错误
+//										//System.out.println("身份认证失败");
+//										msgStart = i;
+//									}//end of login state
+//								}
+//								else
+//								{
+//									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
+//									{
+//										i++;
+//									}
+//									i++;
+//									continue;
+//								}
+//							}//end of man_login
+//								/*灯的状态*/
+//							else if(subtype == Instruction.RES_LAMP)
+//							{
+//								//System.out.println("res_lamp");
+//								Intent intent = new Intent();
+//								intent.setAction(intent.ACTION_EDIT);
+//									/*获得灯的状态*/
+//								if((i + 1 < bufferEnd )&&( handleBuffer[i+1] ==Instruction.COMMAND_SEPERATOR))
+//								{
+//									res = handleBuffer[i];
+//									i+=2;
+//								}
+//								else {
+//									/*不符合指令格式*/
+//									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
+//									{
+//										i++;
+//									}
+//									i++;
+//									continue;
+//								}
+//								if(res == Instruction.LAMP_ON)
+//								{
+//										/*获得灯ID*/
+//									for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//									{
+//										;
+//									}
+//									i++;
+//									String IDString = new String(handleBuffer, start, end - start);
+//									intent.putExtra("type", "ledon");
+//									intent.putExtra("ledon", IDString);
+//									msgStart = i;
+//								}
+//								else if(res == Instruction.LAMP_OFF)
+//								{
+//										/*获得灯ID*/
+//									for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//									{
+//										;
+//									}
+//									i++;
+//									String IDString = new String(handleBuffer, start, end - start);
+//									intent.putExtra("type", "ledoff");
+//									intent.putExtra("ledoff", IDString);
+//									msgStart = i;
+//								}
+//								sendBroadcast(intent);
+//							}
+//							else if(subtype == Instruction.RES_TEMP)/*获取温度*/
+//							{
+//								Intent intent = new Intent();
+//								intent.setAction(intent.ACTION_EDIT);
+//								/*获得设备ID*/
+//								for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//								{
+//									;
+//								}
+//								i++;
+//								String IDString = new String(handleBuffer, start, end - start);
+//								/*获得value*/
+//								if((i + 1 < bufferEnd)&&( handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
+//								{
+//									res = handleBuffer[i];
+//									i+=2;
+//								}
+//								else {
+//									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
+//									{
+//										i++;
+//									}
+//									i++;
+//									continue;
+//								}
+//								intent.putExtra("type", "temp");
+//								intent.putExtra("temp", IDString);//发送设备ID
+//								intent.putExtra(IDString, res + "");
+//								sendBroadcast(intent);
+//								msgStart = i;
+//							}
+//							/*湿度*/
+//							else if(subtype == Instruction.RES_HUMI)
+//							{
+//								Intent intent = new Intent();
+//								intent.setAction(intent.ACTION_EDIT);
+//								/*获得设备ID*/
+//								for(start = i, end = start; (end< bufferEnd)&&(( handleBuffer[end]!=Instruction.COMMAND_SEPERATOR)) ; i++,end++)
+//								{
+//									;
+//								}
+//								i++;
+//								String IDString = new String(handleBuffer, start, end - start);
+//								/*获得value*/
+//								if((i + 1 < bufferEnd)&&( handleBuffer[i+1]==Instruction.COMMAND_SEPERATOR))
+//								{
+//									res = handleBuffer[i];
+//									i+=2;
+//								}
+//								else {
+//									while((i< bufferEnd)&&( handleBuffer[i])!=Instruction.COMMAND_END)
+//									{
+//										i++;
+//									}
+//									i++;
+//									continue;
+//								}
+//								intent.putExtra("type", "humi");
+//								intent.putExtra("humi", IDString);//发送设备ID
+//								intent.putExtra(IDString, res + "");
+//								sendBroadcast(intent);
+//								msgStart = i;
+//							}
+//						}
+//						else //不在规定指令内，所以是无效指令，滤去
+//						{
+//							while((i < bufferEnd)&&(handleBuffer[i])!=Instruction.COMMAND_END)
+//							{
+//								i++;
+//							}
+//							i++;
+//							if((i - 1) == bufferEnd)
+//							{
+//								;
+//							}
+//							else
+//							{
+//								msgStart = i;
+//							}
+//							continue;
+//						}
+//
+//					}//end of while(i < bufferEnd) 处理多组信息
+//					//System.out.println("处理完一组信息");
+//
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					System.out.println("revmsg runnable 连接断开认证失效1");
+//					isConnected = false; //断开连接
+//					isAuthed = false;    //认证失效
+//				}
+//			}
+//			//System.out.println("跳出了while循环");
+//
+//		}
+//
+//	};
 
 
 	
@@ -1008,167 +1109,167 @@ public class IHomeService extends Service{
 			}
 			else if(typeString.equals("fragment"))
 			{
-				String ihomeMode = intent.getStringExtra("ihome");
-				String videoMode = intent.getStringExtra("video");
-				if(ihomeMode.equals("start")) //开启iHome fragment
-				{
-					getTHthread = true; //开启温度湿度更新线程
-					/*请求温度*/
-					try {
-						/*需要发送的指令,byte数组*/
-						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
-						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
-						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_GET,Instruction.COMMAND_SEPERATOR,
-								Instruction.RES_TEMP, Instruction.COMMAND_SEPERATOR};
-						String IDString = new String("10000");
-						byte TempIDBytes[] = IDString.getBytes("UTF-8");
-						//byte TempIDBytes[] = {'1','0'};
-						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-						byte temp_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
-								+TempIDBytes.length+threeBytes.length];
-						/*合并到一个byte数组中*/
-						int start = 0;
-						System.arraycopy(typeBytes    ,0,temp_buffer,start, typeBytes.length);
-						start+=typeBytes.length;
-						System.arraycopy(accountBytes ,0,temp_buffer,start, accountBytes.length);
-						start+=accountBytes.length;
-						System.arraycopy(twoBytes     ,0,temp_buffer,start, twoBytes.length);
-						start+=twoBytes.length;
-						System.arraycopy(TempIDBytes,0,temp_buffer,start, TempIDBytes.length);
-						start+=TempIDBytes.length;
-						System.arraycopy(threeBytes   ,0,temp_buffer,start, threeBytes.length);
-
-						outputStream.write(temp_buffer, 0, temp_buffer.length);//发送指令
-						outputStream.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						isConnected = false; //断开连接
-						isAuthed = false;    //认证失效
-					}
-					try {
-						Thread.sleep(150);//先休眠一秒等待链接
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					/*请求湿度*/
-					try {
-						/*需要发送的指令(获取湿度),byte数组*/
-						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
-						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
-						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_GET, Instruction.COMMAND_SEPERATOR,
-								Instruction.RES_HUMI, Instruction.COMMAND_SEPERATOR};
-						String IDString = new String("10000");
-						byte HumiIDBytes[] = IDString.getBytes("UTF-8");
-						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-						byte humi_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
-								+HumiIDBytes.length+threeBytes.length];
-						/*合并到一个byte数组中*/
-						int start = 0;
-						System.arraycopy(typeBytes    ,0,humi_buffer,start, typeBytes.length);
-						start+=typeBytes.length;
-						System.arraycopy(accountBytes ,0,humi_buffer,start, accountBytes.length);
-						start+=accountBytes.length;
-						System.arraycopy(twoBytes     ,0,humi_buffer,start, twoBytes.length);
-						start+=twoBytes.length;
-						System.arraycopy(HumiIDBytes,0,humi_buffer,start, HumiIDBytes.length);
-						start+=HumiIDBytes.length;
-						System.arraycopy(threeBytes   ,0,humi_buffer,start, threeBytes.length);
-
-						outputStream.write(humi_buffer, 0, humi_buffer.length);//发送指令
-						outputStream.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						isConnected = false; //断开连接
-						isAuthed = false;    //认证失效
-					}
-				}
-				else//关闭iHome fragment
-				{
-					getTHthread = false; //关闭温度湿度更新线程
-				}
-
-				if(videoMode.equals("start")) //开启video fragment
-				{
-					getTHthread = true; //开启温度湿度更新线程
-					/*显示图片防止过于感到延迟*/
-					Intent pintent = new Intent();
-					pintent.setAction(pintent.ACTION_EDIT);
-					pintent.putExtra("type", "videofinish");
-					pintent.putExtra("videofinish","mnt/sdcard/camera0.jpg");
-					sendBroadcast(pintent);
-
-					/*开始传送视频*/
-					try {
-						/*需要发送的指令,byte数组*/
-						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
-						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
-						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_VIDEO,Instruction.COMMAND_SEPERATOR,
-								Instruction.VIDEO_START, Instruction.COMMAND_SEPERATOR};
-						String IDString = new String("20000");
-						byte VideoIDBytes[] = IDString.getBytes("UTF-8");
-						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-						byte video_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
-								+VideoIDBytes.length+threeBytes.length];
-						/*合并到一个byte数组中*/
-						int start = 0;
-						System.arraycopy(typeBytes    ,0,video_buffer,start, typeBytes.length);
-						start+=typeBytes.length;
-						System.arraycopy(accountBytes ,0,video_buffer,start, accountBytes.length);
-						start+=accountBytes.length;
-						System.arraycopy(twoBytes     ,0,video_buffer,start, twoBytes.length);
-						start+=twoBytes.length;
-						System.arraycopy(VideoIDBytes,0,video_buffer,start, VideoIDBytes.length);
-						start+=VideoIDBytes.length;
-						System.arraycopy(threeBytes   ,0,video_buffer,start, threeBytes.length);
-
-						outputStream.write(video_buffer, 0, video_buffer.length);//发送指令
-						outputStream.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						isConnected = false; //断开连接
-						isAuthed = false;    //认证失效
-					}
-				}
-				else
-				{
-					getTHthread = false; //关闭温度湿度更新线程
-					/*结束传送视频*/
-					try {
-						/*需要发送的指令,byte数组*/
-						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
-						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
-						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_VIDEO,Instruction.COMMAND_SEPERATOR,
-								Instruction.VIDEO_STOP, Instruction.COMMAND_SEPERATOR};
-						String IDString = new String("20000");
-						byte VideoIDBytes[] = IDString.getBytes("UTF-8");
-						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
-						byte video_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
-								+VideoIDBytes.length+threeBytes.length];
-						/*合并到一个byte数组中*/
-						int start = 0;
-						System.arraycopy(typeBytes    ,0,video_buffer,start, typeBytes.length);
-						start+=typeBytes.length;
-						System.arraycopy(accountBytes ,0,video_buffer,start, accountBytes.length);
-						start+=accountBytes.length;
-						System.arraycopy(twoBytes     ,0,video_buffer,start, twoBytes.length);
-						start+=twoBytes.length;
-						System.arraycopy(VideoIDBytes,0,video_buffer,start, VideoIDBytes.length);
-						start+=VideoIDBytes.length;
-						System.arraycopy(threeBytes   ,0,video_buffer,start, threeBytes.length);
-
-						outputStream.write(video_buffer, 0, video_buffer.length);//发送指令
-						outputStream.flush();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						isConnected = false; //断开连接
-						isAuthed = false;    //认证失效
-					}
-				}//end of video mode
+//				String ihomeMode = intent.getStringExtra("ihome");
+//				String videoMode = intent.getStringExtra("video");
+//				if(ihomeMode.equals("start")) //开启iHome fragment
+//				{
+//					getTHthread = true; //开启温度湿度更新线程
+//					/*请求温度*/
+//					try {
+//						/*需要发送的指令,byte数组*/
+//						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
+//						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
+//						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_GET,Instruction.COMMAND_SEPERATOR,
+//								Instruction.RES_TEMP, Instruction.COMMAND_SEPERATOR};
+//						String IDString = new String("10000");
+//						byte TempIDBytes[] = IDString.getBytes("UTF-8");
+//						//byte TempIDBytes[] = {'1','0'};
+//						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//						byte temp_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
+//								+TempIDBytes.length+threeBytes.length];
+//						/*合并到一个byte数组中*/
+//						int start = 0;
+//						System.arraycopy(typeBytes    ,0,temp_buffer,start, typeBytes.length);
+//						start+=typeBytes.length;
+//						System.arraycopy(accountBytes ,0,temp_buffer,start, accountBytes.length);
+//						start+=accountBytes.length;
+//						System.arraycopy(twoBytes     ,0,temp_buffer,start, twoBytes.length);
+//						start+=twoBytes.length;
+//						System.arraycopy(TempIDBytes,0,temp_buffer,start, TempIDBytes.length);
+//						start+=TempIDBytes.length;
+//						System.arraycopy(threeBytes   ,0,temp_buffer,start, threeBytes.length);
+//
+//						outputStream.write(temp_buffer, 0, temp_buffer.length);//发送指令
+//						outputStream.flush();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						isConnected = false; //断开连接
+//						isAuthed = false;    //认证失效
+//					}
+//					try {
+//						Thread.sleep(150);//先休眠一秒等待链接
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					/*请求湿度*/
+//					try {
+//						/*需要发送的指令(获取湿度),byte数组*/
+//						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
+//						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
+//						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_GET, Instruction.COMMAND_SEPERATOR,
+//								Instruction.RES_HUMI, Instruction.COMMAND_SEPERATOR};
+//						String IDString = new String("10000");
+//						byte HumiIDBytes[] = IDString.getBytes("UTF-8");
+//						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//						byte humi_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
+//								+HumiIDBytes.length+threeBytes.length];
+//						/*合并到一个byte数组中*/
+//						int start = 0;
+//						System.arraycopy(typeBytes    ,0,humi_buffer,start, typeBytes.length);
+//						start+=typeBytes.length;
+//						System.arraycopy(accountBytes ,0,humi_buffer,start, accountBytes.length);
+//						start+=accountBytes.length;
+//						System.arraycopy(twoBytes     ,0,humi_buffer,start, twoBytes.length);
+//						start+=twoBytes.length;
+//						System.arraycopy(HumiIDBytes,0,humi_buffer,start, HumiIDBytes.length);
+//						start+=HumiIDBytes.length;
+//						System.arraycopy(threeBytes   ,0,humi_buffer,start, threeBytes.length);
+//
+//						outputStream.write(humi_buffer, 0, humi_buffer.length);//发送指令
+//						outputStream.flush();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						isConnected = false; //断开连接
+//						isAuthed = false;    //认证失效
+//					}
+//				}
+//				else//关闭iHome fragment
+//				{
+//					getTHthread = false; //关闭温度湿度更新线程
+//				}
+//
+//				if(videoMode.equals("start")) //开启video fragment
+//				{
+//					getTHthread = true; //开启温度湿度更新线程
+//					/*显示图片防止过于感到延迟*/
+//					Intent pintent = new Intent();
+//					pintent.setAction(pintent.ACTION_EDIT);
+//					pintent.putExtra("type", "videofinish");
+//					pintent.putExtra("videofinish","mnt/sdcard/camera0.jpg");
+//					sendBroadcast(pintent);
+//
+//					/*开始传送视频*/
+//					try {
+//						/*需要发送的指令,byte数组*/
+//						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
+//						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
+//						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_VIDEO,Instruction.COMMAND_SEPERATOR,
+//								Instruction.VIDEO_START, Instruction.COMMAND_SEPERATOR};
+//						String IDString = new String("20000");
+//						byte VideoIDBytes[] = IDString.getBytes("UTF-8");
+//						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//						byte video_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
+//								+VideoIDBytes.length+threeBytes.length];
+//						/*合并到一个byte数组中*/
+//						int start = 0;
+//						System.arraycopy(typeBytes    ,0,video_buffer,start, typeBytes.length);
+//						start+=typeBytes.length;
+//						System.arraycopy(accountBytes ,0,video_buffer,start, accountBytes.length);
+//						start+=accountBytes.length;
+//						System.arraycopy(twoBytes     ,0,video_buffer,start, twoBytes.length);
+//						start+=twoBytes.length;
+//						System.arraycopy(VideoIDBytes,0,video_buffer,start, VideoIDBytes.length);
+//						start+=VideoIDBytes.length;
+//						System.arraycopy(threeBytes   ,0,video_buffer,start, threeBytes.length);
+//
+//						outputStream.write(video_buffer, 0, video_buffer.length);//发送指令
+//						outputStream.flush();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						isConnected = false; //断开连接
+//						isAuthed = false;    //认证失效
+//					}
+//				}
+//				else
+//				{
+//					getTHthread = false; //关闭温度湿度更新线程
+//					/*结束传送视频*/
+//					try {
+//						/*需要发送的指令,byte数组*/
+//						byte typeBytes[] = {Instruction.COMMAND_CONTRL,Instruction.COMMAND_SEPERATOR};
+//						byte accountBytes[] = account.getBytes("UTF-8");//得到标准的UTF-8编码
+//						byte twoBytes[] = {Instruction.COMMAND_SEPERATOR,Instruction.CTL_VIDEO,Instruction.COMMAND_SEPERATOR,
+//								Instruction.VIDEO_STOP, Instruction.COMMAND_SEPERATOR};
+//						String IDString = new String("20000");
+//						byte VideoIDBytes[] = IDString.getBytes("UTF-8");
+//						byte threeBytes[] = {Instruction.COMMAND_SEPERATOR, Instruction.COMMAND_END};
+//						byte video_buffer[] = new byte[typeBytes.length + accountBytes.length+twoBytes.length
+//								+VideoIDBytes.length+threeBytes.length];
+//						/*合并到一个byte数组中*/
+//						int start = 0;
+//						System.arraycopy(typeBytes    ,0,video_buffer,start, typeBytes.length);
+//						start+=typeBytes.length;
+//						System.arraycopy(accountBytes ,0,video_buffer,start, accountBytes.length);
+//						start+=accountBytes.length;
+//						System.arraycopy(twoBytes     ,0,video_buffer,start, twoBytes.length);
+//						start+=twoBytes.length;
+//						System.arraycopy(VideoIDBytes,0,video_buffer,start, VideoIDBytes.length);
+//						start+=VideoIDBytes.length;
+//						System.arraycopy(threeBytes   ,0,video_buffer,start, threeBytes.length);
+//
+//						outputStream.write(video_buffer, 0, video_buffer.length);//发送指令
+//						outputStream.flush();
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						isConnected = false; //断开连接
+//						isAuthed = false;    //认证失效
+//					}
+//				}//end of video mode
 
 			}
 			else if(typeString.equals("ClientMainBack"))

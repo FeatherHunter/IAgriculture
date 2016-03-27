@@ -12,7 +12,13 @@ public class Constant {
     public static final String FRAGMENT_FLAG_CONTRL = "导航";
     public static final String FRAGMENT_FLAG_VIDEO = "视频";   
     public static final String FRAGMENT_FLAG_CSERVICE = "客服";   
-    public static final String FRAGMENT_FLAG_SIMPLE = "simple";   
-      
-      
+    public static final String FRAGMENT_FLAG_SIMPLE = "simple";
+
+    //底部各个Fragment显示文字
+    public static final String FRAGMENT_TEXT_HOUSE= "大棚";
+    public static final String FRAGMENT_TEXT_CONTRL = "控制";
+    public static final String FRAGMENT_TEXT_VIDEO = "视频";
+    public static final String FRAGMENT_TEXT_CSERVICE = "客服";
+
+
 }  

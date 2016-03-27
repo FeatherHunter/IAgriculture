@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.feather.bottombar.BottomBarPanel xmlns:android="http://schemas.android.com/apk/res/android"  
+<com.ifuture.iagriculture.bottombar.BottomBarPanel xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"  
     android:layout_height="60dp"  
     android:layout_alignParentBottom="true"  
@@ -7,28 +7,28 @@
     android:paddingLeft="20dp"  
     android:paddingRight="20dp" >  
   
-    <com.feather.bottombar.ImageText  
+    <com.ifuture.iagriculture.bottombar.ImageText
         android:id="@+id/btn_ihome"  
         android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:layout_alignParentLeft="true" />  
   
-    <com.feather.bottombar.ImageText  
+    <com.ifuture.iagriculture.bottombar.ImageText
         android:id="@+id/btn_contrl"  
         android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:layout_toRightOf="@id/btn_ihome" />  
   
-    <com.feather.bottombar.ImageText  
+    <com.ifuture.iagriculture.bottombar.ImageText
         android:id="@+id/btn_video"  
         android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:layout_toRightOf="@id/btn_contrl" />  
   
-    <com.feather.bottombar.ImageText  
+    <com.ifuture.iagriculture.bottombar.ImageText
         android:id="@+id/btn_cservice"  
         android:layout_width="wrap_content"  
         android:layout_height="wrap_content"  
         android:layout_alignParentRight="true" />  
   
-</com.feather.bottombar.BottomBarPanel>
+</com.ifuture.iagriculture.bottombar.BottomBarPanel>

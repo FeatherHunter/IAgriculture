@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,11 +19,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.feather.bottombar.BottomBarPanel;
-import com.feather.service.IHomeService;
-import com.ifuture.carcontrl_client.R;
+import com.ifuture.iagriculture.bottombar.BottomBarPanel;
+import com.ifuture.iagriculture.service.IHomeService;
+import com.ifuture.iagriculture.R;
 
 /** 
  * @CopyRight: 王辰浩 2015~2025
@@ -66,6 +68,8 @@ public class ClientActivity extends Activity {
 	private Intent serviceIntent; //服务Intent
 	private WifiManager wifiManager; //优先开启wifi模式
 	private Toast toast;             //自定义Toast
+
+	private TextView icon_text = null;
 	//IHomeService.ServiceBinder serviceBinder;//IHomeService中的binder
 	
 	/**
@@ -83,7 +87,12 @@ public class ClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);  	
 		
-		logoImageView = (ImageView) findViewById(R.id.icar_logo);
+		logoImageView = (ImageView)findViewById(R.id.icar_logo);
+		icon_text = (TextView)findViewById(R.id.igreens_name);
+		Typeface type = Typeface.createFromAsset(getAssets(), "kaiti.ttf");
+		icon_text.setTypeface(type);
+		icon_text.setText("爱绿");
+		icon_text.getPaint().setFakeBoldText(true);
 		client_account = (EditText) findViewById(R.id.client_account);
 		client_password = (EditText) findViewById(R.id.client_password);
 		client_login = (Button) findViewById(R.id.client_login);
@@ -122,7 +131,13 @@ public class ClientActivity extends Activity {
     		// TODO Auto-generated method stub
     		accountString = client_account.getText().toString();
     		passwordString = client_password.getText().toString();
-    		
+
+			if(accountString.equals("") || passwordString.equals(""))
+			{
+				Toast.makeText(ClientActivity.this,"请输入账户/密码", Toast.LENGTH_SHORT).show();
+				return;
+			}
+
     		/*动态注册receiver*/
     		authReceiver = new AuthReceiver();
     		IntentFilter filter = new IntentFilter();
@@ -148,12 +163,12 @@ public class ClientActivity extends Activity {
     {
 
     	public void onClick(View v) {
-    		Intent intent = new Intent();
-			
+			Intent intent = new Intent();
+
 			intent.putExtra("mode", 2);//选择模式：2为蓝牙模式
-    		intent.putExtra("account", client_account.getText().toString());
-            intent.setClass(ClientActivity.this, OptionActivity1.class);
-            ClientActivity.this.startActivity(intent);
+			intent.putExtra("account", "");
+			intent.setClass(ClientActivity.this, ClientMainActivity.class);
+			ClientActivity.this.startActivity(intent);
     	}	
     }
     
@@ -222,9 +237,13 @@ public class ClientActivity extends Activity {
 						if(firstSwitch == false) return;
 						firstSwitch = false;
 						/*切换到主控界面*/
-						Intent intentMain = new Intent();
-						intentMain.setClass(ClientActivity.this, OptionActivity1.class);
-						ClientActivity.this.startActivity(intentMain);
+						Intent tempIntent = new Intent();
+
+						tempIntent.putExtra("mode", 1);//选择模式：2为蓝牙模式
+						tempIntent.putExtra("account", "");
+						tempIntent.setClass(ClientActivity.this, ClientMainActivity.class);
+						ClientActivity.this.startActivity(tempIntent);
+
 						isAuthed = true;
 						failed_conter = 0; //清除失败显示计数器
 

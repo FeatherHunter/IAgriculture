@@ -8,91 +8,67 @@
     <TextView
         android:id="@+id/balcony"
         android:layout_marginLeft="10dip"
-        android:layout_width="40dip"
+        android:layout_width="100pt"
         android:layout_height="25dip"
-        android:text="阳台"
+        android:text="智能温室大棚1号"
+        android:textColor="@color/green"
         android:textSize="20dip"/>
     <TextView
         android:id="@+id/weather_textview"
         android:layout_width="80dip"
         android:layout_height="25dip"
         android:text="天气状况"
-        android:layout_toRightOf="@id/balcony"
-        android:textSize="18dip"
-        android:layout_marginLeft="100dip"/>
-    <TextView
+        android:layout_marginLeft="100pt"
+        android:textSize="18dip" />
+    <ImageView
         android:id="@+id/weather_value"
-        android:layout_width="40dip"
+        android:layout_width="25dip"
         android:layout_height="25dip"
         android:layout_toRightOf="@id/weather_textview"
-        android:text="无雨"
-        android:textSize="16dip"/>
-    <Button
-        android:id="@+id/balcony_win1"
-        android:layout_below="@id/balcony"
-        android:layout_width="85dip"
-        android:layout_marginLeft="15dip"
-        android:layout_height="40dip"
-        android:text="窗户1"
-        android:textColor="@color/text_color_default"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="15dip"/>
-    <Button
-        android:id="@+id/balcony_win2"
-        android:layout_below="@id/balcony"
-        android:layout_toRightOf="@id/balcony_win1"
-        android:layout_marginLeft="-1dip"
-        android:layout_width="85dip"
-        android:layout_height="40dip"
-        android:text="窗户2"
-        android:textColor="@color/text_color_default"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="15dip"/>
-    <Button
-        android:id="@+id/balcony_win3"
-        android:layout_below="@id/balcony"
-        android:layout_toRightOf="@id/balcony_win2"
-        android:layout_marginLeft="-1dip"
-        android:layout_width="85dip"
-        android:layout_height="40dip"
-        android:text="窗户3"
-        android:textColor="@color/text_color_default"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="15dip"/>
-    <Button
-        android:id="@+id/balcony_win4"
-        android:layout_below="@id/balcony"
-        android:layout_toRightOf="@id/balcony_win3"
-        android:layout_marginLeft="-1dip"
-        android:layout_width="85dip"
-        android:layout_height="40dip"
-        android:text="窗户4"
-        android:textColor="@color/text_color_default"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="15dip"/>
+        android:src="@drawable/pic_sun"/>
 
+    <Button
+        android:id="@+id/weather_future"
+        android:layout_width="40pt"
+        android:layout_height="10pt"
+        android:layout_toRightOf="@id/weather_value"
+        android:background="@drawable/button_weather_selector"
+        android:text="未来天气"
+        android:textSize="7pt"
+        android:textColor="@color/dodgerblue"/>
+
+    <ImageView
+        android:layout_marginTop="15pt"
+        android:id="@+id/air_pic"
+        android:layout_width="25pt"
+        android:layout_height="25pt"
+        android:src="@drawable/pic_cloud"
+        android:layout_marginLeft="15pt"
+        />
     <TextView
-        android:id="@+id/bedroom"
-        android:layout_marginLeft="10dip"
-        android:layout_width="40dip"
-        android:layout_height="25dip"
-        android:text="卧室"
-        android:layout_below="@id/balcony_win1"
-        android:textSize="20dip"/>
+        android:id="@+id/air_text"
+        android:layout_marginTop="1pt"
+        android:layout_width="20dip"
+        android:layout_height="50dip"
+        android:text="空气"
+        android:layout_toRightOf="@id/air_pic"
+        android:layout_alignTop="@id/air_pic"
+        android:textSize="18dip"/>
+
     <TextView
         android:id="@+id/bedroom_tempTextview"
         android:layout_width="100dip"
         android:layout_height="40dip"
-        android:layout_below="@id/bedroom"
+        android:layout_below="@id/air_pic"
         android:layout_marginLeft="15dip"
-        android:text="温度"
+        android:text="当前气温"
         android:textSize="18dip"
         android:gravity="center"/>
     <TextView
         android:id="@+id/bedroom_tempValue"
         android:layout_width="80dip"
         android:layout_height="40dip"
-        android:layout_below="@id/bedroom"
+        android:layout_below="@id/air_pic"
         android:layout_toRightOf="@id/bedroom_tempTextview"
         android:text="17"
         android:textSize="18dip"
@@ -101,29 +77,18 @@
         android:id="@+id/bedroom_tempUnit"
         android:layout_width="20dip"
         android:layout_height="40dip"
-        android:layout_below="@id/bedroom"
+        android:layout_below="@id/air_pic"
         android:layout_toRightOf="@id/bedroom_tempValue"
         android:text="℃"
         android:textSize="18dip"
         android:gravity="center"/>
-    <Button
-        android:id="@+id/bedroom_tempControl"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_toRightOf="@id/bedroom_tempUnit"
-        android:layout_marginTop="1dip"
-        android:layout_below="@id/bedroom"
-        android:layout_marginLeft="19dip"
-        android:text="空调遥控器"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="18dip"/>
     <TextView
         android:id="@+id/bedroom_humiTextview"
         android:layout_width="100dip"
         android:layout_height="40dip"
         android:layout_below="@id/bedroom_tempTextview"
         android:layout_marginLeft="15dip"
-        android:text="湿度"
+        android:text="当前湿度"
         android:textSize="18dip"
         android:gravity="center"/>
 
@@ -146,6 +111,29 @@
         android:textSize="18dip"
         android:gravity="center"/>
     <Button
+        android:layout_width="13pt"
+        android:layout_height="50pt"
+        android:text="详细数据"
+        android:textColor="@color/limegreen"
+        android:textSize="8pt"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="80pt"
+        android:background="@drawable/button_sdata_selector"/>
+
+<!--
+    <Button
+        android:id="@+id/bedroom_tempControl"
+        android:layout_width="120dip"
+        android:layout_height="40dip"
+        android:layout_toRightOf="@id/bedroom_tempUnit"
+        android:layout_marginTop="1dip"
+        android:layout_below="@id/bedroom"
+        android:layout_marginLeft="19dip"
+        android:text="空调遥控器"
+        android:background="@drawable/button_ctrl_selector"
+        android:textSize="18dip"/>
+
+     <Button
         android:id="@+id/bedroom_humiControl"
         android:layout_width="120dip"
         android:layout_height="40dip"
@@ -248,78 +236,146 @@
         android:text="门"
         />
 
+     -->
+
+    <ImageView
+        android:id="@+id/ground_pic"
+        android:layout_width="25pt"
+        android:layout_height="25pt"
+        android:layout_centerVertical="true"
+        android:src="@drawable/pic_ground"
+        android:layout_marginLeft="15pt"
+        />
     <TextView
-        android:id="@+id/kitchen"
-        android:layout_marginLeft="10dip"
-        android:layout_width="40dip"
-        android:layout_height="25dip"
-        android:text="厨房"
-        android:layout_below="@id/bedroom_win1_button"
-        android:textSize="20dip"/>
+        android:id="@+id/ground_text"
+        android:layout_marginTop="1pt"
+        android:layout_width="20dip"
+        android:layout_height="50dip"
+        android:text="土壤"
+        android:layout_toRightOf="@id/ground_pic"
+        android:layout_alignTop="@id/ground_pic"
+        android:textSize="18dip"/>
     <TextView
-        android:id="@+id/kitchen_smokeTextView"
+        android:id="@+id/device_irrigation_text"
         android:layout_width="80dip"
         android:layout_height="40dip"
-        android:layout_below="@id/kitchen"
-        android:layout_marginLeft="25dip"
-        android:text="烟雾"
+        android:layout_below="@id/ground_pic"
+        android:layout_marginLeft="15dip"
+        android:text="灌溉"
         android:textSize="18dip"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/kitchen_smokeState"
+        android:id="@+id/device_irrigation_state"
         android:layout_width="20dip"
         android:layout_height="45dip"
-        android:layout_below="@id/kitchen"
-        android:layout_toRightOf="@id/kitchen_smokeTextView"
+        android:layout_below="@id/ground_text"
+        android:layout_toRightOf="@id/device_irrigation_text"
         android:text="●"
         android:textSize="10dip"
-        android:textColor="@color/text_color_default"
+        android:textColor="@color/red"
         android:gravity="center"/>
     <TextView
-        android:id="@+id/kitchen_fireTextView"
+        android:id="@+id/device_warm_text"
         android:layout_width="80dip"
         android:layout_height="40dip"
-        android:layout_below="@id/kitchen"
-        android:layout_toRightOf="@id/kitchen_smokeState"
+        android:layout_below="@id/ground_text"
+        android:layout_toRightOf="@id/device_irrigation_state"
         android:layout_marginLeft="10dip"
-        android:text="火情"
+        android:text="加热"
         android:textSize="18dip"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/kitchen_fireState"
+        android:id="@+id/device_warm_state"
         android:layout_width="20dip"
         android:layout_height="45dip"
-        android:layout_below="@id/kitchen"
-        android:layout_toRightOf="@id/kitchen_fireTextView"
+        android:layout_below="@id/ground_text"
+        android:layout_toRightOf="@id/device_warm_text"
         android:text="●"
         android:textSize="10dip"
-        android:textColor="@color/text_color_default"
+        android:textColor="@color/red"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/kitchen_gasTextView"
+        android:id="@+id/device_humi_text"
         android:layout_width="80dip"
         android:layout_height="40dip"
-        android:layout_below="@id/kitchen"
-        android:layout_toRightOf="@id/kitchen_fireState"
+        android:layout_below="@id/ground_text"
+        android:layout_toRightOf="@id/device_warm_state"
         android:layout_marginLeft="10dip"
-        android:text="煤气"
+        android:text="加湿"
         android:textSize="18dip"
         android:gravity="center"/>
 
     <TextView
-        android:id="@+id/kitchen_gasState"
+        android:id="@+id/device_humi_state"
         android:layout_width="20dip"
         android:layout_height="45dip"
-        android:layout_below="@id/kitchen"
-        android:layout_toRightOf="@id/kitchen_gasTextView"
+        android:layout_below="@id/ground_text"
+        android:layout_toRightOf="@id/device_humi_text"
         android:text="●"
         android:textSize="10dip"
-        android:textColor="@color/text_color_default"
+        android:textColor="@color/red"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/ground_tempTextview"
+        android:layout_width="100dip"
+        android:layout_height="40dip"
+        android:layout_below="@id/device_irrigation_text"
+        android:layout_marginLeft="15dip"
+        android:text="当前温度"
+        android:textSize="18dip"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/ground_tempValue"
+        android:layout_width="80dip"
+        android:layout_height="40dip"
+        android:layout_alignTop="@id/ground_tempTextview"
+        android:layout_toRightOf="@id/ground_tempTextview"
+        android:text="22"
+        android:textSize="18dip"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/ground_tempUnit"
+        android:layout_width="20dip"
+        android:layout_height="40dip"
+        android:layout_below="@id/air_pic"
+        android:layout_alignTop="@id/ground_tempTextview"
+        android:layout_toRightOf="@id/ground_tempValue"
+        android:text="℃"
+        android:textSize="18dip"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/ground_humiTextview"
+        android:layout_width="100dip"
+        android:layout_height="40dip"
+        android:layout_below="@id/ground_tempTextview"
+        android:layout_marginLeft="15dip"
+        android:text="当前水分"
+        android:textSize="18dip"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/ground_humiValue"
+        android:layout_width="80dip"
+        android:layout_height="40dip"
+        android:layout_alignTop="@id/ground_humiTextview"
+        android:layout_toRightOf="@id/ground_humiTextview"
+        android:text="45"
+        android:textSize="18dip"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/ground_humiUnit"
+        android:layout_width="20dip"
+        android:layout_height="40dip"
+        android:layout_alignTop="@id/ground_humiTextview"
+        android:layout_toRightOf="@id/ground_humiValue"
+        android:text="%"
+        android:textSize="18dip"
+        android:gravity="center"/>
+<!--
     <Button
         android:id="@+id/kitchen_win1_button"
         android:layout_weight="1"
@@ -363,7 +419,6 @@
         android:text="门"
         />
 
-    
     <Button
            android:id="@+id/ihome_button"
            android:layout_width="140dp"
@@ -376,6 +431,8 @@
            android:textColor="#bfbfbf"
            android:textSize="30dp"
            android:visibility="visible" />
+
+    -->
  
     
 </RelativeLayout>
