@@ -59,13 +59,13 @@ public class IHomeService extends Service{
 	private ServiceReceiver serviceReceiver;
 	private String SERVICE_ACTION = "android.intent.action.MAIN";
 	
-	private String serverString = "139.129.19.115";
+	private String carServerIP = "139.129.19.115";
 	private String contrlCenterString = "192.168.1.108";
-	private String carServerIP = "192.168.191.10";
+	//private String carServerIP = "192.168.191.10";
 	//private String carServerIP = "120.27.104.75";
 	private int carServerPort = 8080;
-	private int generalPort = 8080;
-	private String cameraIDString = "20000";
+	//private int generalPort = 8080;
+	//private String cameraIDString = "20000";
 	
 	private FileOutputStream jpegOutputStream = null;
 	
@@ -303,25 +303,7 @@ public class IHomeService extends Service{
 							e1.printStackTrace();
 						}
 					}
-//					byte buffer[] = {'n','a','n','j','i','n','g','2','0','1','6','\0'};
-//					String tempString = new String(buffer, 0, 12);
-//					System.out.println(tempString + "send");
-//
-//					try {
-//						outputStream.write(buffer, 0, 12);
-//						outputStream.flush();
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//						isConnected = false; //连接失败
-//						isAuthed = false;    //认证失效
-//						try {
-//							Thread.sleep(2500);  //身份验证失败后等待3s
-//						} catch (InterruptedException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
-//					}
+
 
 
 					try {
@@ -446,7 +428,11 @@ public class IHomeService extends Service{
 					index += 1;  //跳过第一个CMD_HEAD字节
 					if(index >= msgLength) break;
 
-					/*为结果指令*/
+					/**
+					 * 结果大类指令:
+					 * 	分为如下小类指令：
+					 * 	   1. 登录结果指令 RES_LOGIN
+					 **/
 					if(message.charAt(index) == Instruction.CMD_RES) //检查主要大类指令
 					{
 						index += 1;
@@ -464,6 +450,10 @@ public class IHomeService extends Service{
 							{
 								message = "";
 								break; //结束
+							}
+							else//res = -1, 指令不全等待下一部分
+							{
+
 							}
 						}
 					}
@@ -485,6 +475,95 @@ public class IHomeService extends Service{
 			}
 		}
 	};
+
+	/**
+	 * 	 @Function: private int dealResLogin(String msg, int index)
+	 * 	 @Input:  String msg:需要处理的信息
+	 * 	           int dex:   msg中的偏移量
+	 *   @Return: -1: 指令不全
+	 *				0: 正好处理完全
+	 *             >0：在String中偏移的值
+	 * */
+
+	private int dealResTemp(String msg, int index)
+	{
+		String terminalString;
+		String deviceString;
+		String timeString;
+		String tempString;
+		int i = index;
+		int msgLength = msg.length();
+		int startIndex;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+
+		/*=======获取终端ID号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		terminalString = msg.substring(startIndex, i); //获取终端ID号
+
+		/*=======获取终端ID号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		deviceString = msg.substring(startIndex, i); //获取设备ID号
+
+		/*=======获取时间===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		timeString = msg.substring(startIndex, i); //获取时间
+
+		/*=======获取温度值===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		tempString = msg.substring(startIndex, i); //获取温度值
+
+
+
+		for(int count = 2; count > 0; count--)
+		{
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+
+		i += 2;
+		if(i > msgLength) return -1; //越界
+		if(i == msgLength) return 0;
+		return i - index;
+	}
 
 	/**
 	 * 	 @Function: private int dealResLogin(String msg, int index)

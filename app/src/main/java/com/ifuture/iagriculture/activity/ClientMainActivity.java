@@ -8,12 +8,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ifuture.iagriculture.bottombar.BaseFragment;
@@ -111,6 +113,11 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_client_main);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //状态栏
+			//getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		}
 		/*初始化界面*/
 		currFragTag = "";
 		initUI();

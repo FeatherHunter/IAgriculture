@@ -9,11 +9,11 @@
         <dex dex="E:\Projects\IAgriculture\app\build\intermediates\pre-dexed\debug\internal_impl-23.2.1-6951e92f92056001922eb481fd055f361c3e2b14.jar" />
     </item>
     <item
-        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jar="C:\Users\feather\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.2.3\f474798fde03291398b1a016118b9809a79550b7\MPAndroidChart-v2.2.3.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
-        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\pre-dexed\debug\classes-ba5226065133ad42078beabb2622772aa2d5401e.jar" />
+        sha1="f474798fde03291398b1a016118b9809a79550b7">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\pre-dexed\debug\MPAndroidChart-v2.2.3-c3327040dff09e63289822521f1592831ec9de28.jar" />
     </item>
     <item
         jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
@@ -21,6 +21,13 @@
         revision="23.0.2"
         sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
         <dex dex="E:\Projects\IAgriculture\app\build\intermediates\pre-dexed\debug\classes-462de244b7a3521a2e231356872a2ade19869084.jar" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\pre-dexed\debug\classes-ba5226065133ad42078beabb2622772aa2d5401e.jar" />
     </item>
     <item
         jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"

@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ifuture.iagriculture">
+    package="com.ifuture.iagriculture" >
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -28,9 +29,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup" >
         <activity
-            android:name="com.ifuture.iagriculture.activity.ClientActivity"
+            android:name=".activity.ClientActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,28 +39,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ifuture.iagriculture.activity.ClientMainActivity"
+            android:name=".activity.ClientMainActivity"
             android:label="hello" />
 
-        <service android:name="com.ifuture.iagriculture.service.IHomeService" >
+        <service android:name=".service.IHomeService" >
         </service>
 
-        <activity
-            android:name="com.ifuture.iagriculture.activity.OptionActivity1"
-            android:label="@string/title_activity_option1" >
-        </activity>
-        <activity
-            android:name="com.ifuture.iagriculture.activity.AirerActivity2"
-            android:label="@string/title_activity_airer" >
-
-        </activity>
-        <activity
-            android:name="com.ifuture.iagriculture.activity.AirConditionerActivity3"
-            android:theme="@android:style/Theme.NoTitleBar">
-
-        </activity>
-        <activity android:name="com.ifuture.iagriculture.activity.AirControler"
-            android:theme="@android:style/Theme.NoTitleBar">
+        <activity android:name=".activity.StatisticsActivity" >
         </activity>
     </application>
 

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -85,7 +87,12 @@ public class ClientActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client);  	
+        setContentView(R.layout.activity_client);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //状态栏
+			//getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		}
 		
 		logoImageView = (ImageView)findViewById(R.id.icar_logo);
 		icon_text = (TextView)findViewById(R.id.igreens_name);
@@ -252,15 +259,6 @@ public class ClientActivity extends Activity {
 					else if(intent.getStringExtra("car").equals("failed"))
 					{
 						Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
-//						if(firstSwitch == false) return;
-//						firstSwitch = false;
-//						/*切换到主控界面*/
-//						Intent intentMain = new Intent();
-//						intentMain.setClass(ClientActivity.this, OptionActivity1.class);
-//						ClientActivity.this.startActivity(intentMain);
-//						isAuthed = true;
-//						failed_conter = 0; //清除失败显示计数器
-
 						dialog.dismiss(); //登陆成功，解除进度条
 					}
 					else if(intent.getStringExtra("car").equals("connect error"))

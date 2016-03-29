@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ifuture.iagriculture.activity.ClientActivity;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.Instruction.Instruction;
+import com.ifuture.iagriculture.activity.StatisticsActivity;
 import com.ifuture.iagriculture.bottombar.*;
 import com.ifuture.iagriculture.R;
 
@@ -41,6 +43,7 @@ public class FragmentIHome extends BaseFragment{
 
 	TextView bedroom_tempValue,bedroom_humiValue;
 	Button bedroom_led1, bedroom_led2, bedroom_led3;
+	Button staticsButton;
 	Button bedroom_win1, bedroom_win2;
 	Button bedroom_door;
 	Button bedroom_humiControl, bedroom_tempControl;
@@ -65,47 +68,26 @@ public class FragmentIHome extends BaseFragment{
 		// TODO Auto-generated method stub
 		super.onStart();
 		/*要在onCreateView之后得到空间才是有效的*/
-		bedroom_tempValue = (TextView) getActivity().findViewById(R.id.bedroom_tempValue);
-		bedroom_humiValue = (TextView) getActivity().findViewById(R.id.bedroom_humiValue);
-//		bedroom_led1 = (Button) getActivity().findViewById(R.id.bedroom_led1_button);
-//		bedroom_led2 = (Button) getActivity().findViewById(R.id.bedroom_led2_button);
-//		bedroom_led3 = (Button) getActivity().findViewById(R.id.bedroom_led3_button);
-//		IHome_button = (Button) getActivity().findViewById(R.id.ihome_button);
-//		bedroom_tempControl = (Button)getActivity().findViewById(R.id.bedroom_tempControl);
-
+		//bedroom_tempValue = (TextView) getActivity().findViewById(R.id.bedroom_tempValue);
+		//bedroom_humiValue = (TextView) getActivity().findViewById(R.id.bedroom_humiValue);
 		/*demo*/
-//		balcony_win1 = (Button) getActivity().findViewById(R.id.balcony_win1);
-//		balcony_win2 = (Button) getActivity().findViewById(R.id.balcony_win2);
-//		balcony_win3 = (Button) getActivity().findViewById(R.id.balcony_win3);
-//		balcony_win4 = (Button) getActivity().findViewById(R.id.balcony_win4);
-//		bedroom_win1 = (Button) getActivity().findViewById(R.id.bedroom_win1_button);
-//		bedroom_win2 = (Button) getActivity().findViewById(R.id.bedroom_win2_button);
-//		kitchen_win1 = (Button) getActivity().findViewById(R.id.kitchen_win1_button);
-//		kitchen_win2 = (Button) getActivity().findViewById(R.id.kitchen_win2_button);
-//		kitchen_door = (Button) getActivity().findViewById(R.id.kitchen_door_button);
-//		bedroom_door = (Button) getActivity().findViewById(R.id.bedroom_door_button);
-//		bedroom_humiControl = (Button) getActivity().findViewById(R.id.bedroom_humiControl);
-//		/*设置监听器*/
-//		bedroom_led1.setOnClickListener(new LampButtonListener());
-//		bedroom_led2.setOnClickListener(new LampButtonListener());
-//		bedroom_led3.setOnClickListener(new LampButtonListener());
-//		IHome_button.setOnClickListener(new IHomeButtonListener());
-		//bedroom_tempControl.setOnClickListener(new tempCtrlButtonListener());
+		staticsButton = (Button) getActivity().findViewById(R.id.button_statics);
+
 		/*set demo listenner*/
-//		balcony_win1.setOnClickListener(new demoButtonListener());
-//		balcony_win2.setOnClickListener(new demoButtonListener());
-//		balcony_win3.setOnClickListener(new demoButtonListener());
-//		balcony_win4.setOnClickListener(new demoButtonListener());
-//		bedroom_win1.setOnClickListener(new demoButtonListener());
-//		bedroom_win2.setOnClickListener(new demoButtonListener());
-//		kitchen_win1.setOnClickListener(new demoButtonListener());
-//		kitchen_win2.setOnClickListener(new demoButtonListener());
-//		kitchen_door.setOnClickListener(new demoButtonListener());
-//		bedroom_door.setOnClickListener(new demoButtonListener());
-//		bedroom_humiControl.setOnClickListener(new demoButtonListener());
+		staticsButton.setOnClickListener(new staticsButtonListenner());
+
 	}
 
+	class staticsButtonListenner implements OnClickListener{
 
+		@Override
+		public void onClick(View v) {
+			Intent tempIntent = new Intent();
+
+			tempIntent.setClass(getActivity(), StatisticsActivity.class);
+			getActivity().startActivity(tempIntent);
+		}
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
