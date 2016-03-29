@@ -4,25 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/whitesmoke">
 
-
     <TextView
-        android:id="@+id/greenhouse_text"
+        android:id="@+id/air_text"
+        android:layout_marginTop="5pt"
         android:layout_width="40pt"
-        android:layout_height="10pt"
-        android:layout_marginTop="15pt"
-        android:layout_marginLeft="10pt"
-        android:text="温室大棚数据简报"
+        android:layout_height="12pt"
+        android:text="空气(?)"
+        android:layout_marginLeft="15pt"
         android:textSize="8pt"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"/>
+        android:textColor="@color/black"/>
+
     <TextView
         android:id="@+id/weather_textview"
         android:layout_width="30pt"
         android:layout_height="25dip"
         android:text="天气状况"
-        android:layout_marginLeft="-10pt"
-        android:layout_below="@id/greenhouse_text"
-        android:layout_toRightOf="@id/greenhouse_text"
+        android:layout_marginLeft="50pt"
+        android:layout_toRightOf="@id/air_text"
+        android:layout_alignTop="@id/air_text"
         android:textSize="7pt" />
     <ImageView
         android:id="@+id/weather_value"
@@ -43,17 +42,6 @@
         android:textSize="6pt"
         android:textColor="@color/dodgerblue"
         android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/air_text"
-        android:layout_marginTop="5pt"
-        android:layout_width="40pt"
-        android:layout_height="12pt"
-        android:text="空气(?)"
-        android:layout_below="@id/greenhouse_text"
-        android:layout_marginLeft="15pt"
-        android:textSize="8pt"
-        android:textColor="@color/black"/>
 
     <LinearLayout
         android:id="@+id/total_air_layout"
@@ -118,7 +106,6 @@
         android:textColor="@color/white"
         android:textSize="8pt"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/greenhouse_text"
         android:background="@color/dodgerblue"/>
 
 <!--

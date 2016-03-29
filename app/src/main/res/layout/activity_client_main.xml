@@ -1,21 +1,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.feather.activity.ClientMainActivity" 
     android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    
-    <include  
-        android:id="@+id/bottom_layout"  
-        layout="@layout/bottombar" /> 
-    <RelativeLayout 
+    tools:context="com.feather.activity.ClientMainActivity">
+
+    <include
+        android:id="@+id/bottom_layout"
+        layout="@layout/bottombar" />
+
+    <include
+        android:id="@+id/head_layout"
+        layout="@layout/head_panel_layout"
+        />
+
+    <View
+        android:id="@+id/panel_head_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/head_layout"
+        android:background="@color/lightgray" />
+
+    <View
+        android:id="@+id/panel_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/lightgray"
+        android:layout_above="@id/bottom_layout"/>
+
+    <FrameLayout
         android:id="@+id/main_window"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_layout"
-        
-        ></RelativeLayout> 
-	
+        android:layout_above="@id/panel_bottom_line"
+        android:layout_below="@id/panel_head_line">
+
+    </FrameLayout>
 
 </RelativeLayout>

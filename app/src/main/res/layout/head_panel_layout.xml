@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ifuture.iagriculture.bottombar.HeadControlPanel
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="38pt"
+    android:layout_alignParentTop="true">
+
+
+    <LinearLayout
+        android:id="@+id/radiogroup_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="12pt"
+        android:gravity="center">
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="70pt"
+            android:layout_height="16pt"
+            android:layout_gravity="center"
+            android:layout_margin="10dip"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_left"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radiobtn_left"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip"
+                android:text="总结"
+                android:textColor="@drawable/title_text_select"
+                android:textSize="7pt" />
+
+            <RadioButton
+                android:id="@+id/rb_right"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radiobtn_right"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingBottom="6dip"
+                android:paddingTop="6dip"
+                android:text="详细"
+                android:textColor="@drawable/title_text_select"
+                android:textSize="7pt" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/midle_title"
+        android:layout_width="40pt"
+        android:layout_height="16pt"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@id/radiogroup_layout"
+        android:layout_marginTop="3pt"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/right_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@id/midle_title"
+        android:layout_marginTop="5pt"
+        />
+
+
+
+    </com.ifuture.iagriculture.bottombar.HeadControlPanel>

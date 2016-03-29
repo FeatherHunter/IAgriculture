@@ -10,6 +10,7 @@
         android:id="@+id/camera_jpg"
         android:layout_width="340dip"
         android:layout_height="280dip"
+        android:src="@drawable/greenhouse_selected"
         	/>
 
     <TextView
@@ -17,9 +18,9 @@
         android:layout_marginLeft="10dip"
         android:layout_width="40dip"
         android:layout_height="25dip"
-        android:text="卧室"
+        android:text="大棚"
         android:layout_below="@id/camera_jpg"
-        android:layout_marginTop="-10dip"
+        android:layout_marginTop="10pt"
         android:textSize="20dip"/>
     <TextView
         android:id="@+id/room_tempTextview"

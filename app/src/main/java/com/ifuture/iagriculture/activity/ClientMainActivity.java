@@ -22,7 +22,9 @@ import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel.BottomPanelCallback;
 import com.ifuture.iagriculture.bottombar.Constant;
+import com.ifuture.iagriculture.bottombar.HeadControlPanel;
 import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentToalData;
 import com.ifuture.iagriculture.fragment.FragmentVideo;
 import com.ifuture.iagriculture.R;
 
@@ -66,14 +68,15 @@ import java.io.OutputStream;
  *    v2.10 2016/1/8 解决了手机待机导致程序崩溃BUG，解决了反复在登陆界面和控制界面切换导致控制界面显示出错BUG
  **/
 
-public class ClientMainActivity extends Activity implements BottomPanelCallback {
+public class ClientMainActivity extends Activity implements BottomPanelCallback, HeadControlPanel.HeadPanelCallback {
 	BottomBarPanel bottomPanel = null;
-	//HeadControlPanel headPanel = null;
+	HeadControlPanel headPanel = null;
 	
 	private FragmentManager fragmentManager = null;
 	private FragmentTransaction fragmentTransaction = null;
 	FragmentIHome fragmentIHome;
 	FragmentVideo fragmentVideo;
+	FragmentToalData fragmentToalData;
 
 	private String account;
 
@@ -220,7 +223,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 				{
 					videoHandler.sendMessage(msgMessage);
 				}
-				
+
 			}
 			/*更新温度信息*/
 			else if(typeString.equals("humi"))
@@ -324,8 +327,8 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 			}
 
 		}
-		
-		
+
+
 	}
 
 	/*
@@ -346,15 +349,17 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 			bottomPanel.initBottomPanel();
 			bottomPanel.setBottomCallback(this);
 		}
-		/*
+
 		headPanel = (HeadControlPanel)findViewById(R.id.head_layout);
 		if(headPanel != null){
 			headPanel.initHeadPanel();
+			headPanel.setHeadCallback(this);
 		}
-		*/
+
 	}
 
-	/** 处理BottomControlPanel的回调
+	/**
+	 * 处理BottomControlPanel的回调
 	 */
 	@Override
 	public void onBottomPanelClick(int itemId) {
@@ -370,7 +375,24 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 			tag = Constant.FRAGMENT_FLAG_CSERVICE;
 		}
 		setTabSelection(tag); //切换Fragment
-		//headPanel.setMiddleTitle(tag);//切换标题 
+		headPanel.setMiddleTitle(tag);//切换标题
+	}
+
+	/**
+	 * @Function: public void onHeadPanelClick(int itemId)
+	 * @Description: 处理HeadControlPanel的回调
+	 * @param itemId 获取的ID用于标示是总结的数据还是详细数据
+	 */
+	@Override
+	public void onHeadPanelClick(int itemId) {
+		// TODO Auto-generated method stub
+		String tag = "";
+		if((itemId & Constant.BTN_FLAG_IHOME) != 0){  //为简略数据
+			tag = Constant.FRAGMENT_FLAG_IHOME;
+		}else if((itemId & Constant.BTN_FLAG_TOTAL_DATA) != 0){ //为详细数据
+			tag = Constant.FRAGMENT_FLAG_TOTAL_DATA;
+		}
+		setTabSelection(tag); //切换Fragment
 	}
 	
 	/**设置选中的Tag
@@ -404,6 +426,12 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 			if (fragmentVideo == null) {
 				fragmentVideo = new FragmentVideo();
 			} 
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){
+			//System.out.println("===================HeadPanelClick=====================");
+			if (fragmentToalData == null) {
+				fragmentToalData = new FragmentToalData();
+			}
 		}
 		else
 		{
@@ -449,15 +477,15 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback 
 		attachFragment(R.id.main_window, getFragment(tag), tag);
 		commitTransactions(tag);
 	}
-	/**
-	 *  隐藏当前的Fragment
-	 **/
-	private void hideFragment(Fragment f){
-		if(f != null && !f.isHidden()){
-			ensureTransaction();
-			fragmentTransaction.hide(f);
-		}
-	}
+//	/**
+//	 *  隐藏当前的Fragment
+//	 **/
+//	private void hideFragment(Fragment f){
+//		if(f != null && !f.isHidden()){
+//			ensureTransaction();
+//			fragmentTransaction.hide(f);
+//		}
+//	}
 	
 	private void attachFragment(int layout, Fragment f, String tag){
 		if(f != null){

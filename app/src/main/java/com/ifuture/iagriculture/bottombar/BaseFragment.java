@@ -14,8 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentToalData;
 import com.ifuture.iagriculture.fragment.FragmentVideo;
 
+/**
+ * 	@Description: Fragment父类
+ *  @新增Fragment方法:
+ *  	1.  创建新Fragment，继承Basement。
+ *  	2.  创建新Fragment的布局文件xml
+ *  	3.  BaseFragment的方法newInstance中，增加新Fragment
+ * 		4.  ClientMainActivity中方法setTabSelection增加相应语句
+ */
 
 public class BaseFragment extends Fragment {
 	private static final String TAG = "BaseFragment";
@@ -94,7 +103,13 @@ public class BaseFragment extends Fragment {
 		Log.i(TAG, "onDestroy...");
 		super.onDestroy();
 	}
-	
+
+	/**
+	 * newInstance
+	 * @param context
+	 * @param tag 表明是什么Fragment
+	 * @return 返回获得的Fragment，如FragmentVideo
+	 */
 	public static BaseFragment newInstance(Context context,String tag){
 		BaseFragment baseFragment =  null;
 		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IHOME)){
@@ -102,6 +117,9 @@ public class BaseFragment extends Fragment {
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_VIDEO)){//视频
 			baseFragment = new FragmentVideo();
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){//视频
+			baseFragment = new FragmentToalData();
 		}
 		/*
 		}else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_NEWS)){

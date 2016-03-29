@@ -22,10 +22,7 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
     private int DEFALUT_BACKGROUND_COLOR = Color.rgb(243, 243, 243); //Color.rgb(192, 192, 192)  
     private BottomPanelCallback mBottomCallback = null;  
     private List<ImageText> viewList = new ArrayList<ImageText>();  
-  
-    public interface BottomPanelCallback{  
-        public void onBottomPanelClick(int itemId);  
-    }  
+
     public BottomBarPanel(Context context, AttributeSet attrs) {  
         super(context, attrs);  
         // TODO Auto-generated constructor stub  
@@ -62,19 +59,39 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
 			mSettingBtn.setText(Constant.FRAGMENT_TEXT_CSERVICE);
 		}
 		setBtnListener();
-	} 
-    private void setBtnListener(){  
-        int num = this.getChildCount();  
-        for(int i = 0; i < num; i++){  
-            View v = getChildAt(i);  
-            if(v != null){  
-                v.setOnClickListener(this);  
-            }  
-        }  
-    }  
+	}
+    /**
+     *  @Description:
+     *      给按键设置监听器
+     **/
+    private void setBtnListener(){
+        int num = this.getChildCount();
+        for(int i = 0; i < num; i++){
+            View v = getChildAt(i);
+            if(v != null){
+                v.setOnClickListener(this);
+            }
+        }
+    }
+    /**
+     *  @Description:
+     *      用于ClientMainActivity调用setBottomCallback(this)绑定回调函数
+     *      ClientMainActivity实现了回调函数BottomPanelCallback
+     **/
     public void setBottomCallback(BottomPanelCallback bottomCallback){  
         mBottomCallback = bottomCallback;  
-    }  
+    }
+    /**
+     *  @Description: 回调函数接口
+     *  @callBy: ClientMainActivity
+     **/
+    public interface BottomPanelCallback{
+        public void onBottomPanelClick(int itemId);
+    }
+
+    /**
+     *  @Description: 继承OnClickListener,用于设置底层切换栏的按键监听
+     **/
     @Override  
     public void onClick(View v) {  
         // TODO Auto-generated method stub  
@@ -102,7 +119,11 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
         if(mBottomCallback != null){  
             mBottomCallback.onBottomPanelClick(index);  
         }  
-    }  
+    }
+
+    /**
+     *  @Description: 设置默认按下按键为IHome键
+     **/
     public void defaultBtnChecked(){  
         if(mMsgBtn != null){  
             mMsgBtn.setChecked(Constant.BTN_FLAG_IHOME);  

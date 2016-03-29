@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.ifuture.iagriculture.activity.ClientActivity;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.Instruction.Instruction;
-import com.ifuture.iagriculture.activity.StatisticsActivity;
+//import com.ifuture.iagriculture.activity.StatisticsActivity;
 import com.ifuture.iagriculture.bottombar.*;
 import com.ifuture.iagriculture.R;
 
@@ -84,8 +84,8 @@ public class FragmentIHome extends BaseFragment{
 		public void onClick(View v) {
 			Intent tempIntent = new Intent();
 
-			tempIntent.setClass(getActivity(), StatisticsActivity.class);
-			getActivity().startActivity(tempIntent);
+			//tempIntent.setClass(getActivity(), StatisticsActivity.class);
+			//getActivity().startActivity(tempIntent);
 		}
 	}
 
