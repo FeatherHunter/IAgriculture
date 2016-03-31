@@ -50,7 +50,7 @@ public class Instruction {
     public static final char CTL_VIDEO      = 24; //控制-视频
     public static final char RES_LOGIN      = 'L'; //结果-登录
     public static final char RES_LAMP       = 33; //结果-灯
-    public static final char RES_TEMP       = 34; //结果-温度
+    public static final char RES_TEMP       = 'P'; //结果-温度
     public static final char RES_HUMI       = 35; //结果-湿度
     public static final char RES_IHome      = 36; //结果-IHome
     public static final char RES_VIDEO      = 37; //结果-视频

@@ -82,12 +82,14 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:id="@+id/igreen_fragment_catemp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="16.1℃"
                 android:gravity="center"/>
             <TextView
+                android:id="@+id/igreen_fragment_cahumi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -97,134 +99,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_statics"
-        android:layout_width="35pt"
-        android:layout_height="10pt"
-        android:text="详细数据"
-        android:textColor="@color/white"
-        android:textSize="8pt"
-        android:layout_alignParentRight="true"
-        android:background="@color/dodgerblue"/>
-
-<!--
-    <Button
-        android:id="@+id/bedroom_tempControl"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_toRightOf="@id/bedroom_tempUnit"
-        android:layout_marginTop="1dip"
-        android:layout_below="@id/bedroom"
-        android:layout_marginLeft="19dip"
-        android:text="空调遥控器"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="18dip"/>
-
-     <Button
-        android:id="@+id/bedroom_humiControl"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_toRightOf="@id/bedroom_humiUnit"
-
-        android:layout_below="@id/bedroom_tempValue"
-        android:layout_marginLeft="19dip"
-        android:text="加湿器"
-        android:textColor="@color/text_color_default"
-        android:background="@drawable/button_ctrl_selector"
-        android:textSize="18dip"/>
-
-    <Button
-        android:id="@+id/bedroom_led1_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_humiTextview"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="台灯1"
-        />
-    <Button
-        android:id="@+id/bedroom_led2_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_humiTextview"
-        android:layout_toRightOf="@id/bedroom_led1_button"
-        android:layout_marginLeft="-1dip"
-        android:layout_marginTop="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="吊灯"
-        />
-    <Button
-        android:id="@+id/bedroom_led3_button"
-        android:layout_weight="1"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_humiTextview"
-        android:layout_marginLeft="-1dip"
-        android:layout_marginTop="-1dip"
-        android:layout_toRightOf="@id/bedroom_led2_button"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="台灯2"
-        />
-    <Button
-        android:id="@+id/bedroom_win1_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_led1_button"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="窗户1"
-        />
-    <Button
-        android:id="@+id/bedroom_win2_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_led1_button"
-        android:layout_marginLeft="-1dip"
-        android:layout_marginTop="-1dip"
-        android:layout_toRightOf="@id/bedroom_win1_button"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="窗户2"
-        />
-
-    <Button
-        android:id="@+id/bedroom_door_button"
-        android:layout_weight="1"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/bedroom_led1_button"
-        android:layout_toRightOf="@id/bedroom_win2_button"
-        android:layout_marginTop="-1dip"
-        android:layout_marginLeft="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="门"
-        />
-
-     -->
 
     <TextView
         android:id="@+id/ground_text"
@@ -355,12 +229,14 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <TextView
+                android:id="@+id/igreen_fragment_cgtemp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="14.1℃"
                 android:gravity="center"/>
             <TextView
+                android:id="@+id/igreen_fragment_cghumi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -371,64 +247,4 @@
 
     </LinearLayout>
 
-<!--
-    <Button
-        android:id="@+id/kitchen_win1_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/kitchen_smokeTextView"
-        android:layout_marginLeft="15dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="窗户1"
-        />
-    <Button
-        android:id="@+id/kitchen_win2_button"
-        android:layout_weight="1"
-        android:layout_width="110dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/kitchen_smokeTextView"
-        android:layout_toRightOf="@id/kitchen_win1_button"
-        android:layout_marginLeft="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="窗户2"
-        />
-
-    <Button
-        android:id="@+id/kitchen_door_button"
-        android:layout_weight="1"
-        android:layout_width="120dip"
-        android:layout_height="40dip"
-        android:layout_below="@id/kitchen_smokeTextView"
-        android:layout_toRightOf="@id/kitchen_win2_button"
-        android:layout_marginLeft="-1dip"
-        android:background="@drawable/button_ctrl_selector"
-        android:gravity="center"
-        android:textSize="15dip"
-        android:textColor="@color/text_color_default"
-        android:text="门"
-        />
-
-    <Button
-           android:id="@+id/ihome_button"
-           android:layout_width="140dp"
-           android:layout_height="140dp"
-           android:layout_centerHorizontal="true"
-           android:background="@drawable/ihome_button_selector"
-           android:padding="20dp"
-           android:layout_marginTop="400dip"
-           android:text="IHome"
-           android:textColor="#bfbfbf"
-           android:textSize="30dp"
-           android:visibility="visible" />
-
-    -->
- 
-    
 </RelativeLayout>

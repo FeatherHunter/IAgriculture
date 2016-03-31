@@ -176,12 +176,14 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
                         <TextView
+                            android:id="@+id/td_fragment_cghumi"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="46%"
                             android:gravity="center"/>
                         <TextView
+                            android:id="@+id/td_fragment_cahumi"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"

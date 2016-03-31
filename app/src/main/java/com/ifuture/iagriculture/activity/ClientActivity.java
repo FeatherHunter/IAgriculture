@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -59,6 +60,7 @@ public class ClientActivity extends Activity {
 	private String accountString;     //账户
 	private String passwordString;    //密码
 	private Boolean isAuthed = false;
+	private Boolean isDealLoginError = false;
 	private String AUTH_ACTION = "android.intent.action.ANSWER";
 	
 	private Handler handler = new Handler();
@@ -73,7 +75,7 @@ public class ClientActivity extends Activity {
 
 	private TextView icon_text = null;
 	//IHomeService.ServiceBinder serviceBinder;//IHomeService中的binder
-	
+	SharedPreferences apSharedPreferences = null; //用于保存和获取账号和密码
 	/**
 	 *  @Function:void onCreate
 	 *  @author:Feather Hunter
@@ -96,10 +98,17 @@ public class ClientActivity extends Activity {
 		
 		logoImageView = (ImageView)findViewById(R.id.icar_logo);
 		icon_text = (TextView)findViewById(R.id.igreens_name);
+		/* *
+		 *  设置产品logo文字的字体以及加粗
+		 * */
 		Typeface type = Typeface.createFromAsset(getAssets(), "kaiti.ttf");
-		icon_text.setTypeface(type);
+		icon_text.setTypeface(type); //设置字体
 		icon_text.setText("爱绿");
-		icon_text.getPaint().setFakeBoldText(true);
+		icon_text.getPaint().setFakeBoldText(true);//加粗
+
+		/* *
+		 *  获取登录等按键
+		 * */
 		client_account = (EditText) findViewById(R.id.client_account);
 		client_password = (EditText) findViewById(R.id.client_password);
 		client_login = (Button) findViewById(R.id.client_login);
@@ -107,21 +116,35 @@ public class ClientActivity extends Activity {
 		client_login.setOnClickListener(new LoginButtonListener());
 		client_bluetooth.setOnClickListener(new BluetoothButtonListener());
 
+		/* -------------------------------------------------------
+		 *  打开wifi的请求
+		 * -------------------------------------------------------*/
 		wifiManager = (WifiManager) ClientActivity.this.getSystemService(Service.WIFI_SERVICE);
 		if(wifiManager.getWifiState() != WifiManager.WIFI_STATE_ENABLED)//wifi没有打开
 		{
-			wifiManager.setWifiEnabled(true);
+			wifiManager.setWifiEnabled(true);//打开wifi
 		}
-		toast = Toast.makeText(getApplicationContext(), "tip:和终端在同一WIFI内不消耗您的流量", Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.TOP, 0, 0);
+		toast = Toast.makeText(getApplicationContext(), "tip:和终端在同一WIFI内不消耗流量", Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.TOP, 0, 0);//toast显示在上方
 		toast.show();
-		//Toast.makeText(ClientActivity.this, "tip:和终端在同一WIFI内不消耗您的流量", Toast.LENGTH_LONG).show();
-		/* connect server */
+
+		/* -------------------------------------------------------
+		 *  通过SharedPreferences获取保存的账号和密码
+		 * -------------------------------------------------------*/
+		apSharedPreferences = getSharedPreferences("saved", Activity.MODE_PRIVATE);
+		accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
+		passwordString = apSharedPreferences.getString("password", "");
+		/*设置账号密码*/
+		client_account.setText(accountString);
+		client_password.setText(passwordString);
+
+		/* -------------------------------------------------------
+		 *  准备"正在登陆..."的提示框
+		 * -------------------------------------------------------*/
 		dialog = new ProgressDialog(this);
 		dialog.setTitle("提示");
 		dialog.setMessage("正在登录中...");
 		dialog.setCancelable(false);
-
 	}
     /**
 	 *  @Class:LoginButtonListener
@@ -133,18 +156,19 @@ public class ClientActivity extends Activity {
 	 */
     class LoginButtonListener implements OnClickListener
     {
-
     	public void onClick(View v) {
     		// TODO Auto-generated method stub
     		accountString = client_account.getText().toString();
     		passwordString = client_password.getText().toString();
 
+			/* *
+		 	 *  检查是否输入账号和密码
+		 	 * */
 			if(accountString.equals("") || passwordString.equals(""))
 			{
 				Toast.makeText(ClientActivity.this,"请输入账户/密码", Toast.LENGTH_SHORT).show();
 				return;
 			}
-
     		/*动态注册receiver*/
     		authReceiver = new AuthReceiver();
     		IntentFilter filter = new IntentFilter();
@@ -157,23 +181,32 @@ public class ClientActivity extends Activity {
     		serviceIntent.putExtra("account", accountString);
     		serviceIntent.putExtra("password", passwordString);
     		serviceIntent.setClass(ClientActivity.this, IHomeService.class);
+
     		//bindService(serviceIntent, connection, BIND_AUTO_CREATE); //绑定service,并且自动创建service
     		startService(serviceIntent); //开启服务
     		dialog.show(); //显示登陆进度条
-//    		/*超时处理*/
-//    		Thread thread = new Thread(loginOvertimeRunnable);
-//    		thread.start();
+    		/*超时处理*/
+    		Thread thread = new Thread(loginOvertimeRunnable);
+    		thread.start();
     	}	
     }
-    
+
+	/**
+	 *  @Class: BluetoothButtonListener
+	 *  @author: 王辰浩
+	 *  @Description: 用于直接进入测试模式，不连接服务器。
+	 */
     class BluetoothButtonListener implements OnClickListener
     {
-
     	public void onClick(View v) {
-			Intent intent = new Intent();
+			accountString = client_account.getText().toString();
+			passwordString = client_password.getText().toString();
 
-			intent.putExtra("mode", 2);//选择模式：2为蓝牙模式
-			intent.putExtra("account", "");
+//			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+//			editor.putString("account", accountString);
+//			editor.putString("password", passwordString);//提交当前数据
+//			editor.commit();
+			Intent intent = new Intent();
 			intent.setClass(ClientActivity.this, ClientMainActivity.class);
 			ClientActivity.this.startActivity(intent);
     	}	
@@ -189,29 +222,39 @@ public class ClientActivity extends Activity {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
+			isDealLoginError = false;  //没有处理过错误
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(7000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(isAuthed == false)
-			{
+			/* *******************************************************
+		 	 *  一定时间后 没有认证成功&&没有处理登录错误：提示登录超时
+		 	 * *******************************************************/
+			if ((isAuthed == false) && (isDealLoginError == false)) {
+
 				dialog.dismiss();
 				handler.post(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
 						Toast.makeText(ClientActivity.this, "登陆超时", Toast.LENGTH_SHORT).show();
 						stopService();
 					}
-				});
-			}
-			
-		}
+				});//end of handler
+
+			}//end of if
+		}//end of run
 	};
 
+	/**
+	 *  @Function: private void stopService()
+	 *  @Description:
+	 *  	向后台Service发送停止所有线程的命令
+	 *      并且关闭Service
+	 */
 	private void stopService()
 	{
 		serviceIntent = new Intent();
@@ -237,100 +280,69 @@ public class ClientActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 				String resultString = intent.getStringExtra("result");
-			    if(resultString.equals("car"))
-				{
-					if(intent.getStringExtra("car").equals("success"))
-					{
-						if(firstSwitch == false) return;
-						firstSwitch = false;
+			  /* -------------------------------------------------------
+		 	   *  处理Service返回的登录结果信息
+		 	   * -------------------------------------------------------*/
+			  if(resultString != null)
+			  {
+				  if(resultString.equals("res_login"))
+				  {
+					  if(intent.getStringExtra("res_login").equals("success"))
+					  {
+						  if(firstSwitch == false) return;
+						  firstSwitch = false;
+
+						/* -------------------------------------------------------
+		 	   			 *  登陆成功保存账号和密码
+		 	   			 * -------------------------------------------------------*/
+//						apSharedPreferences = getSharedPreferences("saved",
+//								Activity.MODE_PRIVATE);//实例化SharedPreferences.Editor对象（第二步）
+						  SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+						  editor.putString("account", accountString);
+						  editor.putString("password", passwordString);//提交当前数据
+						  editor.commit();
+
 						/*切换到主控界面*/
-						Intent tempIntent = new Intent();
+						  Intent tempIntent = new Intent();
 
-						tempIntent.putExtra("mode", 1);//选择模式：2为蓝牙模式
-						tempIntent.putExtra("account", "");
-						tempIntent.setClass(ClientActivity.this, ClientMainActivity.class);
-						ClientActivity.this.startActivity(tempIntent);
+						  tempIntent.putExtra("mode", 1);//选择模式：2为蓝牙模式
+						  tempIntent.putExtra("account", "");
+						  tempIntent.setClass(ClientActivity.this, ClientMainActivity.class);
+						  ClientActivity.this.startActivity(tempIntent);
 
-						isAuthed = true;
-						failed_conter = 0; //清除失败显示计数器
+						  isAuthed = true;
+						  failed_conter = 0; //清除失败显示计数器
 
-						dialog.dismiss(); //登陆成功，解除进度条
-					}
-					else if(intent.getStringExtra("car").equals("failed"))
-					{
-						Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
-						dialog.dismiss(); //登陆成功，解除进度条
-					}
-					else if(intent.getStringExtra("car").equals("connect error"))
-					{
-						firstSwitch = true;
-						stopService();//结束服务
-						Toast.makeText(ClientActivity.this, "连接服务器失败:请检查网络或服务器正在维护", Toast.LENGTH_SHORT).show();
-						dialog.dismiss(); //登陆成功，解除进度条
-					}
-				}
-				else if(resultString.equals("server"))
-				{
-					if(intent.getStringExtra("server").equals("success"))
-					{
-						if(firstSwitch == false) return;
-						firstSwitch = false;
-						/*切换到主控界面*/
-			    		Intent intentMain = new Intent();
-						
-			    		intentMain.putExtra("mode", 1);//选择模式：1为server Mode
-			    		intentMain.putExtra("account", client_account.getText().toString());
-			    		intentMain.setClass(ClientActivity.this, ClientMainActivity.class);
-			            ClientActivity.this.startActivity(intentMain);
-			            isAuthed = true;
-			            failed_conter = 0; //清除失败显示计数器
-						
-					}else{
-						if(failed_conter == 0)
-						{
-							Toast.makeText(ClientActivity.this, "连接服务器失败,点击help获得帮助", Toast.LENGTH_SHORT).show();
-						}
-						failed_conter++;
-						if(failed_conter == 10) failed_conter = 0;
-					}
-
-					dialog.dismiss(); //登陆成功，解除进度条
-				}
-				else if (resultString.equals("center")){
-					
-					if(intent.getStringExtra("center").equals("success"))
-					{
-						if(firstSwitch == false) return;
-						firstSwitch = false;
-						/*切换到主控界面*/
-			    		Intent intentMain = new Intent();
-						
-			    		intentMain.putExtra("mode", 2);//选择模式：1为server Mode
-			    		intentMain.putExtra("account", client_account.getText().toString());
-			    		intentMain.setClass(ClientActivity.this, ClientMainActivity.class);
-			            ClientActivity.this.startActivity(intentMain);
-			            isAuthed = true;
-			            failed_conter = 0; //清除失败显示计数器
-						
-					}else{
-						if(failed_conter == 0)
-						{
-							Toast.makeText(ClientActivity.this, "连接Center失败,点击help获得帮助", Toast.LENGTH_SHORT).show();
-						}
-						failed_conter++;
-						if(failed_conter == 10) failed_conter = 0;
-					}
-					dialog.dismiss(); //登陆失败，解除进度条
-
-				}
-				else if(resultString.equals("relogin"))
-				{
+						  dialog.dismiss(); //登陆成功，解除进度条
+					  }
+					  else if(intent.getStringExtra("res_login").equals("failed"))
+					  {
+						  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+						  Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
+						  dialog.dismiss(); //解除进度条
+					  }
+					  else if(intent.getStringExtra("res_login").equals("connect error"))
+					  {
+						  firstSwitch = true;
+						  stopService();//结束服务
+						  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+						  Toast.makeText(ClientActivity.this, "连接服务器失败:请检查网络或服务器正在维护", Toast.LENGTH_SHORT).show();
+						  dialog.dismiss(); //解除进度条
+					  }
+				  }
+				/* -------------------------------------------------------
+		 	   	 *  准备进行重新登录，结束Service
+		 	   	 * -------------------------------------------------------*/
+				  else if(resultString.equals("relogin"))
+				  {
 					/*要开始重新登录*/
-					System.out.println("relogin");
-					firstSwitch = true;
-					stopService();//结束服务
-				}
-		}
+					  System.out.println("relogin");
+					  firstSwitch = true;
+					  stopService();//结束服务
+				  }
+			  }//if result = null
+
+		}//end of onReceive
 	}
 
 	
@@ -349,6 +361,12 @@ public class ClientActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	/**
+	 *  @Function: protected void onDestroy()
+	 *  @Description:
+	 *  	销毁activity时，接触广播接收器的注册，并且停止后台Service
+	 */
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -363,8 +381,5 @@ public class ClientActivity extends Activity {
 		stopService(serviceIntent);
 		//unbindService(connection);//解除绑定
 	}
-    
-    
-    
-}
 
+}

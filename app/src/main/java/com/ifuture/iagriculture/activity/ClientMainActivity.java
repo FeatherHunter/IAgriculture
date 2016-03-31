@@ -78,12 +78,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 	FragmentVideo fragmentVideo;
 	FragmentToalData fragmentToalData;
 
-	private String account;
-
-	private OutputStream outputStream;
-	private InputStream inputStream;
 	private boolean isConnected = false;
-	char seperator = (char) 31;//31单元分隔符
 	private ContrlReceiver contrlReceiver;
 	private String CONTRL_ACTION = "android.intent.action.EDIT";
 	
@@ -128,18 +123,18 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		fragmentManager = getFragmentManager();
 		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IHOME);
 
-		Intent intent = getIntent();
-		int mode = intent.getIntExtra("mode", 2); //得到模式信息，默认为蓝牙模式2
-		if(mode == 1)//ethnet模式
-		{
-			Toast.makeText(this, "进入网络模式", Toast.LENGTH_SHORT).show();
-			isConnected = true; //连接成功
-
-		}
-		else if(mode == 2)//当前处于内网连接控制中心模式
-		{
-			Toast.makeText(this, "进入内网模式", Toast.LENGTH_SHORT).show();
-		}
+//		Intent intent = getIntent();
+//		int mode = intent.getIntExtra("mode", 2); //得到模式信息，默认为蓝牙模式2
+//		if(mode == 1)//ethnet模式
+//		{
+//			Toast.makeText(this, "进入网络模式", Toast.LENGTH_SHORT).show();
+//			isConnected = true; //连接成功
+//
+//		}
+//		else if(mode == 2)//当前处于内网连接控制中心模式
+//		{
+//			Toast.makeText(this, "进入内网模式", Toast.LENGTH_SHORT).show();
+//		}
 		try {
 			/*动态注册receiver*/
 			contrlReceiver = new ContrlReceiver();
@@ -442,7 +437,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 			intent.setAction(intent.ACTION_MAIN);
 			this.sendBroadcast(intent);
 		}
-/*
+        /*
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_NEWS)){
 			if (newsFragment == null) {
 				newsFragment = new NewsFragment();

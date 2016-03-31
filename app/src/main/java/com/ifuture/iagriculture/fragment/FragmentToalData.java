@@ -1,6 +1,10 @@
 package com.ifuture.iagriculture.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -37,6 +41,13 @@ import java.util.ArrayList;
 public class FragmentToalData extends BaseFragment{
 
 	ClientMainActivity mainActivity;
+
+	private RecvReceiver recvReceiver;
+	private String RECV_ACTION = "android.intent.action.ANSWER";
+	TextView tempCATextview;//C当前温度 for air空气
+	TextView tempCGTextview;//C当前温度 for air
+	TextView humiCATextview;//C当前湿度 for ground 土壤
+	TextView humiCGTextview;//C当前湿度 for ground
 
 	private LineChart tempLineChart;
 	private LineChart humiLineChart;
@@ -108,6 +119,11 @@ public class FragmentToalData extends BaseFragment{
 		palegreen       = ContextCompat.getColor(getActivity(), R.color.palegreen);
 		rosybrown       = ContextCompat.getColor(getActivity(), R.color.rosybrown);
 
+		//tempCATextview = (TextView) getActivity().findViewById(R.id.td_fragment_catemp);//C当前温度 for air空气
+		tempCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cahumi);//C当前温度 for air
+		//humiCATextview = (TextView) getActivity().findViewById(R.id.td_fragment_cgtemp);//C当前湿度 for ground 土壤
+		humiCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cghumi);//C当前湿度 for ground
+
 		tempLineChart  = (LineChart) getActivity().findViewById(R.id.temp_line_chart);
 		humiLineChart  = (LineChart) getActivity().findViewById(R.id.humi_line_chart);
 		nutritionChart = (PieChart) getActivity().findViewById(R.id.nutrition_pie_chart); //获取营养物质饼状图
@@ -120,6 +136,19 @@ public class FragmentToalData extends BaseFragment{
 
 		tempDayButton.setOnClickListener(new tempDayOrWeekButtonListener());
 		tempWeekButton.setOnClickListener(new tempDayOrWeekButtonListener());
+
+		/* -------------------------------------------------------
+		 *  动态注册receiver
+		 * -------------------------------------------------------*/
+		try {
+			recvReceiver = new RecvReceiver();
+			IntentFilter filter = new IntentFilter();
+			filter.addAction(RECV_ACTION);
+			getActivity().registerReceiver(recvReceiver, filter);//注册
+		} catch (IllegalArgumentException  e) {
+			// TODO: handle exception
+			System.out.println("fragmentIHome registerReceiver");
+		}
 
 
 	}
@@ -613,6 +642,35 @@ public class FragmentToalData extends BaseFragment{
 
 		}
 		return pieData;
+	}
+
+	/**
+	 * @Function: private class ContrlReceiver extends BroadcastReceiver
+	 * @Description:
+	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
+	 **/
+	private class RecvReceiver extends BroadcastReceiver {
+
+		public RecvReceiver() {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String typeString = intent.getStringExtra("update");
+			if(typeString != null)
+			{
+				if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
+				{
+					String tempString = intent.getStringExtra("temp");
+					//tempCATextview.setText(tempString+"℃");
+					//tempCGTextview.setText(tempString+"℃");
+				}
+			}
+
+		}//onReceive
+
+
 	}
 	
 	

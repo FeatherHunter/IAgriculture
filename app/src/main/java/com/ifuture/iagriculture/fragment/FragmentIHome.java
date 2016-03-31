@@ -1,7 +1,11 @@
 package com.ifuture.iagriculture.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifuture.iagriculture.activity.ClientActivity;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
@@ -38,6 +43,15 @@ import java.io.UnsupportedEncodingException;
 public class FragmentIHome extends BaseFragment{
 
 	ClientMainActivity mainActivity;
+	private RecvReceiver recvReceiver;
+	private String RECV_ACTION = "android.intent.action.ANSWER";
+	TextView tempCATextview;//C当前温度 for air空气
+	TextView tempCGTextview;//C当前温度 for air
+	TextView humiCATextview;//C当前湿度 for ground 土壤
+	TextView humiCGTextview;//C当前湿度 for ground
+
+	SharedPreferences apSharedPreferences = null;
+
 	Button balcony_win1, balcony_win2, balcony_win3, balcony_win4;
 	TextView weather_value;
 
@@ -67,15 +81,33 @@ public class FragmentIHome extends BaseFragment{
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+
+		/* -------------------------------------------------------
+		 *  动态注册receiver
+		 * -------------------------------------------------------*/
+		try {
+			recvReceiver = new RecvReceiver();
+			IntentFilter filter = new IntentFilter();
+			filter.addAction(RECV_ACTION);
+			getActivity().registerReceiver(recvReceiver, filter);//注册
+		} catch (IllegalArgumentException  e) {
+			// TODO: handle exception
+			System.out.println("fragmentIHome registerReceiver");
+		}
 		/*要在onCreateView之后得到空间才是有效的*/
 		//bedroom_tempValue = (TextView) getActivity().findViewById(R.id.bedroom_tempValue);
 		//bedroom_humiValue = (TextView) getActivity().findViewById(R.id.bedroom_humiValue);
-		/*demo*/
-		staticsButton = (Button) getActivity().findViewById(R.id.button_statics);
+		tempCATextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_catemp);//C当前温度 for air空气
+		tempCGTextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cahumi);//C当前温度 for air
+		humiCATextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cgtemp);//C当前湿度 for ground 土壤
+		humiCGTextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cghumi);//C当前湿度 for ground
 
-		/*set demo listenner*/
-		staticsButton.setOnClickListener(new staticsButtonListenner());
-
+		/* -------------------------------------------------------
+	     *  通过SharedPreferences获取当前温度等数据
+		 * -------------------------------------------------------*/
+		apSharedPreferences = getActivity().getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
+		tempCATextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
+		tempCGTextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
 	}
 
 	class staticsButtonListenner implements OnClickListener{
@@ -95,6 +127,34 @@ public class FragmentIHome extends BaseFragment{
 		super.onAttach(activity);
 		mainActivity = (ClientMainActivity) activity;
 		mainActivity.setIHomeHandler(ihomeHandler);
+	}
+
+	/**
+	 * @Function: private class ContrlReceiver extends BroadcastReceiver
+	 * @Description:
+	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
+	 **/
+	private class RecvReceiver extends BroadcastReceiver {
+
+		public RecvReceiver() {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String typeString = intent.getStringExtra("update");
+			if(typeString != null)
+			{
+				if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
+				{
+					String tempString = intent.getStringExtra("temp");
+					tempCATextview.setText(tempString+"℃");
+					tempCGTextview.setText(tempString+"℃");
+				}
+			}
+		}//onReceive
+
+
 	}
 	/**
 	 *  处理Activity传递来的信息

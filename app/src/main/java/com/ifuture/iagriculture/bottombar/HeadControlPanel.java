@@ -63,6 +63,8 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
             mRightTitle.setVisibility(View.VISIBLE);
             mRightTitle.setText(s);
             mRightTitle.setTextSize(right_title_size);
+            leftButton.setChecked(true);
+
         }
         else if(s.equals(Constant.FRAGMENT_FLAG_CONTRL) )
         {
