@@ -1,24 +1,20 @@
 package com.ifuture.iagriculture.fragment;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,17 +26,52 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.ifuture.iagriculture.Calendar.TodayTime;
 import com.ifuture.iagriculture.LineChartShow;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
+import com.ifuture.iagriculture.bottombar.Constant;
+import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+/**
+ * @CopyRight: 王辰浩 2016~2026
+ * @Author Feather Hunter(猎羽)
+ * @qq: 975559549
+ * @Version: 1.0
+ * @Date: 2016/4/1
+ * @Description:
+ * 		  在大棚界面通过“详细数据”按钮进入的fragment，用于显示该大棚的详细数据。
+ *
+ * 		  该界面有如下几个功能：
+ * 		     1. 显示本日或者本周的温度和湿度线型图
+ * 		     2. 显示土壤和空气营养元素含量的饼状图
+ *
+ * @Thanks-Philipp	  该fragment的线型图和饼状图采用开源图表库MPAndroidChart，感谢Philipp Jahoda的贡献。
+ *
+ * @Function List:
+ *      1. public void onStart() //1.创建数据库 2.获取各种颜色 3.显示图表和设置各个图表相关监听器 4.设置广播接收器
+ *      2. class tempDayOrWeekButtonListener() //温度表的“日”和“周”切换按键
+ *      3. showNutrition()  //显示营养元素成分
+ *      4. showTodayHumi()  //显示今天湿度
+ *      5. showTodayTemp()  //显示今天温度
+ *      6. showWeekTemp()   //显示一周温度
+ *      7. void commitTransactions
+ *      8. void setDefaultFirstFragment
+ *      9. FragmentTransaction ensureTransaction
+ *      10.Fragment getFragment
+ *      11.void detachFragment(Fragment f)
+ *      12.void setHandler(Handler handler); //用于和FragmentIHome通信
+ *      13.public boolean onKeyDown(int keyCode, KeyEvent event); //用于处理返回键等按下后的时间
+ * @history:
+ *    v1.0 完成温度和线型图和后台数据库的链接，能够通过数据正确的显示相应数据。
+ **/
 public class FragmentToalData extends BaseFragment{
 
-	ClientMainActivity mainActivity;
+	DatabaseOperation databaseOperation = null;
 
 	private RecvReceiver recvReceiver;
 	private String RECV_ACTION = "android.intent.action.ANSWER";
@@ -48,6 +79,14 @@ public class FragmentToalData extends BaseFragment{
 	TextView tempCGTextview;//C当前温度 for air
 	TextView humiCATextview;//C当前湿度 for ground 土壤
 	TextView humiCGTextview;//C当前湿度 for ground
+
+	/* ---------------------------------------------------------------------
+	 *
+	 * ---------------------------------------------------------------------*/
+	private RadioGroup radioGroupTempDayWeek;
+	private RadioButton tempDayButton;
+	private RadioButton tempWeekButton;
+
 
 	private LineChart tempLineChart;
 	private LineChart humiLineChart;
@@ -64,13 +103,6 @@ public class FragmentToalData extends BaseFragment{
 	float ydayGHumi[]   = {40f, 40.3f, 41f, 42f, 40.3f, 41.1f, 40.3f, 42f,  41.7f, 41.5f, 41.2f, 40.9f, 40.8f, 40.5f, 41.7f, 40.1f, 40f, 41.0f, 42.5f, 43f, 42.7f, 41.3f, 41f, 41.5f};
 	float todayAHumi[]  = {31f, 31.3f, 32f, 32f, 33.3f, 33.1f, 33.3f, 34f,  34.7f, 34.5f, 34.2f, 34.9f, 34.8f, 34.5f, 34.7f, 34.1f, 35f, 35.0f, 35.5f, 34f, 35.7f, 35f, 35f, 35.9f};
 	float ydayAHumi[]   = {30f, 30.3f, 31f, 32f, 30.3f, 31.1f, 30.3f, 32f,  31.7f, 31.5f, 31.2f, 30.9f, 30.8f, 30.5f, 31.7f, 30.1f, 30f, 31.0f, 35.5f, 35f, 35f, 35.3f, 34f, 35.5f};
-
-//    float weekMaxHumi[] = {18f, 19.5f, 21.3f, 17.1f, 16f, 15.8f, 19.9f};
-//    float weekAvgHumi[] = {12.4f, 15.3f, 13.5f, 11.8f, 13.7f, 9.6f, 13.1f};
-//    float weekMinHumi[] = {3.4f, 5.3f, 2.1f, 6.7f, 2.9f, 2.3f, 6.3f};
-
-	Button tempDayButton = null; //当日温度的按钮
-	Button tempWeekButton = null;//一周温度的按钮
 
 	int darkred;
 	int slateblue;
@@ -94,13 +126,24 @@ public class FragmentToalData extends BaseFragment{
 		// TODO Auto-generated method stub
 		return inflater.inflate(R.layout.totaldata_fragment, container, false);
 	}
-	
-	
 
+	/**
+	 * @Function: public void onStart()
+	 * @Description: 功能如下：
+	 * 			1.创建数据库
+	 * 			2.获取各种颜色
+	 * 			3.显示图表和设置各个图表相关监听器
+	 * 			4.设置广播接收器
+	 */
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		databaseOperation = new DatabaseOperation();
+		databaseOperation.createDatabase(getActivity());//创建数据库
+
+		isDayButton = true;
+
 		/*要在onCreateView之后得到空间才是有效的*/
 		darkred         = ContextCompat.getColor(getActivity(), R.color.darkred);
 		slateblue       = ContextCompat.getColor(getActivity(), R.color.slateblue);
@@ -118,28 +161,32 @@ public class FragmentToalData extends BaseFragment{
 		indigo          = ContextCompat.getColor(getActivity(), R.color.indigo);
 		palegreen       = ContextCompat.getColor(getActivity(), R.color.palegreen);
 		rosybrown       = ContextCompat.getColor(getActivity(), R.color.rosybrown);
-
-		//tempCATextview = (TextView) getActivity().findViewById(R.id.td_fragment_catemp);//C当前温度 for air空气
-		tempCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cahumi);//C当前温度 for air
-		//humiCATextview = (TextView) getActivity().findViewById(R.id.td_fragment_cgtemp);//C当前湿度 for ground 土壤
-		humiCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cghumi);//C当前湿度 for ground
-
+		/*---------------------------------------------------------------------
+		 *  获取温度，湿度，营养元素的图表
+		 *---------------------------------------------------------------------*/
 		tempLineChart  = (LineChart) getActivity().findViewById(R.id.temp_line_chart);
 		humiLineChart  = (LineChart) getActivity().findViewById(R.id.humi_line_chart);
 		nutritionChart = (PieChart) getActivity().findViewById(R.id.nutrition_pie_chart); //获取营养物质饼状图
-		//      mTf = Typeface.createFromAsset(getAssets(), "OpenSans-Bold.ttf");
-		showDayTemp(); //显示温度
-		showDayHumi(); //显示湿度
+		showTodayTemp(); //显示温度
+		showTodayHumi(); //显示湿度
 		showNutrition(); //显示营养成分
-		tempDayButton = (Button)getActivity().findViewById(R.id.button_statics_temp_day);  //获取当日温度的控件
-		tempWeekButton = (Button)getActivity().findViewById(R.id.button_statics_temp_week);//获取本周温度的控件
 
-		tempDayButton.setOnClickListener(new tempDayOrWeekButtonListener());
-		tempWeekButton.setOnClickListener(new tempDayOrWeekButtonListener());
+		/*---------------------------------------------------------------------
+		 *  获取温度线型图相关控件的获取和日，周切换绑定监听器
+		 *---------------------------------------------------------------------*/
+		tempCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cahumi);//C当前温度 for air
+		humiCGTextview = (TextView) getActivity().findViewById(R.id.td_fragment_cghumi);//C当前湿度 for ground
+		//切换“日”与“周”的Button
+		radioGroupTempDayWeek = (RadioGroup) getActivity().findViewById(R.id.radiogroup_day_week);
+		tempDayButton = (RadioButton) getActivity().findViewById(R.id.rb_temp_day);
+		tempWeekButton = (RadioButton) getActivity().findViewById(R.id.rb_temp_week);
 
-		/* -------------------------------------------------------
-		 *  动态注册receiver
-		 * -------------------------------------------------------*/
+		radioGroupTempDayWeek.setOnCheckedChangeListener(new tempDayOrWeekButtonListener());
+		tempDayButton.setChecked(true);
+
+		/*----------------------------------------------------------------------
+		 *  动态注册receiver，用于接收数据变化的广播
+		 *----------------------------------------------------------------------*/
 		try {
 			recvReceiver = new RecvReceiver();
 			IntentFilter filter = new IntentFilter();
@@ -149,80 +196,140 @@ public class FragmentToalData extends BaseFragment{
 			// TODO: handle exception
 			System.out.println("fragmentIHome registerReceiver");
 		}
-
-
 	}
 
-	class tempDayOrWeekButtonListener implements View.OnClickListener
+	class tempDayOrWeekButtonListener implements RadioGroup.OnCheckedChangeListener
 	{
+
 		@Override
-		public void onClick(View v) {
-			if(v.getId() == R.id.button_statics_temp_day)  //当前为day按键
-			{
-				if(!isDayButton)//当前为一周温度，需要切换为当日温度
-				{
-					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
-
-					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
-
-					showDayTemp();
-					isDayButton = true;
-				}
-
-			}
-			else if(v.getId() == R.id.button_statics_temp_week) //当前为week按键
-			{
-				if(isDayButton)//当前为当日温度
-				{
-					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
-
-					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
-
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			int radioButtonId = group.getCheckedRadioButtonId();
+			System.out.println("ID:" + radioButtonId+" "+R.id.rb_temp_day+"/"+R.id.rb_temp_week);
+			switch(radioButtonId){
+				case R.id.rb_temp_day:
+					showTodayTemp();
+					break;
+				case R.id.rb_temp_week:
 					showWeekTemp();
-					isDayButton = false;
-				}
-
+					break;
+				default:break;
 			}
-		}//end of onClick
+		}
 	}
+//	/**
+//	 * @Class: tempDayOrWeekButtonListener
+//	 * @Description: 功能：温度图表切换的日和周的按键
+//	 */
+//	class tempDayOrWeekButtonListener implements View.OnClickListener
+//	{
+//		@Override
+//		public void onClick(View v) {
+//			if(v.getId() == R.id.button_statics_temp_day)  //当前为day按键
+//			{
+//				if(!isDayButton)//当前为一周温度，需要切换为当日温度
+//				{
+//					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+//					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
+//
+//					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+//					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+//
+//					showTodayTemp();
+//					isDayButton = true;
+//				}
+//
+//			}
+//			else if(v.getId() == R.id.button_statics_temp_week) //当前为week按键
+//			{
+//				if(isDayButton)//当前为当日温度
+//				{
+//					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+//					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
+//
+//					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
+//					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+//
+//					showWeekTemp();
+//					isDayButton = false;
+//				}
+//
+//			}
+//		}//end of onClick
+//	}
+	/**
+	 * @Function: private void showNutrition()
+	 * @Description: 显示营养元素的饼状图
+	 */
 	private void showNutrition()
 	{
 		PieData mPieData = getNutPieData(4, 100, "all");
 		showNutChart(nutritionChart, mPieData);
 	}
-	private void showDayHumi()
+
+	/**
+	 * @Function: private void showTodayHumi()
+	 * @Description: 显示今天湿度的折线图
+	 */
+	private void showTodayHumi()
 	{
-		LineData humiLineData = getHumiDayLineData(24);
-		LineChartShow lineChartShow = new LineChartShow(2000, "今日湿度");
+		LineData humiLineData = getTodayHumiLineData();
+		LineChartShow lineChartShow = new LineChartShow(500, "今日湿度");
 		showChart(humiLineChart, humiLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
-	private void showDayTemp()
+
+	/**
+	 * @Function: private void showTodayTemp()
+	 * @Description: 显示今天温度的折线图
+	 */
+	private void showTodayTemp()
 	{
-		LineData mLineData = getLineData(24);
-		LineChartShow lineChartShow = new LineChartShow(2000, "今日温度");
+		LineData mLineData = getTodayTempLineData(); //获取今天24小时内的温度
+		LineChartShow lineChartShow = new LineChartShow(500, "今日温度");
 		showChart(tempLineChart, mLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
+
+	/**
+	 * @Function: private void showTodayTemp()
+	 * @Description: 显示今天温度的折线图
+	 */
 	private void showWeekTemp()
 	{
-		LineData weekLineData = getWeekLineData();
-		LineChartShow lineChartShow = new LineChartShow(1000, "一周温度");
+		LineData weekLineData = getWeekTempLineData();
+		LineChartShow lineChartShow = new LineChartShow(500, "一周温度");
 		showChart(tempLineChart, weekLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
-	// 设置显示的样式
+
+	/**
+	 * @Function: private void showChart(LineChart lineChart, LineData lineData, int color, LineChartShow lineChartShow)
+	 * @Description: 显示线型图的显示格式并且显示出来
+	 * @param lineChart lineChart图标类
+	 * @param lineData lineData数据集(需要显示的数据)
+	 * @param color 背景颜色
+	 * @param lineChartShow 用于设置图表的某些格式和数据
+	 */
 	private void showChart(LineChart lineChart, LineData lineData, int color, LineChartShow lineChartShow) {
 		lineChart.setDrawBorders(false);  //是否在折线图上添加边框
-		// no description text
+		/*----------------------------------------------
+		 *      设置描述性文字
+		 *----------------------------------------------*/
 		lineChart.setDescription(lineChartShow.descriptionString);// 数据描述
-		// 如果没有数据的时候，会显示这个，类似listview的emtpyview
-		lineChart.setNoDataTextDescription("You need to provide data for the chart.");
+		lineChart.setDescriptionColor(ContextCompat.getColor(getActivity(), R.color.red));
+		lineChart.setDescriptionPosition(190, 80);     //设置描述文字在图像上位置,单位是像素
+		lineChart.setDescriptionTextSize(9f);      //设置描述文字像素
+		lineChart.setNoDataTextDescription("You need to provide data for the chart.");// 如果没有数据的时候，会显示这个，类似listview的emtpyview
 
-		// enable / disable grid background
-		lineChart.setDrawGridBackground(false); // 是否显示表格颜色
+		/*----------------------------------------------
+		 *      设置表格背景
+		 *----------------------------------------------*/
+		lineChart.setDrawGridBackground(false); // 是否显示表格颜色，chart 绘图区后面的背景矩形
 		lineChart.setGridBackgroundColor(Color.WHITE & 0x70FFFFFF); // 表格的的颜色，在这里是是给颜色设置一个透明度
+
+		/*----------------------------------------------
+		 *      设置chart的边框
+		 *----------------------------------------------*/
+		lineChart.setDrawBorders(false);//启用/禁用绘制图表边框（chart周围的线）。
+		lineChart.setBorderColor(ContextCompat.getColor(getActivity(), R.color.lightgray));      //设置 chart 边框线的颜色。
+		lineChart.setBorderWidth(1);    //设置 chart 边界线的宽度，单位 dp。
 
 		// enable touch gestures
 		lineChart.setTouchEnabled(true); // 设置是否可以触摸
@@ -247,52 +354,51 @@ public class FragmentToalData extends BaseFragment{
 
 		lineChart.animateX(lineChartShow.animateXTime); // 立即执行的动画,x轴
 	}
-
 	/**
-	 * 生成一个数据
-	 * @param count 表示图表中有多少个坐标点
-	 * @return
+	 * @Function private LineData getTodayHumiLineData()
+	 * @Description
+	 * 		 获取到空气湿度、土壤湿度
+	 * @return 数据集
 	 */
-	private LineData getHumiDayLineData(int count) {
+	private LineData getTodayHumiLineData() {
+
+		int ycount;
+		TodayTime todayTime = new TodayTime();
+		todayTime.update();
+		ycount = todayTime.getHour(); //当前时间
 
 		ArrayList<String> xValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < 24; i++) {
 			// x轴显示的数据，这里默认使用数字下标显示
 			xValues.add("" + i +":00");
 		}
 
-		// y轴的数据
-		ArrayList<Entry> yTodayGValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)todayGHumi[i];
-			yTodayGValues.add(new Entry(value, i));
-		}
-
-		ArrayList<Entry> yYesterdayGValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)ydayGHumi[i];
-			yYesterdayGValues.add(new Entry(value, i));
+		float temp;
+		/*----------------------------------------------
+		 * 获取今天此时之前的所有温度数据（以小时为单位）
+		 * ---------------------------------------------
+		 */
+		ArrayList<Entry> yTodayGValues = new ArrayList<>(); //今天的数值
+		for (int i = 0; i < ycount; i++) {
+			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
+			if(temp_humi != null)
+			{
+				temp = (float)temp_humi[1]; //1为湿度
+				yTodayGValues.add(new Entry(temp, i));
+			}
 		}
 
         /*空气湿度*/
 		ArrayList<Entry> yTodayAValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < 24; i++) {
 			float value = (float)todayAHumi[i];
 			yTodayAValues.add(new Entry(value, i));
-		}
-
-		ArrayList<Entry> yYdayAValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)ydayAHumi[i];
-			yYdayAValues.add(new Entry(value, i));
 		}
 
 		// create a dataset and give it a type
 		// y轴的数据集合
 		LineDataSet todayGHumiDataSet = new LineDataSet(yTodayGValues, "今天土壤湿度" /*显示在比例图上*/);
-		LineDataSet ydayGHumiDataSet = new LineDataSet(yYesterdayGValues, "昨天土壤湿度" /*显示在比例图上*/);
 		LineDataSet todayAHumiDataSet = new LineDataSet(yTodayAValues, "今天空气湿度" /*显示在比例图上*/);
-		LineDataSet ydayAHumiDataSet = new LineDataSet(yYdayAValues, "昨天空气湿度" /*显示在比例图上*/);
 		// mLineDataSet.setFillAlpha(110);
 		// mLineDataSet.setFillColor(Color.RED);
 
@@ -308,13 +414,6 @@ public class FragmentToalData extends BaseFragment{
 		todayGHumiDataSet.setCircleColor(todayGHumiColor);// 圆形的颜色
 		todayGHumiDataSet.setHighLightColor(todayGHumiColor); // 高亮的线的颜色
 
-		ydayGHumiDataSet.setLineWidth(1.75f); // 线宽
-		ydayGHumiDataSet.setCircleSize(3f);// 显示的圆形大小
-		ydayGHumiDataSet.setDrawCubic(true); //平滑
-		ydayGHumiDataSet.setColor(ydayGHumiColor);// 显示颜色
-		ydayGHumiDataSet.setCircleColor(ydayGHumiColor);// 圆形的颜色
-		ydayGHumiDataSet.setHighLightColor(ydayGHumiColor); // 高亮的线的颜色
-
         /*设置空气湿度*/
 		todayAHumiDataSet.setLineWidth(1.75f); // 线宽
 		todayAHumiDataSet.setCircleSize(3f);// 显示的圆形大小
@@ -323,50 +422,47 @@ public class FragmentToalData extends BaseFragment{
 		todayAHumiDataSet.setCircleColor(todayAHumiColor);// 圆形的颜色
 		todayAHumiDataSet.setHighLightColor(todayAHumiColor); // 高亮的线的颜色
 
-		ydayAHumiDataSet.setLineWidth(1.75f); // 线宽
-		ydayAHumiDataSet.setCircleSize(3f);// 显示的圆形大小
-		ydayAHumiDataSet.setDrawCubic(true); //平滑
-		ydayAHumiDataSet.setColor(ydayAHumiColor);// 显示颜色
-		ydayAHumiDataSet.setCircleColor(ydayAHumiColor);// 圆形的颜色
-		ydayAHumiDataSet.setHighLightColor(ydayAHumiColor); // 高亮的线的颜色
-
 		ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
 
 		lineDataSets.add(todayGHumiDataSet); //添加土壤湿度DataSet
-		//lineDataSets.add(ydayGHumiDataSet); //添加DataSet
-
 		lineDataSets.add(todayAHumiDataSet); //添加土壤湿度DataSet
-		//lineDataSets.add(ydayAHumiDataSet); //添加DataSet
 
 		LineData lineData = new LineData(xValues, lineDataSets);  //使用ArrayList设置生成数据。
 
 		return lineData;
 	}
-
-
 	/**
-	 * 生成一个数据
-	 * @param count 表示图表中有多少个坐标点
+	 * @Function: private LineData getTodayTempLineData()
+	 * @Description: 得到今天温度的线型数据集
 	 * @param
 	 * @return
 	 */
-	private LineData getLineData(int count) {
+	private LineData getTodayTempLineData() {
 
+		int ycount;
+		TodayTime todayTime = new TodayTime();
+		todayTime.update();
+		ycount = todayTime.getHour(); //当前时间
 		ArrayList<String> xValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < 24; i++) {
 			// x轴显示的数据，这里默认使用数字下标显示
-			xValues.add("" + i +":00");
+			xValues.add("" + i+":00");
 		}
 
+		float temp;
 		// y轴的数据
-		ArrayList<Entry> yTodayValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)today[i];
-			yTodayValues.add(new Entry(value, i));
+		ArrayList<Entry> yTodayValues = new ArrayList<>(); //今天的数值
+		for (int i = 0; i < ycount; i++) {
+			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
+			if(temp_humi != null)
+			{
+				temp = (float)temp_humi[0];
+				yTodayValues.add(new Entry(temp, i));
+			}
 		}
 
 		ArrayList<Entry> yYesterdayValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < 24; i++) {
 			float value = (float)yesterday[i];
 			yYesterdayValues.add(new Entry(value, i));
 		}
@@ -382,11 +478,14 @@ public class FragmentToalData extends BaseFragment{
 		int yesterdayLineDataColor = ContextCompat.getColor(getActivity(), R.color.lightskyblue);
 		//用y轴的集合来设置参数
 		todayLineDataSet.setLineWidth(1.75f); // 线宽
-		todayLineDataSet.setCircleSize(3f);// 显示的圆形大小
+		todayLineDataSet.setCircleSize(4f);// 显示的圆形大小
 		todayLineDataSet.setDrawCubic(true); //平滑
 		todayLineDataSet.setColor(todayLineDataColor);// 显示颜色
 		todayLineDataSet.setCircleColor(todayLineDataColor);// 圆形的颜色
 		todayLineDataSet.setHighLightColor(todayLineDataColor); // 高亮的线的颜色
+		todayLineDataSet.setValueTextSize(8f);
+//		Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "kaiti.ttf");
+//		todayLineDataSet.setValueTypeface(tf);
 
 		yesterdayLineDataSet.setLineWidth(1.75f); // 线宽
 		yesterdayLineDataSet.setCircleSize(3f);// 显示的圆形大小
@@ -394,6 +493,8 @@ public class FragmentToalData extends BaseFragment{
 		yesterdayLineDataSet.setColor(yesterdayLineDataColor);// 显示颜色
 		yesterdayLineDataSet.setCircleColor(yesterdayLineDataColor);// 圆形的颜色
 		yesterdayLineDataSet.setHighLightColor(yesterdayLineDataColor); // 高亮的线的颜色
+		yesterdayLineDataSet.setValueTextSize(8f);
+		//yesterdayLineDataSet.setValueTypeface(tf);
 
 		ArrayList<ILineDataSet> lineDataSets = new ArrayList<ILineDataSet>();
 
@@ -404,53 +505,62 @@ public class FragmentToalData extends BaseFragment{
 
 		return lineData;
 	}
-
 	/**
-	 * 生成一个数据
-	 * @param
-	 * @param
-	 * @return
+	 * @Function: getWeekTempLineData
+	 * @Description: 获取一周温度的数据集
+	 * @return 数据集
 	 */
-	private LineData getWeekLineData() {
+	private LineData getWeekTempLineData() {
 
 		int count = 7;
+		TodayTime todayTime = new TodayTime();
+		todayTime.update();
+		int todayOfWeek = todayTime.getWeek(); //当前星期几
+		System.out.println("今天是星期："+todayOfWeek);
+
+		/* -------------------------------------------------------------------
+		 *  设置周表X轴的内容
+		 * -------------------------------------------------------------------*/
 		ArrayList<String> xValues = new ArrayList<>();
-//        for (int i = 1; i <= count; i++) {
-//            // x轴显示的数据，这里默认使用数字下标显示
-//            xValues.add("" + i +":00");
-//        }
+		xValues.add("日");
 		xValues.add("一");
 		xValues.add("二");
 		xValues.add("三");
 		xValues.add("四");
 		xValues.add("五");
 		xValues.add("六");
-		xValues.add("日");
 
-		// y轴的数据
+		/* -------------------------------------------------------------------
+		 *  设置y轴一周内的最大温度，最小温度，平均温度
+		 * -------------------------------------------------------------------*/
 		ArrayList<Entry> yWeekMaxValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)weekMax[i];
-			yWeekMaxValues.add(new Entry(value, i));
-		}
-
 		ArrayList<Entry> yWeekAvgValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)weekAvg[i];
-			yWeekAvgValues.add(new Entry(value, i));
-		}
-
 		ArrayList<Entry> yWeekMinValues = new ArrayList<>();
-		for (int i = 0; i < count; i++) {
-			float value = (float)weekMin[i];
-			yWeekMinValues.add(new Entry(value, i));
+
+		Calendar c = null; // 日期和时间
+		int day; // 需要更改的天数
+		float value[] = null;
+		for(int i = 0; i < todayOfWeek; i++)
+		{
+			c = Calendar.getInstance(); // 当时的日期和时间
+			day = c.get(Calendar.DAY_OF_MONTH) - i;
+			c.set(Calendar.DAY_OF_MONTH, day);
+			/* -------------------------------------------------------------
+			 *  查询到max,min,avg的温度，year需要%100，因为只保存十位个位
+			 * -------------------------------------------------------------*/
+			value = databaseOperation.queryMaxDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			if(value != null) yWeekMaxValues.add(new Entry(value[0], i));
+			value = databaseOperation.queryMinDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			if(value != null) yWeekMinValues.add(new Entry(value[0], i));
+			value = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			if(value != null) yWeekAvgValues.add(new Entry(value[0], i));
 		}
 
 		// create a dataset and give it a type
 		// y轴的数据集合
 		LineDataSet maxLineDataSet = new LineDataSet(yWeekMaxValues, "最高温" /*显示在比例图上*/);
-		LineDataSet avgLineDataSet = new LineDataSet(yWeekAvgValues, "最低温" /*显示在比例图上*/);
-		LineDataSet minLineDataSet = new LineDataSet(yWeekMinValues, "平均值" /*显示在比例图上*/);
+		LineDataSet avgLineDataSet = new LineDataSet(yWeekAvgValues, "平均值" /*显示在比例图上*/);
+		LineDataSet minLineDataSet = new LineDataSet(yWeekMinValues, "最低温" /*显示在比例图上*/);
 		// mLineDataSet.setFillAlpha(110);
 		// mLineDataSet.setFillColor(Color.RED);
 
@@ -487,13 +597,6 @@ public class FragmentToalData extends BaseFragment{
 		return lineData;
 	}
 
-
-
-//            mChart = (PieChart) findViewById(R.id.spread_pie_chart);
-//            PieData mPieData = getPieData(4, 100);
-//            showChart(mChart, mPieData);
-
-
 	private void showNutChart(PieChart pieChart, PieData pieData) {
 		//pieChart.setHoleColorTransparent(true);
 
@@ -502,6 +605,7 @@ public class FragmentToalData extends BaseFragment{
 		pieChart.setHoleRadius(30f);  //实心圆
 
 		pieChart.setDescription("营养元素");
+		pieChart.setDescriptionColor(ContextCompat.getColor(getActivity(), R.color.red));
 
 		// mChart.setDrawYValues(true);
 		pieChart.setDrawCenterText(true);  //饼状图中间可以添加文字
@@ -545,7 +649,6 @@ public class FragmentToalData extends BaseFragment{
 		pieChart.animateXY(1000, 1000);  //设置动画
 		// mChart.spin(2000, 0, 360);
 	}
-
 	/**
 	 *
 	 * @param count 分成几部分
@@ -672,6 +775,4 @@ public class FragmentToalData extends BaseFragment{
 
 
 	}
-	
-	
 }

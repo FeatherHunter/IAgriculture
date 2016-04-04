@@ -55,6 +55,10 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
         radioGroup.setOnCheckedChangeListener(this);
     }
 
+    /**
+     * @Function: public void setMiddleTitle(String s)
+     * @Description: 切换Fragment的时候设置中间的标题
+     * */
     public void setMiddleTitle(String s) {
         if(s.equals(Constant.FRAGMENT_FLAG_IHOME) )
         {
@@ -63,7 +67,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
             mRightTitle.setVisibility(View.VISIBLE);
             mRightTitle.setText(s);
             mRightTitle.setTextSize(right_title_size);
-            leftButton.setChecked(true);
+            leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
 
         }
         else if(s.equals(Constant.FRAGMENT_FLAG_CONTRL) )
@@ -96,6 +100,11 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
     public void setHeadCallback(HeadPanelCallback bottomCallback){
         mHeadCallback = bottomCallback;
     }
+
+    /**
+     * @Function: public void onCheckedChanged(RadioGroup group, int checkedId)
+     * @Description: 主界面 “总结/详细”中groupbutton的监听
+     * */
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         int index = -1;

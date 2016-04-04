@@ -15,7 +15,10 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ifuture.iagriculture.bottombar.BaseFragment;
@@ -71,6 +74,8 @@ import java.io.OutputStream;
 public class ClientMainActivity extends Activity implements BottomPanelCallback, HeadControlPanel.HeadPanelCallback {
 	BottomBarPanel bottomPanel = null;
 	HeadControlPanel headPanel = null;
+	LinearLayout warningLayout = null;
+	TextView warningTexview	   = null;
 	
 	private FragmentManager fragmentManager = null;
 	private FragmentTransaction fragmentTransaction = null;
@@ -123,18 +128,9 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		fragmentManager = getFragmentManager();
 		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IHOME);
 
-//		Intent intent = getIntent();
-//		int mode = intent.getIntExtra("mode", 2); //得到模式信息，默认为蓝牙模式2
-//		if(mode == 1)//ethnet模式
-//		{
-//			Toast.makeText(this, "进入网络模式", Toast.LENGTH_SHORT).show();
-//			isConnected = true; //连接成功
-//
-//		}
-//		else if(mode == 2)//当前处于内网连接控制中心模式
-//		{
-//			Toast.makeText(this, "进入内网模式", Toast.LENGTH_SHORT).show();
-//		}
+		warningLayout = (LinearLayout) findViewById(R.id.panel_offline_layout);
+		warningTexview = (TextView)findViewById(R.id.panel_offline_text);
+
 		try {
 			/*动态注册receiver*/
 			contrlReceiver = new ContrlReceiver();
@@ -203,123 +199,150 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 			String typeString = intent.getStringExtra("type");
 			Message msgMessage = new Message();
 			Bundle bundle = new Bundle();
-			if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
+			/* -----------------------------------------
+			 * 处理主activity接收到的广播
+			 * -----------------------------------------*/
+			if(typeString.equals("wifi_internet"))
 			{
-				bundle.putString("type", "temp");
-				String IDString = intent.getStringExtra("temp");
-				bundle.putString("temp", IDString);
-				bundle.putString(IDString, intent.getStringExtra(IDString));
-				msgMessage.setData(bundle);
-				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+				String stateString = intent.getStringExtra("wifi_internet");
+				if(stateString.equals("disconnect"))
 				{
-					ihomeHandler.sendMessage(msgMessage);
+					warningLayout.setVisibility(View.VISIBLE);
+					warningTexview.setText("网络连接不可用，请检查相关设置。");
 				}
-				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
+				else if(stateString.equals("connect"))
 				{
-					videoHandler.sendMessage(msgMessage);
+					warningLayout.setVisibility(View.VISIBLE);
+					warningTexview.setText("登录中...");
 				}
-
-			}
-			/*更新温度信息*/
-			else if(typeString.equals("humi"))
-			{
-				bundle.putString("type", "humi");
-				String IDString = intent.getStringExtra("humi");
-				bundle.putString("humi", IDString);
-				bundle.putString(IDString, intent.getStringExtra(IDString));
-				msgMessage.setData(bundle);
-				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+				else if(stateString.equals("error"))
 				{
-					ihomeHandler.sendMessage(msgMessage);
-				}
-				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-				{
-					videoHandler.sendMessage(msgMessage);
-				}
-			}
-			/*灯的状态*/
-			else if(typeString.equals("ledon"))
-			{
-				bundle.putString("type", "ledon");
-				bundle.putString("ledon", intent.getStringExtra("ledon"));
-				msgMessage.setData(bundle);
-				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-				{
-					ihomeHandler.sendMessage(msgMessage);
-				}
-				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-				{
-					videoHandler.sendMessage(msgMessage);
-				}
-			}
-			/*灯的状态*/
-			else if(typeString.equals("ledoff"))
-			{
-				bundle.putString("type", "ledoff");
-				String ledString = intent.getStringExtra("ledoff");
-				bundle.putString("ledoff", ledString);
-				msgMessage.setData(bundle);
-				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-				{
-					ihomeHandler.sendMessage(msgMessage);
-				}
-				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-				{
-					videoHandler.sendMessage(msgMessage);
-				}
-			}
-			/*显示连接和认证身份情况*/
-			else if(typeString.equals("disconnect"))
-			{
-				String stateString = intent.getStringExtra("disconnect");
-				if(stateString.equals("authing"))
-				{
-					Toast.makeText(ClientMainActivity.this, "正在验证信息...", Toast.LENGTH_SHORT).show();
-				}
-				else if(stateString.equals("connecting"))
-				{
-					Toast.makeText(ClientMainActivity.this, "正在连接服务器...", Toast.LENGTH_SHORT).show();
-				}
-				else if(stateString.equals("connected"))
-				{
-					Toast.makeText(ClientMainActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
+					warningLayout.setVisibility(View.VISIBLE);
+					warningTexview.setText("服务器维护中");
 				}
 				else if(stateString.equals("authed"))
 				{
-					Toast.makeText(ClientMainActivity.this, "认证成功", Toast.LENGTH_SHORT).show();
+					warningLayout.setVisibility(View.GONE);
+					Toast.makeText(ClientMainActivity.this, "登陆成功", Toast.LENGTH_LONG).show();
 				}
-				else if(stateString.equals("video connecting"))
-				{
-					Toast.makeText(ClientMainActivity.this, "正在连接视频服务器...", Toast.LENGTH_SHORT).show();
-				}
-				else if(stateString.equals("video success"))
-				{
-					Toast.makeText(ClientMainActivity.this, "视频连接成功", Toast.LENGTH_SHORT).show();
-				}
-
 			}
-			/*发送IHome mode开启状况*/
-			else if(typeString.equals("ihome"))
-			{
-				bundle.putString("type", "ihome");
-				String modeString = intent.getStringExtra("ihome");
-				bundle.putString("ihome", modeString);
-				msgMessage.setData(bundle);
-				ihomeHandler.sendMessage(msgMessage);
-				Toast.makeText(ClientMainActivity.this, modeString, Toast.LENGTH_SHORT).show();
-			}
-			else if(typeString.equals("videofinish"))
-			{
-				bundle.putString("type", "videofinish");
-				String operationString = intent.getStringExtra("videofinish");
-				bundle.putString("videofinish", operationString);
-				msgMessage.setData(bundle);
-				videoHandler.sendMessage(msgMessage);
-			}
-			else if(typeString.equals("tempCtrl")) //ihomefragment让其切换到空调遥控器fragment
-			{
-				setTabSelection(Constant.FRAGMENT_FLAG_CONTRL); //切换到遥控Fragment
-			}
+//			else if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
+//			{
+//				bundle.putString("type", "temp");
+//				String IDString = intent.getStringExtra("temp");
+//				bundle.putString("temp", IDString);
+//				bundle.putString(IDString, intent.getStringExtra(IDString));
+//				msgMessage.setData(bundle);
+//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+//				{
+//					ihomeHandler.sendMessage(msgMessage);
+//				}
+//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
+//				{
+//					videoHandler.sendMessage(msgMessage);
+//				}
+//
+//			}
+//			/*更新温度信息*/
+//			else if(typeString.equals("humi"))
+//			{
+//				bundle.putString("type", "humi");
+//				String IDString = intent.getStringExtra("humi");
+//				bundle.putString("humi", IDString);
+//				bundle.putString(IDString, intent.getStringExtra(IDString));
+//				msgMessage.setData(bundle);
+//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+//				{
+//					ihomeHandler.sendMessage(msgMessage);
+//				}
+//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
+//				{
+//					videoHandler.sendMessage(msgMessage);
+//				}
+//			}
+//			/*灯的状态*/
+//			else if(typeString.equals("ledon"))
+//			{
+//				bundle.putString("type", "ledon");
+//				bundle.putString("ledon", intent.getStringExtra("ledon"));
+//				msgMessage.setData(bundle);
+//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+//				{
+//					ihomeHandler.sendMessage(msgMessage);
+//				}
+//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
+//				{
+//					videoHandler.sendMessage(msgMessage);
+//				}
+//			}
+//			/*灯的状态*/
+//			else if(typeString.equals("ledoff"))
+//			{
+//				bundle.putString("type", "ledoff");
+//				String ledString = intent.getStringExtra("ledoff");
+//				bundle.putString("ledoff", ledString);
+//				msgMessage.setData(bundle);
+//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
+//				{
+//					ihomeHandler.sendMessage(msgMessage);
+//				}
+//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
+//				{
+//					videoHandler.sendMessage(msgMessage);
+//				}
+//			}
+//			/*显示连接和认证身份情况*/
+//			else if(typeString.equals("disconnect"))
+//			{
+//				String stateString = intent.getStringExtra("disconnect");
+//				if(stateString.equals("authing"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "正在验证信息...", Toast.LENGTH_SHORT).show();
+//				}
+//				else if(stateString.equals("connecting"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "正在连接服务器...", Toast.LENGTH_SHORT).show();
+//				}
+//				else if(stateString.equals("connected"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
+//				}
+//				else if(stateString.equals("authed"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "认证成功", Toast.LENGTH_SHORT).show();
+//				}
+//				else if(stateString.equals("video connecting"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "正在连接视频服务器...", Toast.LENGTH_SHORT).show();
+//				}
+//				else if(stateString.equals("video success"))
+//				{
+//					Toast.makeText(ClientMainActivity.this, "视频连接成功", Toast.LENGTH_SHORT).show();
+//				}
+//
+//			}
+//			/*发送IHome mode开启状况*/
+//			else if(typeString.equals("ihome"))
+//			{
+//				bundle.putString("type", "ihome");
+//				String modeString = intent.getStringExtra("ihome");
+//				bundle.putString("ihome", modeString);
+//				msgMessage.setData(bundle);
+//				ihomeHandler.sendMessage(msgMessage);
+//				Toast.makeText(ClientMainActivity.this, modeString, Toast.LENGTH_SHORT).show();
+//			}
+//			else if(typeString.equals("videofinish"))
+//			{
+//				bundle.putString("type", "videofinish");
+//				String operationString = intent.getStringExtra("videofinish");
+//				bundle.putString("videofinish", operationString);
+//				msgMessage.setData(bundle);
+//				videoHandler.sendMessage(msgMessage);
+//			}
+//			else if(typeString.equals("tempCtrl")) //ihomefragment让其切换到空调遥控器fragment
+//			{
+//				setTabSelection(Constant.FRAGMENT_FLAG_CONTRL); //切换到遥控Fragment
+//			}
 
 		}
 
@@ -549,8 +572,13 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
+		System.out.println("onKeyDown");
 		if(keyCode == KeyEvent.KEYCODE_BACK) //按下返回键
 		{
+			/*---------------------------------------------
+			 *        告诉ClientActivity 我们要回到主界面
+			 *--------------------------------------------*/
+			System.out.println("KEYCODE_BACK");
 			Intent intent = new Intent();
 			intent.putExtra("type", "ClientMainBack");
 			intent.setAction(intent.ACTION_MAIN);

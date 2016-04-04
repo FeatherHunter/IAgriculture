@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * @Copyright: 华云科技有限公司
+ * @Copyright: 华韵科技有限公司
  * @Author: 2016/3/30 王辰浩
  * @Description:
  *            DatabaseHelper作为方位SQLite的助手类，提供两个方面功能。
@@ -17,12 +17,16 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DayDatabaseHelper extends SQLiteOpenHelper{
     private static final int VERSION = 1;
-    public static final String tableName = "today";
-    public static final String hour = "hour";
-    public static final String minute = "minute";
-    public static final String second = "second";
+    public static final String tableTodayName  = "today";
+    public static final String tableAlldayName = "allday";
+    public static final String year        = "year";
+    public static final String month       = "month";
+    public static final String day         = "day";
+    public static final String hour        = "hour";
+    public static final String minute      = "minute";
+    public static final String second      = "second";
     public static final String temperature = "temperature";
-    public static final String humidity = "humidity";
+    public static final String humidity    = "humidity";
     //SQLiteOpenHelper子类中必须的构造函数
     public DayDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -40,10 +44,18 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
      *  实际上是在第一次得到SQLiteDatabase对象的时候才会调用这个方法：也就是执行getReadable的时候执行
      * */
     public void onCreate(SQLiteDatabase db) {
-        System.out.println("Create a Database for current day");
+        System.out.println("Create a Database table 'today' and 'year'");
         //执行创建表的语句
+        createTodayTable(db);
+        createAlldayTable(db);
+    }
+    public void createTodayTable(SQLiteDatabase db)
+    {
         db.execSQL("create table today(hour int, minute int, second int, temperature  float, humidity float, primary key(hour,minute,second))"); //
-        //db.execSQL("create table day("+column1+" int,"+column2+" int,"+column3+" int,"+column4+"  float,"+column5+" float");
+    }
+    public void createAlldayTable(SQLiteDatabase db)
+    {
+        db.execSQL("create table allday(year int, month int, day int, hour int, temperature  float, humidity float, primary key(year,month,day,hour))");
     }
 
     @Override

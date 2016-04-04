@@ -47,6 +47,8 @@
 
         <activity android:name=".activity.StatisticsActivity" >
         </activity>
+        <activity android:name=".activity.DatabaseTestActivity" >
+        </activity>
     </application>
 
 </manifest>

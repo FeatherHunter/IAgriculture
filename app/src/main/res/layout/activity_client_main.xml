@@ -21,6 +21,29 @@
         android:layout_below="@id/head_layout"
         android:background="@color/lightgray" />
 
+    <LinearLayout
+        android:id="@+id/panel_offline_layout"
+        android:layout_width="match_parent"
+        android:layout_height="20pt"
+        android:layout_below="@id/panel_head_line"
+        android:visibility="gone"
+        android:weightSum="10"
+        android:background="@color/pink">
+        <ImageView
+            android:layout_width="15pt"
+            android:layout_height="match_parent"
+            android:src="@drawable/warning"
+            android:padding="5pt"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/panel_offline_text"
+            android:layout_width="5pt"
+            android:layout_height="match_parent"
+            android:text="网络连接不可用"
+            android:gravity="center_vertical"
+            android:layout_weight="9"
+            />
+    </LinearLayout>
     <View
         android:id="@+id/panel_bottom_line"
         android:layout_width="match_parent"
@@ -28,12 +51,13 @@
         android:background="@color/lightgray"
         android:layout_above="@id/bottom_layout"/>
 
+
     <FrameLayout
         android:id="@+id/main_window"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/panel_bottom_line"
-        android:layout_below="@id/panel_head_line">
+        android:layout_below="@id/panel_offline_layout">
 
     </FrameLayout>
 

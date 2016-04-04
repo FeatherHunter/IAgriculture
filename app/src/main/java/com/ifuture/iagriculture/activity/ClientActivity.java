@@ -48,6 +48,8 @@ import com.ifuture.iagriculture.R;
  *      5. void onDestroy()     			//解除Receiver，并且关闭后台服务
  * @history:
  *    v1.0 完成基础登录的功能
+ *
+ * @Debug: 1.第二次登陆后验证成功却依然卡在ClientActivity的界面，是因为没有解除isOnPaused的屏蔽作用
  **/
 
 public class ClientActivity extends Activity {
@@ -60,6 +62,7 @@ public class ClientActivity extends Activity {
 	private String accountString;     //账户
 	private String passwordString;    //密码
 	private Boolean isAuthed = false;
+	private Boolean isOnPaused = false;
 	private Boolean isDealLoginError = false;
 	private String AUTH_ACTION = "android.intent.action.ANSWER";
 	
@@ -185,6 +188,7 @@ public class ClientActivity extends Activity {
     		//bindService(serviceIntent, connection, BIND_AUTO_CREATE); //绑定service,并且自动创建service
     		startService(serviceIntent); //开启服务
     		dialog.show(); //显示登陆进度条
+			isDealLoginError = false;
     		/*超时处理*/
     		Thread thread = new Thread(loginOvertimeRunnable);
     		thread.start();
@@ -202,13 +206,13 @@ public class ClientActivity extends Activity {
 			accountString = client_account.getText().toString();
 			passwordString = client_password.getText().toString();
 
-//			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
-//			editor.putString("account", accountString);
-//			editor.putString("password", passwordString);//提交当前数据
-//			editor.commit();
 			Intent intent = new Intent();
 			intent.setClass(ClientActivity.this, ClientMainActivity.class);
 			ClientActivity.this.startActivity(intent);
+
+//			Intent intent = new Intent();
+//			intent.setClass(ClientActivity.this, DatabaseTestActivity.class);
+//			ClientActivity.this.startActivity(intent);
     	}	
     }
     
@@ -279,12 +283,31 @@ public class ClientActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-				String resultString = intent.getStringExtra("result");
+
 			  /* -------------------------------------------------------
 		 	   *  处理Service返回的登录结果信息
 		 	   * -------------------------------------------------------*/
-			  if(resultString != null)
+			  String resultString = intent.getStringExtra("result");
+			  if(resultString != null) //不为空
 			  {
+				  /* -------------------------------------------------------
+		 	   	   *  登陆后从主界面返回，不考虑onPaused的屏蔽作用
+		 	   	   * -------------------------------------------------------*/
+				  if(resultString.equals("relogin"))
+				  {
+					 /*要开始重新登录*/
+					  System.out.println("========================relogin======================");
+					  firstSwitch = true;
+					  isOnPaused = false;
+					  stopService();//结束服务
+				  }
+				  /* -------------------------------------------------------
+		 	   	   *  处于暂停状态不接收广播
+		 	   	   * -------------------------------------------------------*/
+				  if(isOnPaused == true)
+				  {
+					  return;
+				  }
 				  if(resultString.equals("res_login"))
 				  {
 					  if(intent.getStringExtra("res_login").equals("success"))
@@ -317,28 +340,40 @@ public class ClientActivity extends Activity {
 					  }
 					  else if(intent.getStringExtra("res_login").equals("failed"))
 					  {
-						  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
-						  Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
-						  dialog.dismiss(); //解除进度条
+						  if(isDealLoginError == false) //登录失败
+						  {
+							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+							  Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
+							  dialog.dismiss(); //解除进度条
+						  }
 					  }
 					  else if(intent.getStringExtra("res_login").equals("connect error"))
 					  {
+						  System.out.println("connect error");
 						  firstSwitch = true;
 						  stopService();//结束服务
-						  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
-						  Toast.makeText(ClientActivity.this, "连接服务器失败:请检查网络或服务器正在维护", Toast.LENGTH_SHORT).show();
-						  dialog.dismiss(); //解除进度条
+						  if(isDealLoginError == false) //登录失败
+						  {
+							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+							  Toast.makeText(ClientActivity.this, "连接服务器失败:请检查网络或服务器正在维护", Toast.LENGTH_LONG).show();
+							  dialog.dismiss(); //解除进度条
+						  }
 					  }
 				  }
-				/* -------------------------------------------------------
-		 	   	 *  准备进行重新登录，结束Service
-		 	   	 * -------------------------------------------------------*/
-				  else if(resultString.equals("relogin"))
+				  else if(resultString.equals("res_internet"))
 				  {
-					/*要开始重新登录*/
-					  System.out.println("relogin");
-					  firstSwitch = true;
-					  stopService();//结束服务
+					  if(intent.getStringExtra("res_internet").equals("disconnect"))
+					  {
+						  System.out.println("Client res_internet");
+						  firstSwitch = true;
+						  stopService();//结束服务
+						  if(isDealLoginError == false) //登录失败
+						  {
+							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+							  Toast.makeText(ClientActivity.this, "网络不可用，请检查相关设置", Toast.LENGTH_SHORT).show();
+							  dialog.dismiss(); //解除进度条
+						  }
+					  }
 				  }
 			  }//if result = null
 
@@ -361,7 +396,21 @@ public class ClientActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		System.out.println("ClientActivity onPause");
+		isOnPaused = true;
 
+	}
+	protected void onRestart()
+	{
+		super.onRestart();
+		System.out.println("ClientActivity onRestart");
+		isOnPaused = false;
+
+	}
 	/**
 	 *  @Function: protected void onDestroy()
 	 *  @Description:

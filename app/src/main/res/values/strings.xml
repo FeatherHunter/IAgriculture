@@ -7,4 +7,8 @@
     <string name="title_activity_option1">OptionActivity1</string>
     <string name="title_activity_airer">AirerActivity</string>
 
+    <string name="title_activity_database_test">DatabaseTestActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

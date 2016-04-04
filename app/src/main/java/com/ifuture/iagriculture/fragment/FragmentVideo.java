@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.Instruction.Instruction;
+import com.ifuture.iagriculture.activity.DatabaseTestActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
@@ -182,15 +183,9 @@ public class FragmentVideo extends BaseFragment{
 		@Override
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
-			databaseOperation.insert2day(getActivity(), 0, 1, 2, 10.5f, 10.7f);
-			databaseOperation.insert2day(getActivity(), 0, 1, 3, 11.0f, 10.7f);
-			databaseOperation.insert2day(getActivity(), 0, 1, 4, 11.5f, 10.7f);
-			databaseOperation.insert2day(getActivity(), 0, 1, 9, 12f, 10.7f);
-			databaseOperation.insert2day(getActivity(), 0, 1, 10,12.5f, 10.7f);
-			databaseOperation.insert2day(getActivity(), 1, 1, 2, 11.5f, 11.7f);
-			databaseOperation.insert2day(getActivity(), 2, 1, 2, 12.5f, 12.7f);
-			databaseOperation.insert2day(getActivity(), 3, 1, 2, 13.5f, 13.7f);
-			databaseOperation.insert2day(getActivity(), 4, 1, 2, 14.5f, 14.7f);
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), DatabaseTestActivity.class);
+			getActivity().startActivity(intent);
 		}
 
 	}
@@ -203,8 +198,8 @@ public class FragmentVideo extends BaseFragment{
 		@Override
 		public void onClick(View v) {
 			databaseOperation.querySecToday(getActivity(), 1, 1, 2);
-			databaseOperation.queryMinuteToday(getActivity(), 0, 1);
-			databaseOperation.queryHourToday(getActivity(), 2);
+			//databaseOperation.queryMinuteToday(getActivity(), 0, 1);
+			//databaseOperation.queryHourToday(getActivity(), 2);
 		}
 	}
 	

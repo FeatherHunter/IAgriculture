@@ -7,7 +7,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -80,15 +81,28 @@
 
                 </LinearLayout>
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/temp_line_chart"
+                <HorizontalScrollView
+                    android:id="@+id/horiscrollview_temp"
+                    android:layout_below="@id/statics_temp_layout"
                     android:layout_marginLeft="10pt"
                     android:layout_marginRight="10pt"
                     android:layout_marginTop="5pt"
-                    android:layout_below="@id/statics_temp_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="140pt"
-                    />
+                    android:layout_height="150pt"
+                    android:scrollbars="none">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/temp_line_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:minWidth="180pt"
+                            />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
 
                 <LinearLayout
                     android:id="@+id/statics_temp_select"
@@ -96,10 +110,46 @@
                     android:layout_height="20pt"
                     android:orientation="horizontal"
                     android:weightSum="2"
-                    android:layout_below="@id/temp_line_chart"
-                    android:layout_alignLeft="@id/temp_line_chart"
+                    android:layout_below="@id/horiscrollview_temp"
+                    android:layout_alignLeft="@id/horiscrollview_temp"
                     android:background="@drawable/static_bg"
                     >
+                    <RadioGroup
+                        android:id="@+id/radiogroup_day_week"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_temp_day"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/radio_button"
+                            android:button="@null"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:paddingBottom="6dip"
+                            android:paddingTop="6dip"
+                            android:text="日"
+                            android:textColor="@drawable/title_text_select"
+                            android:textSize="8pt" />
+
+                        <RadioButton
+                            android:id="@+id/rb_temp_week"
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/radio_button"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:paddingBottom="6dip"
+                            android:paddingTop="6dip"
+                            android:text="周"
+                            android:textColor="@drawable/title_text_select"
+                            android:textSize="8pt" />
+                    </RadioGroup>
                     <Button
                         android:id="@+id/button_statics_temp_day"
                         android:layout_width="match_parent"
