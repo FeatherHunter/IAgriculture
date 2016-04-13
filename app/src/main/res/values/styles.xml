@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -16,19 +16,24 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
-        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    <style name="tab_style">
+        <item name="android:layout_width">100pt</item>
+        <item name="android:layout_height">25pt</item>
+        <item name="android:background">@drawable/tab_background</item>
+        <item name="android:drawablePadding">10pt</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">10dip</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:clickable">true</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+    <style name="title_bg" parent="android:Theme">
+        <item name="android:windowTitleBackgroundStyle">@style/Titleground</item>
+    </style>
+    <style name="Titleground">
+        <item name="android:background">#A9C75E</item>
     </style>
 
 </resources>

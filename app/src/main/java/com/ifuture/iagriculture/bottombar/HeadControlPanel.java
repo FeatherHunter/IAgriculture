@@ -50,7 +50,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
     public void initHeadPanel() {
 
         if (mMidleTitle != null) {
-            setMiddleTitle(Constant.FRAGMENT_FLAG_IHOME);
+            setMiddleTitle(Constant.FRAGMENT_FLAG_IGREEN);
         }
         radioGroup.setOnCheckedChangeListener(this);
     }
@@ -60,7 +60,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
      * @Description: 切换Fragment的时候设置中间的标题
      * */
     public void setMiddleTitle(String s) {
-        if(s.equals(Constant.FRAGMENT_FLAG_IHOME) )
+        if(s.equals(Constant.FRAGMENT_FLAG_IGREEN) )
         {
             radioGroup.setVisibility(View.VISIBLE);
             mMidleTitle.setVisibility(View.INVISIBLE);
@@ -70,7 +70,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
             leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
 
         }
-        else if(s.equals(Constant.FRAGMENT_FLAG_CONTRL) )
+        else if(s.equals(Constant.FRAGMENT_FLAG_STATICS) )
         {
             radioGroup.setVisibility(View.INVISIBLE);
             mRightTitle.setVisibility(View.INVISIBLE);

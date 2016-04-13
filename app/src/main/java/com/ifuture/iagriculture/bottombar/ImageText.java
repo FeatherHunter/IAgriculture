@@ -70,10 +70,10 @@ public class ImageText extends LinearLayout{
         int checkDrawableId = -1;  
         switch (itemID){  
         case Constant.BTN_FLAG_IHOME:  
-            checkDrawableId = R.drawable.greenhouse_selected;
+            checkDrawableId = R.drawable.farmhouse_selected;
             break;  
-        case Constant.BTN_FLAG_CONTRL:  
-            checkDrawableId = R.drawable.setting_selected;  
+        case Constant.BTN_FLAG_STATICS:
+            checkDrawableId = R.drawable.statics_selected;
             break;  
         case Constant.BTN_FLAG_VIDEO: 
             checkDrawableId = R.drawable.contacts_selected;  

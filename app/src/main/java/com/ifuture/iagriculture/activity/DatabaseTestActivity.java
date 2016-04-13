@@ -19,6 +19,7 @@ public class DatabaseTestActivity extends Activity {
     EditText year, month, day, hour, minute, second;
     EditText temp, humi;
     DatabaseOperation databaseOperation;
+    String accountString = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +51,15 @@ public class DatabaseTestActivity extends Activity {
         queryallday.setOnClickListener(new QueryAlldayButton());
         clearallday.setOnClickListener(new ClearAlltodayButton());
         switchButton.setOnClickListener(new SwitchButton());
+
+        SharedPreferences apSharedPreferences = getSharedPreferences("saved", Activity.MODE_PRIVATE);
+        accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
     }
     class CreateButton implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.createDatabase(DatabaseTestActivity.this);//创建数据库
         }
     }
@@ -64,7 +68,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.deleteTable(DatabaseTestActivity.this);//删除数据库
         }
     }
@@ -72,7 +76,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.clearTableToday(DatabaseTestActivity.this);//清除数据库
         }
     }
@@ -81,7 +85,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.clearTableAllday(DatabaseTestActivity.this);//清除数据库
         }
     }
@@ -100,7 +104,7 @@ public class DatabaseTestActivity extends Activity {
             int nowhour = nowTime.getHour();
             if(lasthour < nowhour)
             {
-                DatabaseOperation tempOperation = new DatabaseOperation();
+                DatabaseOperation tempOperation = new DatabaseOperation(accountString);
                 tempOperation.switchTodayToAllday(DatabaseTestActivity.this, lasthour, nowhour);
             }
         }
@@ -110,7 +114,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             int yearInt = Integer.parseInt(year.getText().toString());
             int monthInt = Integer.parseInt(month.getText().toString());
             int dayInt = Integer.parseInt(day.getText().toString());
@@ -128,7 +132,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.queryToday(DatabaseTestActivity.this);
         }
     }
@@ -137,7 +141,7 @@ public class DatabaseTestActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            databaseOperation = new DatabaseOperation();
+            databaseOperation = new DatabaseOperation(accountString);
             databaseOperation.queryAllday(DatabaseTestActivity.this);
         }
     }

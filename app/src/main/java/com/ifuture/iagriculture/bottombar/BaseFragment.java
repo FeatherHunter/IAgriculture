@@ -112,13 +112,16 @@ public class BaseFragment extends Fragment {
 	 */
 	public static BaseFragment newInstance(Context context,String tag){
 		BaseFragment baseFragment =  null;
-		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IHOME)){
+		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IGREEN)){
 			baseFragment = new FragmentIHome();
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_STATICS)){//统计数据，暂时用 FragmentToalData();
+			baseFragment = new FragmentToalData();
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_VIDEO)){//视频
 			baseFragment = new FragmentVideo();
 		}
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){//视频
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){//详细数据
 			baseFragment = new FragmentToalData();
 		}
 		/*

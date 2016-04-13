@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu_left_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mydarkorange4">
+
+        <ImageView
+            android:id="@+id/slidemenu_user_pic"
+            android:layout_width="35pt"
+            android:layout_height="35pt"
+            android:src="@drawable/huayunkeji"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10pt"
+            />
+        <TextView
+            android:id="@+id/slidemenu_user_id"
+            android:layout_width="match_parent"
+            android:layout_height="15pt"
+            android:layout_below="@id/slidemenu_user_pic"
+            android:text="huayunkeji"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="10pt"
+            />
+
+        <TextView
+            android:id="@+id/tab_news"
+            style="@style/tab_style"
+            android:drawableLeft="@drawable/tab_news"
+            android:layout_centerHorizontal="true"
+            android:text="新闻"
+            android:layout_below="@id/slidemenu_user_id"/>
+
+        <TextView
+            android:id="@+id/tab_local"
+            style="@style/tab_style"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/tab_local"
+            android:text="本地"
+            android:layout_below="@id/tab_news"/>
+
+        <TextView
+            android:id="@+id/tab_vote"
+            style="@style/tab_style"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/tab_vote"
+            android:text="投票"
+            android:layout_below="@id/tab_local"/>
+
+        <TextView
+            android:id="@+id/tab_ugc"
+            style="@style/tab_style"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/tab_ugc"
+            android:text="聚合阅读"
+            android:layout_below="@id/tab_vote"/>
+    </RelativeLayout>
+
+
+</FrameLayout>

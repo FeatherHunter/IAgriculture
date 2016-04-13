@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu_right_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_bg"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tab_mynews"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_news"
+                android:text="我的新闻" />
+
+            <TextView
+                android:id="@+id/tab_myread" 
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_read"
+                android:text="我的订阅" />
+
+            <TextView
+                android:id="@+id/tab_mylocal"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_local"
+                android:text="我的本地" />
+
+            <TextView
+                android:id="@+id/tab_myties"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_ties"
+                android:text="我的跟帖" />
+
+            <TextView
+                android:id="@+id/tab_mypics"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_pics"
+                android:text="我的图片" />
+
+            <TextView
+                android:id="@+id/tab_myfocus"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_focus"
+                android:text="我的话题" />
+
+            <TextView
+                android:id="@+id/tab_myvote"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_vote"
+                android:text="我的投票" />
+
+            <TextView
+                android:id="@+id/tab_myugc"
+                style="@style/tab_style"
+                android:drawableLeft="@drawable/tab_ugc"
+                android:text="我的聚合阅读" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

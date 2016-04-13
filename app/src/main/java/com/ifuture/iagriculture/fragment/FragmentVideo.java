@@ -1,20 +1,30 @@
 package com.ifuture.iagriculture.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.Instruction.Instruction;
@@ -30,16 +40,22 @@ public class FragmentVideo extends BaseFragment{
 
 	DatabaseOperation databaseOperation = null;
 	ClientMainActivity mainActivity;
-	//Button video_button;
-	ImageView cameraiImageView;
-	private boolean selection = true;
 
-	TextView bedroom_tempValue,bedroom_humiValue;
-	Button bedroom_led1, bedroom_led2, bedroom_led3;
-	Button bedroom_win1, bedroom_win2;
-	Button bedroom_door;
-	Button bedroom_humiControl, bedroom_tempControl;
-	
+	TextView tempValue,humiValue;
+	Button testButton;
+	Button ledButton;
+	ImageView videoImageView;
+
+	private RecvReceiver recvReceiver;
+	private String RECV_ACTION = "android.intent.action.ANSWER";
+
+	Boolean videoOkFlag = false;
+	private ContrlReceiver contrlReceiver;
+	private String CONTRL_ACTION = "android.intent.action.EDIT";
+
+	AnimationDrawable animon = null;
+	AnimationDrawable animoff = null;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,34 +68,102 @@ public class FragmentVideo extends BaseFragment{
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		databaseOperation = new DatabaseOperation();
+		videoOkFlag = true;
+
+		SharedPreferences apSharedPreferences1 = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
+		String accountString  = apSharedPreferences1.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
+		databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
 		//databaseOperation.deleteTable(getActivity());
 		databaseOperation.createDatabase(getActivity());//创建数据库
-		/*要在onCreateView之后得到空间才是有效的*/
-		//video_button = (Button) getActivity().findViewById(R.id.video_button);
-		cameraiImageView = (ImageView) getActivity().findViewById(R.id.camera_jpg);
 
-		bedroom_tempValue = (TextView) getActivity().findViewById(R.id.room_tempValue);
-		bedroom_humiValue = (TextView) getActivity().findViewById(R.id.room_humiValue);
-		bedroom_led1 = (Button) getActivity().findViewById(R.id.room_led1_button);
-		bedroom_led2 = (Button) getActivity().findViewById(R.id.room_led2_button);
-		bedroom_led3 = (Button) getActivity().findViewById(R.id.room_led3_button);
-		bedroom_tempControl = (Button)getActivity().findViewById(R.id.room_tempControl);
-		bedroom_win1 = (Button) getActivity().findViewById(R.id.room_win1_button);
-		bedroom_win2 = (Button) getActivity().findViewById(R.id.room_win2_button);
-		bedroom_door = (Button) getActivity().findViewById(R.id.room_door_button);
-		bedroom_humiControl = (Button) getActivity().findViewById(R.id.room_humiControl);
-		/*设置监听器*/
-		bedroom_led1.setOnClickListener(new LampButtonListener());
-		bedroom_led2.setOnClickListener(new LampButtonListener());
-		bedroom_led3.setOnClickListener(new LampButtonListener());
-		/*demo*/
-		bedroom_win1.setOnClickListener(new demoButtonListener());
-		bedroom_win2.setOnClickListener(new demoButtonListener());
-		bedroom_door.setOnClickListener(new demoButtonListener());
-		bedroom_humiControl.setOnClickListener(new demoButtonListener());
+		tempValue = (TextView) getActivity().findViewById(R.id.room_tempValue);
+		humiValue = (TextView) getActivity().findViewById(R.id.room_humiValue);
+		testButton = (Button) getActivity().findViewById(R.id.ctrl_test_button);
+		ledButton = (Button) getActivity().findViewById(R.id.ctrl_led_button);
+		testButton.setOnClickListener(new testButtonListener());
+		ledButton.setOnClickListener(new lampButtonListener());
+
+		videoImageView = (ImageView) getActivity().findViewById(R.id.ctrl_video_imageview);
+
+		/* -------------------------------------------------------
+	     *  demo
+		 * -------------------------------------------------------*/
+		SharedPreferences demotemp = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+		if(demotemp.getString("demo", "").equals("on"))
+		{
+			videoImageView.setImageResource(R.drawable.demo_on8);
+			ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+		}
+		else
+		{
+			videoImageView.setImageResource(R.drawable.demo_on1);
+			ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_default));
+		}
+
+		animon = new AnimationDrawable();
+		Drawable drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on1);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on3);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on4);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on5);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on6);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on7);
+		animon.addFrame(drawable, 30);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on8);
+		animon.addFrame(drawable, 30);
+
+		animon.setOneShot(true); //not设置为loop
+
+		animoff = new AnimationDrawable();
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on8);
+		animoff.addFrame(drawable, 50);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_off1);
+		animoff.addFrame(drawable, 50);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_off2);
+		animoff.addFrame(drawable, 50);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_off3);
+		animoff.addFrame(drawable, 50);
+		drawable = ContextCompat.getDrawable(getActivity(),R.drawable.demo_on1);
+		animoff.addFrame(drawable, 50);
+
+		animoff.setOneShot(true); //not设置为loop
+
+		/* -------------------------------------------------------
+	     *  通过SharedPreferences获取当前温度等数据,显示出来。
+		 * -------------------------------------------------------*/
+		SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
+		tempValue.setText(apSharedPreferences.getString("temperature", "") ); //第2个参数是value的默认值
+		humiValue.setText(apSharedPreferences.getString("humidity", "") ); //第2个参数是value的默认值
 		//video_button.setOnClickListener(new ButtonListener());
 		//videoStart(); //start video
+
+		/* -------------------------------------------------------
+		 *  动态注册receiver
+		 * -------------------------------------------------------*/
+		try {
+			recvReceiver = new RecvReceiver();
+			IntentFilter filter = new IntentFilter();
+			filter.addAction(RECV_ACTION);
+			getActivity().registerReceiver(recvReceiver, filter);//注册
+		} catch (IllegalArgumentException  e) {
+			// TODO: handle exception
+			System.out.println("fragmentIHome registerReceiver");
+		}
+
+		try {
+			/*动态注册receiver*/
+			contrlReceiver = new ContrlReceiver();
+			IntentFilter filter = new IntentFilter();
+			filter.addAction(CONTRL_ACTION);
+			getActivity().registerReceiver(contrlReceiver, filter);//注册
+		} catch (IllegalArgumentException  e) {
+			// TODO: handle exception
+			System.out.println("had been registerReceiver");
+		}
 	}
 
 	/**
@@ -92,93 +176,61 @@ public class FragmentVideo extends BaseFragment{
 		mainActivity = (ClientMainActivity) activity;
 		//mainActivity.setVideoHandler(videoHandler);
 	}
-//	/**
-//	 *  处理Activity传递来的信息
-//	 *  打开图片进行显示
-//	 */
-//	public Handler videoHandler = new Handler()
-//	{
-//		public void handleMessage(Message msg) {
-//			super.handleMessage(msg);
-//			Bundle bundle = msg.getData();
-//			String typeString = bundle.getString("type");
-//			if(typeString.equals("videofinish"))
-//			{
-//				String path = bundle.getString("videofinish");
-//				File file = new File(path);
-//				if(file.exists()) {
-//					BitmapFactory.Options options = new BitmapFactory.Options();
-//					options.inSampleSize = 2;
-//					Bitmap bm = BitmapFactory.decodeFile(path, options);
-//					cameraiImageView.setImageBitmap(bm);
-//					//Toast.makeText(getActivity(), "file found", Toast.LENGTH_SHORT).show();
-//				}else {
-//					//Toast.makeText(getActivity(), "file readme.txt not found", Toast.LENGTH_SHORT).show();
-//				}
-//
-//			}
-//			else if(typeString.equals("temp"))/*设置温度*/
-//			{
-//				String IDString = bundle.getString("temp");//获取设备ID
-//				if(IDString.equals("10000"))
-//				{
-//					bedroom_tempValue.setText(bundle.getString("10000"));
-//				}
-//			}
-//			else if(typeString.equals("humi"))/*设置湿度*/
-//			{
-//				String IDString = bundle.getString("humi");
-//				if(IDString.equals("10000"))
-//				{
-//					bedroom_humiValue.setText(bundle.getString("10000"));
-//				}
-//			}
-//			else if(typeString.equals("ledon"))/*设置灯*/
-//			{
-//				if( bundle.getString("ledon").equals("0"))
-//				{
-//					//bedroom_led1.setText("台灯1");
-//					bedroom_led1.setTextColor(Color.RED);
-//				}
-//				else if( bundle.getString("ledon").equals("1"))
-//				{
-//					//bedroom_led2.setText("壁灯");
-//					bedroom_led2.setTextColor(Color.RED);
-//				}
-//				else if( bundle.getString("ledon").equals("2"))
-//				{
-//					//bedroom_led3.setText("台灯2");
-//					bedroom_led3.setTextColor(Color.RED);
-//				}
-//			}
-//			else if(typeString.equals("ledoff"))
-//			{
-//				if( bundle.getString("ledoff").equals("0"))
-//				{
-//					//bedroom_led1.setText("台灯1");
-//					bedroom_led1.setTextColor(getResources().getColor(R.color.text_color_default));
-//				}
-//				else if( bundle.getString("ledoff").equals("1"))
-//				{
-//					//bedroom_led2.setText("吊灯");
-//					bedroom_led2.setTextColor(getResources().getColor(R.color.text_color_default));
-//				}
-//				else if( bundle.getString("ledoff").equals("2"))
-//				{
-//					//bedroom_led3.setText("台灯2");
-//					bedroom_led3.setTextColor(getResources().getColor(R.color.text_color_default));
-//				}
-//			}
-//
-//		}
-//	};
 
 	/**
 	 * 灯按键监听器
 	 * @Descrption： 如果当前按钮的颜色为绿色则表示需要开启灯
 	 */
+	class lampButtonListener implements OnClickListener{
 
-	class LampButtonListener implements OnClickListener{
+		@Override
+		public void onClick(View view) {
+			// TODO Auto-generated method stub
+			if(videoOkFlag == false) return;
+			int lampid = view.getId();
+			int textColor = ContextCompat.getColor(getActivity(), R.color.text_color_default);
+			switch(lampid) {
+				case R.id.ctrl_led_button: {
+					int currentColor = ledButton.getCurrentTextColor();
+					Intent intent = new Intent();
+					intent.setAction(intent.ACTION_MAIN);
+					intent.putExtra("type", "send");
+					if (currentColor == textColor) {   //为绿色，关闭lamp
+						videoImageView.setImageDrawable(animon);  //将动画设置为ImageView背景
+						animon.start();   //开始动画
+
+						intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, false));
+						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+						//videoImageView.setImageResource(R.drawable.demo_lamp_on);
+						SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+						SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+						editor.putString("demo", "on");
+						editor.commit();
+					} else {
+						videoImageView.setImageDrawable(animoff);  //将动画设置为ImageView背景
+						animoff.start();   //开始动画
+
+						intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, true));
+						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_default));
+						//videoImageView.setImageResource(R.drawable.demo_lamp_off);
+						SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+						SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+						editor.putString("demo", "off");
+						editor.commit();
+					}
+					getActivity().sendBroadcast(intent);
+				}
+			}
+
+		}//end of onClick
+
+	}
+
+	/**
+	 * 数据库测试按键
+	 * @Descrption： 如果当前按钮的颜色为绿色则表示需要开启灯
+	 */
+	class testButtonListener implements OnClickListener{
 
 		@Override
 		public void onClick(View view) {
@@ -191,15 +243,84 @@ public class FragmentVideo extends BaseFragment{
 	}
 
 	/**
-	 * 用于演示各个开关的用途，包括门窗等
-	 */
-	class demoButtonListener implements  OnClickListener{
+	 * @Function: private class ContrlReceiver extends BroadcastReceiver
+	 * @Description:
+	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
+	 **/
+	private class RecvReceiver extends BroadcastReceiver {
+
+		public RecvReceiver() {
+			// TODO Auto-generated constructor stub
+		}
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String typeString = intent.getStringExtra("update");
+			if(typeString != null)
+			{
+				if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
+				{
+					String tempString = intent.getStringExtra("temp");
+					tempValue.setText(tempString+"℃");
+				}
+				else if(typeString.equals("humi"))/*发送给第一个ihome fragment*/
+				{
+					String humiString = intent.getStringExtra("humi");
+					humiValue.setText(humiString+"%");
+				}
+			}
+		}//onReceive
+
+
+	}
+
+	/**
+	 * @Function: private class ContrlReceiver extends BroadcastReceiver
+	 * @Description:
+	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
+	 **/
+	private class ContrlReceiver extends BroadcastReceiver {
+
+		public ContrlReceiver() {
+			// TODO Auto-generated constructor stub
+		}
 
 		@Override
-		public void onClick(View v) {
-			databaseOperation.querySecToday(getActivity(), 1, 1, 2);
-			//databaseOperation.queryMinuteToday(getActivity(), 0, 1);
-			//databaseOperation.queryHourToday(getActivity(), 2);
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String typeString = intent.getStringExtra("type");
+			Message msgMessage = new Message();
+			Bundle bundle = new Bundle();
+			/* -----------------------------------------
+			 * 处理主activity接收到的广播
+			 * -----------------------------------------*/
+			if (typeString.equals("wifi_internet")) {
+				String stateString = intent.getStringExtra("wifi_internet");
+				if (stateString.equals("disconnect")) {
+					videoOkFlag = false;
+					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.color.black));
+				} else if (stateString.equals("connect")) {
+				} else if (stateString.equals("error")) {
+					videoOkFlag = false;
+					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.color.black));
+				} else if (stateString.equals("authed")) {
+					videoOkFlag = true;
+					/* -------------------------------------------------------
+	     			 *  demo
+		 			 * -------------------------------------------------------*/
+					SharedPreferences demotemp = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+					if(demotemp.getString("demo", "").equals("on"))
+					{
+						videoImageView.setImageResource(R.drawable.demo_on1);
+						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+					}
+					else
+					{
+						videoImageView.setImageResource(R.drawable.demo_on8);
+						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_default));
+					}
+				}
+			}
 		}
 	}
 	

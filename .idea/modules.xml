@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IAgriculture.iml" filepath="$PROJECT_DIR$/IAgriculture.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" filepath="$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" filepath="$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" />
     </modules>
   </component>
 </project>

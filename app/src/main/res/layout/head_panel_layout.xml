@@ -2,7 +2,7 @@
 <com.ifuture.iagriculture.bottombar.HeadControlPanel
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="38pt"
+    android:layout_height="wrap_content"
     android:layout_alignParentTop="true">
 
 
@@ -10,8 +10,7 @@
         android:id="@+id/radiogroup_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginTop="12pt"
+        android:background="@color/mygreen4"
         android:gravity="center">
 
         <RadioGroup

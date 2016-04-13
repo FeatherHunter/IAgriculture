@@ -4,130 +4,360 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.AdapterView;
 
-import com.ifuture.iagriculture.activity.ClientActivity;
-import com.ifuture.iagriculture.activity.ClientMainActivity;
-import com.ifuture.iagriculture.Instruction.Instruction;
-//import com.ifuture.iagriculture.activity.StatisticsActivity;
+import android.widget.ImageView;
+import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonFloatSmall;
+import com.gc.materialdesign.views.ButtonRectangle;
+import com.hb.views.PinnedSectionListView;
+import com.ifuture.iagriculture.activity.BandTerminalDialog;
+import com.ifuture.iagriculture.activity.CreateAreaDialog;
+import com.ifuture.iagriculture.adapter.HomeListViewAdapter;
 import com.ifuture.iagriculture.bottombar.*;
 import com.ifuture.iagriculture.R;
+import com.ifuture.iagriculture.listview.ListViewItem;
+import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
-import java.io.UnsupportedEncodingException;
-
+import java.util.ArrayList;
 
 /** 
- * @CopyRight: 王辰浩 2015~2025
+ * @CopyRight: 王辰浩 2016~2026
  * @Author Feather Hunter(猎羽)
  * @qq:975559549
  * @Version:1.0 
- * @Date:2015/12/25
- * @Description: IHome的Fragment界面
- * @Function List:
- *   1. void onAttach(Activity activity); //用于绑定ClientMainActivity和handler
+ * @Date: 2016/4/12
+ * @Description: IHome的Fragment界面。用于选择地区、大棚，也可以绑定地区，大棚和设备号。
+ * @FunctionList:
+ *   1. onCreateView; //初始化布局和listview
+ *   2. init_listview
  *   2. Handler communicationHandler;     //用于处理和ClientMainActivity的通信
  **/
 
 public class FragmentIHome extends BaseFragment{
 
-	ClientMainActivity mainActivity;
-	private RecvReceiver recvReceiver;
+	//private RecvReceiver recvReceiver;
 	private String RECV_ACTION = "android.intent.action.ANSWER";
-	TextView tempCATextview;//C当前温度 for air空气
-	TextView tempCGTextview;//C当前温度 for air
-	TextView humiCATextview;//C当前湿度 for ground 土壤
-	TextView humiCGTextview;//C当前湿度 for ground
+
+
+	DatabaseOperation databaseOperation = null; //数据库帮助操作的类
+	ImageView videoImageView;
+
+	boolean buttonFloatIsGone = true; //悬浮按钮显示
 
 	SharedPreferences apSharedPreferences = null;
 
-	Button balcony_win1, balcony_win2, balcony_win3, balcony_win4;
-	TextView weather_value;
+	Boolean videoOkFlag = false;
+	private ContrlReceiver contrlReceiver;
+	private String CONTRL_ACTION = "android.intent.action.EDIT";
 
-	TextView bedroom_tempValue,bedroom_humiValue;
-	Button bedroom_led1, bedroom_led2, bedroom_led3;
-	Button staticsButton;
-	Button bedroom_win1, bedroom_win2;
-	Button bedroom_door;
-	Button bedroom_humiControl, bedroom_tempControl;
+	ButtonFloat totalButtonFloat = null;
+	ButtonFloatSmall addAreaButtonFloatSmall = null;
+	ButtonFloatSmall addTerminalButtonFloatSmall = null;
+	ButtonFloatSmall addDeviceButtonFloatSmall = null;
 
-	TextView kitchen_smokeState, kitchen_fireState;
-	Button kitchen_win1, kitchen_win2;
-	Button kitchen_door;
+	ButtonRectangle addAreaButtonRectangle = null;
+	ButtonRectangle addTerminalButtonRectangle = null;
+	ButtonRectangle addDeviceButtonRectangle = null;
 
-	Button IHome_button;
-	boolean ihome_mode = false;
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.ihome_fragment1, container, false);
+	private PinnedSectionListView listView;
+	private HomeListViewAdapter adapter;
+
+	private int REQUEST_AREA = 0;
+	private int REQUEST_TERM = 1;
+	private int RESULT_OK = 1;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view= inflater.inflate(R.layout.home_fragment, container, false); //获得该fragment的布局文件
+		/*--------------------------------------------
+		 *             初始化listview
+		 *----------------------------------------------*/
+		init_listview(view);
+		System.out.println("onCreateView");
+
+		return view;
 	}
-	
-	
+	/**
+	 *  @Function: init_listview
+	 *  @description: 初始化listview: 消除滚动条，配置适配器和监听器，设置padding
+	 **/
+	private void init_listview(View view){
+
+		listView = (PinnedSectionListView)view.findViewById(R.id.home_listview); //获得listview
+		/*-----------------------------------------------
+		 *             消除滚动条
+		 *-----------------------------------------------*/
+		listView.setFastScrollEnabled(false);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			listView.setFastScrollAlwaysVisible(false);
+		}
+		/*-----------------------------------------------
+		 *             配置适配器和按键监听器
+		 *----------------------------------------------*/
+		adapter = new HomeListViewAdapter(getActivity(), ListViewItem.getData(getActivity()));
+		listView.setAdapter(adapter);//设置适配器
+		listView.setOnItemClickListener(getListenerForListView());
+
+		/*-----------------------------------------------
+		 *             设置Listview周围的padding
+		 *----------------------------------------------*/
+		float density = getResources().getDisplayMetrics().density;
+		int padding = (int) (1 * density);
+		listView.setPadding(padding, padding, padding, padding);
+	}
+
+	public void refreshListView() {
+		System.out.println("refreshListView");
+		ArrayList<ListViewItem> list = new ArrayList<ListViewItem>();
+
+		String areaNames[] = databaseOperation.queryAreaName(getActivity());
+		for(int i = 0; areaNames[i] != null; i++)
+		{
+			list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i]));
+		}
+		adapter.refresh(list);
+	}
+
+
+	/**
+	 *  @Function: OnItemClickListener
+	 *  @description: listview的按键监听器
+	 **/
+	private AdapterView.OnItemClickListener getListenerForListView() {
+		// TODO Auto-generated method stub
+		return new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+									long id) {
+				// TODO Auto-generated method stub
+				if(position>0){
+					ListViewItem item=adapter.getItem(position-1);
+					if(item.type==ListViewItem.ITEM){
+						System.out.println("" + item.text);
+					}
+				}
+			}//end of onItemClick
+		};//end of OnItemClickListener()
+	}
 
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 
-		/* -------------------------------------------------------
-		 *  动态注册receiver
-		 * -------------------------------------------------------*/
-		try {
-			recvReceiver = new RecvReceiver();
-			IntentFilter filter = new IntentFilter();
-			filter.addAction(RECV_ACTION);
-			getActivity().registerReceiver(recvReceiver, filter);//注册
-		} catch (IllegalArgumentException  e) {
-			// TODO: handle exception
-			System.out.println("fragmentIHome registerReceiver");
-		}
-		/*要在onCreateView之后得到空间才是有效的*/
-		//bedroom_tempValue = (TextView) getActivity().findViewById(R.id.bedroom_tempValue);
-		//bedroom_humiValue = (TextView) getActivity().findViewById(R.id.bedroom_humiValue);
-		tempCATextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_catemp);//C当前温度 for air空气
-		tempCGTextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cahumi);//C当前温度 for air
-		humiCATextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cgtemp);//C当前湿度 for ground 土壤
-		humiCGTextview = (TextView) getActivity().findViewById(R.id.igreen_fragment_cghumi);//C当前湿度 for ground
+		SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
+		String accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
+		databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
+		databaseOperation.createDatabase(getActivity());//创建数据库
 
-		/* -------------------------------------------------------
-	     *  通过SharedPreferences获取当前温度等数据,显示出来。
-	     *  用于fragment切换时候的数据保存
-		 * -------------------------------------------------------*/
-		apSharedPreferences = getActivity().getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
-		tempCATextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
-		tempCGTextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
+		/*---------------------------------------------------------------------------
+		 *                 右下角悬浮按钮 （获取）
+		 *---------------------------------------------------------------------------*/
+		totalButtonFloat = (ButtonFloat) getActivity().findViewById(R.id.buttonFloat_total);
+		addAreaButtonFloatSmall = (ButtonFloatSmall) getActivity().findViewById(R.id.home_bfSmall_addArea);
+		addTerminalButtonFloatSmall = (ButtonFloatSmall) getActivity().findViewById(R.id.home_bfSmall_addTerminal);
+		addDeviceButtonFloatSmall = (ButtonFloatSmall) getActivity().findViewById(R.id.home_bfSmall_addDevice);
+
+		addAreaButtonRectangle = (ButtonRectangle) getActivity().findViewById(R.id.home_addArea_text);
+		addTerminalButtonRectangle = (ButtonRectangle) getActivity().findViewById(R.id.home_addTerminal_text);
+		addDeviceButtonRectangle = (ButtonRectangle) getActivity().findViewById(R.id.home_addDevice_text);
+
+		totalButtonFloat.setOnClickListener(new buttonFloatTotalListenner()); //设置总开关的监听器
+
+		addAreaButtonFloatSmall.setOnClickListener(new buttonFloatSmallListenner()); //设置创建区域按钮
+		addAreaButtonRectangle.setOnClickListener(new buttonRectangleListenner());
+
+		addTerminalButtonFloatSmall.setOnClickListener(new buttonFloatSmallListenner()); //设置创建区域按钮
+
+
+//
+//		video_start = false; //默认视频关闭
+//
+//		/* -------------------------------------------------------
+//		 *  动态注册receiver
+//		 * -------------------------------------------------------*/
+//		try {
+//			recvReceiver = new RecvReceiver();
+//			IntentFilter filter = new IntentFilter();
+//			filter.addAction(RECV_ACTION);
+//			getActivity().registerReceiver(recvReceiver, filter);//注册
+//		} catch (IllegalArgumentException  e) {
+//			// TODO: handle exception
+//			System.out.println("fragmentIHome registerReceiver");
+//		}
+//
+//		try {
+//			/*动态注册receiver*/
+//			contrlReceiver = new ContrlReceiver();
+//			IntentFilter filter = new IntentFilter();
+//			filter.addAction(CONTRL_ACTION);
+//			getActivity().registerReceiver(contrlReceiver, filter);//注册
+//		} catch (IllegalArgumentException  e) {
+//			// TODO: handle exception
+//			System.out.println("had been registerReceiver");
+//		}
+//
+//
+//		/* -------------------------------------------------------
+//	     *  通过SharedPreferences获取当前温度等数据,显示出来。
+//	     *  用于fragment切换时候的数据保存
+//		 * -------------------------------------------------------*/
+//		apSharedPreferences = getActivity().getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
+//		tempCATextview.setText(apSharedPreferences.getString("temperature", "") + "℃"); //第2个参数是value的默认值
+//		tempCGTextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
+//
+//
+//		/* -------------------------------------------------------
+//	     *  通过SharedPreferences获取当前温度等数据,显示出来。
+//	     *  用于fragment切换时候的数据保存
+//		 * -------------------------------------------------------*/
+//		apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+//		if(apSharedPreferences.getString("demo", "").equals("on"))
+//		{
+//			videoImageView.setImageResource(R.drawable.demo_on8);
+//		}
+//		else
+//		{
+//			videoImageView.setImageResource(R.drawable.demo_on1);
+//		}
+//		videoRelativelayout = (RelativeLayout) getActivity().findViewById(R.id.igreen_video_dislayout);
 	}
 
-	class staticsButtonListenner implements OnClickListener{
+	/**
+	 * @Function: private void setBFGone()
+	 * @Description:
+	 *      将所有悬浮按钮去除
+	 **/
+	private void setBFGone()
+	{
+		addAreaButtonFloatSmall.setVisibility(View.GONE);
+		addTerminalButtonFloatSmall.setVisibility(View.GONE);
+		addDeviceButtonFloatSmall.setVisibility(View.GONE);
+
+		addAreaButtonRectangle.setVisibility(View.GONE);
+		addTerminalButtonRectangle.setVisibility(View.GONE);
+		addDeviceButtonRectangle.setVisibility(View.GONE);
+
+		buttonFloatIsGone = true;
+	}
+
+	/**
+	 * @Function: private void setBFVisibility()
+	 * @Description:
+	 *      将所有悬浮按钮显示出来
+	 **/
+	private void setBFVisibility()
+	{
+		addAreaButtonFloatSmall.setVisibility(View.VISIBLE);
+		addTerminalButtonFloatSmall.setVisibility(View.VISIBLE);
+		addDeviceButtonFloatSmall.setVisibility(View.VISIBLE);
+
+		addAreaButtonRectangle.setVisibility(View.VISIBLE);
+		addTerminalButtonRectangle.setVisibility(View.VISIBLE);
+		addDeviceButtonRectangle.setVisibility(View.VISIBLE);
+
+		buttonFloatIsGone = false;
+	}
+
+	/**
+	 * @Function: class buttonFloatTotalListenner
+	 * @Description:
+	 *      悬浮按钮的总开关
+	 **/
+	class buttonFloatTotalListenner implements OnClickListener{
 
 		@Override
 		public void onClick(View v) {
-			Intent tempIntent = new Intent();
-
-			//tempIntent.setClass(getActivity(), StatisticsActivity.class);
-			//getActivity().startActivity(tempIntent);
+			int id = v.getId();
+			if(id == R.id.buttonFloat_total)
+			{
+				if(buttonFloatIsGone)
+				{
+					setBFVisibility();
+				}
+				else
+				{
+					setBFGone();
+				}
+			}
 		}
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
-		mainActivity = (ClientMainActivity) activity;
-		mainActivity.setIHomeHandler(ihomeHandler);
+	/**
+	 * @Function: class buttonFloatSmallListenner
+	 * @Description:
+	 *      三种功能：
+	 *       1. 创建区域
+	 *       2. 绑定终端
+	 *       3. 绑定设备
+	 **/
+	class buttonFloatSmallListenner implements OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			int id = v.getId();
+			if(id == R.id.home_bfSmall_addArea)
+			{
+				Intent intent = new Intent(getActivity(), CreateAreaDialog.class);
+				intent.putExtra("area_number", databaseOperation.queryAreaCount(getActivity()));//传入固定好的地区号(已有的地区号+1)
+				startActivityForResult(intent, REQUEST_AREA); //打开创建地区的对话框，REQUEST_AREA是标志
+			}
+			else if(id == R.id.home_bfSmall_addTerminal)
+			{
+				Intent intent = new Intent(getActivity(), BandTerminalDialog.class);
+				startActivityForResult(intent, REQUEST_TERM); //打开创建地区的对话框，REQUEST_AREA是标志
+			}
+			setBFGone();
+		}
+	}
+
+	/**
+	 * @Function: public void onActivityResult(int requestCode, int resultCode, Intent data)
+	 * @Description:
+	 * 		处理打开的dialog类型的activity的返回值，用于刷新列表之类的操作
+	 **/
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == REQUEST_AREA) { //为创建地区的返回值
+			System.out.println("REQUEST_AREA");
+			if (resultCode == RESULT_OK) { //创建成功
+				System.out.println("RESULT_OK");
+				refreshListView(); //刷新显示
+			}
+		}
+	}
+
+	/**
+	 * @Function: class buttonRectangleListenner
+	 * @Description:
+	 *      三种功能：
+	 *       1. 创建区域
+	 *       2. 绑定终端
+	 *       3. 绑定设备
+	 **/
+	class buttonRectangleListenner implements OnClickListener{
+		@Override
+		public void onClick(View v) {
+			int id = v.getId();
+			if(id == R.id.home_addArea_text)
+			{
+				Intent intent = new Intent(getActivity(), CreateAreaDialog.class);
+				startActivityForResult(intent, 0);
+			}
+			setBFGone();
+		}
 	}
 
 	/**
@@ -135,115 +365,44 @@ public class FragmentIHome extends BaseFragment{
 	 * @Description:
 	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
 	 **/
-	private class RecvReceiver extends BroadcastReceiver {
+	private class ContrlReceiver extends BroadcastReceiver {
 
-		public RecvReceiver() {
+		public ContrlReceiver() {
 			// TODO Auto-generated constructor stub
 		}
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-			String typeString = intent.getStringExtra("update");
-			if(typeString != null)
-			{
-				if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
-				{
-					String tempString = intent.getStringExtra("temp");
-					tempCATextview.setText(tempString+"℃");
-					tempCGTextview.setText(tempString+"℃");
+			String typeString = intent.getStringExtra("type");
+			/* -----------------------------------------
+			 * 处理主activity接收到的广播
+			 * -----------------------------------------*/
+			if (typeString.equals("wifi_internet")) {
+				String stateString = intent.getStringExtra("wifi_internet");
+				if (stateString.equals("disconnect")) {
+					videoOkFlag = false;
+					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.color.black));
+				} else if (stateString.equals("connect")) {
+				} else if (stateString.equals("error")) {
+					videoOkFlag = false;
+					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.color.black));
+				} else if (stateString.equals("authed")) {
+					videoOkFlag = true;
+					/* -------------------------------------------------------
+	     			 *  demo
+		 			 * -------------------------------------------------------*/
+					SharedPreferences demotemp = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
+					if(demotemp.getString("demo", "").equals("on"))
+					{
+						videoImageView.setImageResource(R.drawable.demo_on8);
+					}
+					else
+					{
+						videoImageView.setImageResource(R.drawable.demo_on1);
+					}
 				}
 			}
-		}//onReceive
-
-
-	}
-	/**
-	 *  处理Activity传递来的信息
-	 */
-	public Handler ihomeHandler = new Handler()
-	{
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-		    Bundle bundle = msg.getData();
-		    String typeString = bundle.getString("type");
-		    if(typeString.equals("ihome"))
-		    {
-		    	String mode = bundle.getString("ihome");
-		    	if(mode.equals("start"))
-		    	{
-		    		IHome_button.setTextColor(0xff00cc00);
-		    		ihome_mode = true;
-		    	}
-		    	else {
-		    		IHome_button.setTextColor(0xffbfbfbf);
-		    		ihome_mode = false;
-				}
-		    }
-		    else if(typeString.equals("temp"))/*设置温度*/
-			{
-		    	String IDString = bundle.getString("temp");//获取设备ID
-		    	if(IDString.equals("10000"))
-		    	{
-		    		bedroom_tempValue.setText(bundle.getString("10000"));
-		    	}
-			}
-		    else if(typeString.equals("humi"))/*设置湿度*/
-			{
-		    	String IDString = bundle.getString("humi");
-		    	if(IDString.equals("10000"))
-		    	{
-		    		bedroom_humiValue.setText(bundle.getString("10000"));
-		    	}
-			}
-		    else if(typeString.equals("ledon"))/*设置灯*/
-			{
-		    	if( bundle.getString("ledon").equals("0"))
-		    	{
-		    		//bedroom_led1.setText("台灯1");
-					bedroom_led1.setTextColor(Color.RED);
-		    	}
-		    	else if( bundle.getString("ledon").equals("1"))
-		    	{
-					//bedroom_led2.setText("壁灯");
-					bedroom_led2.setTextColor(Color.RED);
-		    	}
-		    	else if( bundle.getString("ledon").equals("2"))
-		    	{
-					//bedroom_led3.setText("台灯2");
-					bedroom_led3.setTextColor(Color.RED);
-		    	}
-			}
-		    else if(typeString.equals("ledoff"))
-		    {
-		    	if( bundle.getString("ledoff").equals("0"))
-		    	{
-					//bedroom_led1.setText("台灯1");
-					bedroom_led1.setTextColor(getResources().getColor(R.color.text_color_default));
-		    	}
-		    	else if( bundle.getString("ledoff").equals("1"))
-		    	{
-					//bedroom_led2.setText("吊灯");
-					bedroom_led2.setTextColor(getResources().getColor(R.color.text_color_default));
-		    	}
-		    	else if( bundle.getString("ledoff").equals("2"))
-		    	{
-					//bedroom_led3.setText("台灯2");
-					bedroom_led3.setTextColor(getResources().getColor(R.color.text_color_default));
-		    	}
-		    }
-
-		}
-	};
-
-	class tempCtrlButtonListener implements  OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-			Intent intent = new Intent();
-			intent.setAction(intent.ACTION_EDIT);
-			intent.putExtra("type", "tempCtrl");
-			getActivity().sendBroadcast(intent);
 		}
 	}
 	

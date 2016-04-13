@@ -4,8 +4,8 @@
     package="com.ifuture.iagriculture" >
 
     <uses-sdk
-        android:minSdkVersion="13"
-        android:targetSdkVersion="20" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
     android:versionCode="1"
     android:versionName="1.0" >
     <uses-permission android:name="android.permission.INTERNET" />
@@ -45,9 +45,14 @@
         <service android:name=".service.IHomeService" >
         </service>
 
-        <activity android:name=".activity.StatisticsActivity" >
-        </activity>
         <activity android:name=".activity.DatabaseTestActivity" >
+        </activity>
+        <activity
+            android:name=".activity.CreateAreaDialog"
+            android:label="创建区域"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity android:name=".activity.BandTerminalDialog" >
         </activity>
     </application>
 

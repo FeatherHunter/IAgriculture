@@ -17,6 +17,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DayDatabaseHelper extends SQLiteOpenHelper{
     private static final int VERSION = 1;
+    public static final String tableAreaName  = "area";
+    public static final String tableTerminalName  = "terminal";
     public static final String tableTodayName  = "today";
     public static final String tableAlldayName = "allday";
     public static final String year        = "year";
@@ -48,6 +50,7 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
         //执行创建表的语句
         createTodayTable(db);
         createAlldayTable(db);
+        createAreaTable(db);
     }
     public void createTodayTable(SQLiteDatabase db)
     {
@@ -56,6 +59,16 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
     public void createAlldayTable(SQLiteDatabase db)
     {
         db.execSQL("create table allday(year int, month int, day int, hour int, temperature  float, humidity float, primary key(year,month,day,hour))");
+    }
+
+    public void createAreaTable(SQLiteDatabase db)
+    {
+        db.execSQL("create table area(area int primary key, name varchar(20))");
+    }
+
+    public void createTerminalTable(SQLiteDatabase db)
+    {
+        db.execSQL("create table terminal(area int, terminal varchar(20), primary key(area,terminal))");
     }
 
     @Override

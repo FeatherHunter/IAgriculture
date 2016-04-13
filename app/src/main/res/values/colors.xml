@@ -22,6 +22,17 @@
     <color name="temp_17">#0033bb</color>
     <color name="temp_16">#0000bb</color>
 
+    <color name="mygreen1">#E0E9CA</color>
+    <color name="mygreen2">#CBDBA6</color>
+    <color name="mygreen3">#BAD083</color>
+    <color name="mygreen4">#A9C75E</color>
+    <color name="mygreen5">#99C039</color>
+    <color name="mygreen6">#85AC23</color>
+    <color name="mygreen7">#6D8F17</color>
+    <color name="mygreen8">#55710F</color>
+
+    <color name="mydarkorange4">#E89F4D</color>
+
     <color name="white">#ffffff</color> <!-- 白色 -->
     <color name="ivory">#fffff0</color> <!-- 象牙色 -->
     <color name="lightyellow">#ffffe0</color> <!-- 亮黄色 -->

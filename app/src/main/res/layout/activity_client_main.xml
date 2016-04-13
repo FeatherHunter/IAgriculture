@@ -7,7 +7,8 @@
 
     <include
         android:id="@+id/bottom_layout"
-        layout="@layout/bottombar" />
+        layout="@layout/bottombar"
+        android:background="@color/white"/>
 
     <include
         android:id="@+id/head_layout"

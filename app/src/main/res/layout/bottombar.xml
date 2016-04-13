@@ -5,7 +5,8 @@
     android:layout_alignParentBottom="true"  
     android:gravity="center_vertical"  
     android:paddingLeft="20dp"  
-    android:paddingRight="20dp">
+    android:paddingRight="20dp"
+    android:background="@color/white">
   
     <com.ifuture.iagriculture.bottombar.ImageText
         android:id="@+id/btn_ihome"  

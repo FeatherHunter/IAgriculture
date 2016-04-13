@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150pt"
+    tools:context="com.ifuture.iagriculture.activity.CreateAreaDialog"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/cArea_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="20pt"
+        android:text="创建地区"
+        android:textSize="12pt"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@color/mygreen4"/>
+
+    <TextView
+        android:id="@+id/cArea_device_number_text"
+        android:layout_width="40pt"
+        android:layout_height="15pt"
+        android:text="地区号"
+        android:textSize="12pt"
+        android:textColor="@color/dodgerblue"
+        android:layout_below="@id/cArea_title_text"
+        android:layout_marginLeft="10pt"/>
+
+    <TextView
+        android:id="@+id/cArea_device_number"
+        android:layout_width="20pt"
+        android:layout_height="12pt"
+        android:layout_toRightOf="@id/cArea_device_number_text"
+        android:layout_marginLeft="30pt"
+        android:background="@color/lightgray"
+        android:textColor="@color/dodgerblue"
+        android:textSize="8pt"
+        android:gravity="center"
+        android:layout_below="@id/cArea_title_text"
+        />
+    <TextView
+        android:layout_width="120pt"
+        android:layout_height="10pt"
+        android:text="别点了- -！地区号是我们固定好的"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2pt"
+        android:layout_below="@id/cArea_device_number"/>
+
+    <TextView
+        android:id="@+id/cArea_device_name_text"
+        android:layout_width="40pt"
+        android:layout_height="15pt"
+        android:text="地区名"
+        android:textColor="@color/dodgerblue"
+        android:textSize="12pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="20pt"
+        android:layout_below="@id/cArea_device_number"/>
+
+    <EditText
+        android:id="@+id/cArea_device_name"
+        android:layout_width="80pt"
+        android:layout_height="20pt"
+        android:layout_toRightOf="@id/cArea_device_number_text"
+        android:layout_marginLeft="15pt"
+        android:layout_alignTop="@id/cArea_device_name_text"/>
+
+    <TextView
+        android:layout_width="180pt"
+        android:layout_height="40pt"
+        android:text="是的,和你想的一样,填写上农场所在地，类似南京江宁就行了。如果非要写成家中厕所之类的也阻止不了你- -！"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cArea_device_name"/>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/cArea_check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:background="#1E88E5"
+        android:layout_alignParentBottom="true"
+        android:text="确定" />
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/cArea_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:background="#1E88E5"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="取消" />
+
+</RelativeLayout>

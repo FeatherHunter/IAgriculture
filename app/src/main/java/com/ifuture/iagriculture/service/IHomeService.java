@@ -118,7 +118,7 @@ public class IHomeService extends Service{
 
 		/* 创建数据库操作类，并且创建数据库
 		 * */
-		databaseOperation = new DatabaseOperation();
+		databaseOperation = new DatabaseOperation(account);
 		databaseOperation.createDatabase(this);//创建数据库
 
 		/* ------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ public class IHomeService extends Service{
 		}else//不符合,clear，今天第一次使用
 		{
 			System.out.println("Clear TABLE today");
-			databaseOperation = new DatabaseOperation();
+			databaseOperation = new DatabaseOperation(account);
 			databaseOperation.clearTableToday(this);//清除数据库
 			/*------------------------------------------------------------------------------
 			 *  保存今天日期用于确定today表
@@ -310,7 +310,7 @@ public class IHomeService extends Service{
 						}
 					}
 					/* --------------------------------------------------
-					 * 检查网络是否存在问题
+					 *               检查网络是否存在问题
 					 * --------------------------------------------------*/
 					if(isNetworkAvailable(IHomeService.this)){
 						System.out.println("正在连接服务器.....");
@@ -612,6 +612,20 @@ public class IHomeService extends Service{
 							}
 							//res = -1, 指令不全，什么都不做等待下一部分
 						}
+						else
+						{
+													/*找到END或者HEAD*/
+							while(index < msgLength)
+							{
+								if((message.charAt(index) == Instruction.CMD_HEAD) || (message.charAt(index) == Instruction.CMD_END) )
+								{
+									message = message.substring(index);
+									break;
+								}
+								index++;
+							}//
+
+						}
 					}
 					else //什么指令都不是
 					{
@@ -739,7 +753,7 @@ public class IHomeService extends Service{
 			int nowhour = nowTime.getHour();
 			if(lasthour < nowhour)
 			{
-				DatabaseOperation tempOperation = new DatabaseOperation();
+				DatabaseOperation tempOperation = new DatabaseOperation(account);
 				tempOperation.switchTodayToAllday(this, lasthour, nowhour);
 			}
 		}
@@ -822,6 +836,14 @@ public class IHomeService extends Service{
 				intent.putExtra("wifi_internet", "authed");
 				sendBroadcast(intent);
 			}
+			/*-------------------------------------------------------
+		     *         通知ClientMainActivity认证成功
+			 *-------------------------------------------------------*/
+			Intent intent = new Intent();
+			intent.setAction(intent.ACTION_EDIT);
+			intent.putExtra("type", "wifi_internet");
+			intent.putExtra("wifi_internet", "authed");
+			sendBroadcast(intent);
 		}
 		else if(msg.charAt(i) == Instruction.LOGIN_FAILED)//登录失败
 		{
@@ -884,6 +906,18 @@ public class IHomeService extends Service{
 				intent1.setAction(intent1.ACTION_ANSWER);
 	    		intent1.putExtra("result", "relogin");
 	            sendBroadcast(intent1);
+			}
+			/*---------------------------------
+			 *   发送数据给服务器
+			 *---------------------------------- */
+			else if(typeString.equals("send"))
+			{
+				System.out.println("IGreen Service send msg to Server");
+				String msgString = intent.getStringExtra("send");
+				if(msgString != null)
+				{
+					sendMsg(msgString);
+				}
 			}
 		}//end of OnReiceive
 		

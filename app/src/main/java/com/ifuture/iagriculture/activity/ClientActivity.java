@@ -118,6 +118,7 @@ public class ClientActivity extends Activity {
 		client_bluetooth = (Button) findViewById(R.id.client_bluetooth);
 		client_login.setOnClickListener(new LoginButtonListener());
 		client_bluetooth.setOnClickListener(new BluetoothButtonListener());
+		//client_bluetooth.setVisibility(View.GONE );
 
 		/* -------------------------------------------------------
 		 *  打开wifi的请求

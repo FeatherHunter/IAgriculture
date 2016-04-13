@@ -54,6 +54,8 @@ public class DatabaseOperation {
 
     private String databaseName = "igreen_db";
     DayDatabaseHelper dbHelper  = null;
+    public String tableAreaString   = DayDatabaseHelper.tableAreaName;
+    public String tableTermString   = DayDatabaseHelper.tableTerminalName;
     public String tableNameString   = DayDatabaseHelper.tableTodayName;
     public String tableAlldayString = DayDatabaseHelper.tableAlldayName;
     public String yearString        = DayDatabaseHelper.year;
@@ -65,6 +67,10 @@ public class DatabaseOperation {
     public String tempString        = DayDatabaseHelper.temperature;
     public String humiString        = DayDatabaseHelper.humidity;
 
+    public DatabaseOperation(String account)
+    {
+        databaseName = account;
+    }
     /**
      *  创建数据库，如果表不存在则创建相应表
      * */
@@ -84,6 +90,14 @@ public class DatabaseOperation {
         if(!tabbleIsExist(db, tableAlldayString))
         {
             dbHelper.createAlldayTable(db);
+        }
+        if(!tabbleIsExist(db, tableAreaString)) //地区表不存在
+        {
+            dbHelper.createAreaTable(db);
+        }
+        if(!tabbleIsExist(db, tableTermString)) //终端表不存在，创建
+        {
+            dbHelper.createTerminalTable(db);
         }
     }
     /**
@@ -141,6 +155,131 @@ public class DatabaseOperation {
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("delete from " + tableAlldayString);
+    }
+    /**
+     * =============================================================================================
+     * @Description
+     *                       终端表的增删改查
+     * =============================================================================================
+     * */
+
+    public void insertTerminal(Context context, int area, String terminalNum){
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        System.out.println("insertTerminal");
+        if(recordExitsTerminal(db, area, terminalNum)) //已经存在则不作任何操作
+        {
+            //已经存在终端，不作任何处理
+        }
+        else//不存在，则插入
+        {
+            ContentValues values = new ContentValues();
+            values.put("area",area);
+            values.put("terminal",terminalNum);
+            db.insert(tableTermString, null, values);//调用insert方法，就可以将数据插入到数据库当中
+        }
+    }
+
+    private boolean recordExitsTerminal(SQLiteDatabase db, int area, String terminalNum)
+    {
+        Cursor cursor = db.rawQuery("select * from terminal where area=? and terminal=?", new String[]{"" + area, "" + terminalNum});
+        if(cursor.getCount() != 0)//存在
+        {
+            return true;
+        }
+        return false; //不存在
+    }
+
+    /**
+     * =============================================================================================
+     * @Description
+     *                       地区表的增删改查
+     * =============================================================================================
+     * */
+
+    public void insertArea(Context context, int area, String areaName){
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        System.out.println("insertArea");
+        if(recordExitsArea(db, area, areaName)) //已经存在则更新
+        {
+            updateRecordArea(context, area, areaName); //更新数据
+        }
+        else//不存在，则插入
+        {
+            System.out.println("insertArea");
+            ContentValues values = new ContentValues();
+            values.put("area",area);
+            values.put("name",areaName);
+            db.insert(tableAreaString, null, values);//调用insert方法，就可以将数据插入到数据库当中
+        }
+    }
+
+    private boolean recordExitsArea(SQLiteDatabase db, int area, String areaName)
+    {
+        Cursor cursor = db.rawQuery("select * from area where area=? and name=?", new String[]{"" + area, "" + areaName});
+        if(cursor.getCount() != 0)//存在
+        {
+            return true;
+        }
+        return false; //不存在
+    }
+
+    public void updateRecordArea(Context context, int area, String areaName)
+    {
+        System.out.println("updateRecordArea");
+        // TODO Auto-generated method stub
+        //得到一个可写的SQLiteDatabase对象
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("area",area);
+        values.put("name",areaName);
+        //第一个参数是要更新的表名
+        //第二个参数是一个ContentValeus对象
+        //第三个参数是where子句
+        db.update(tableAreaString, values, "area=? and name=?", new String[]{"" + area, "" + areaName});
+    }
+
+    /*-----------------------------------------
+     *           查询地区的所有名称
+     *---------------------------------------*/
+    public String[] queryAreaName(Context context)
+    {
+        System.out.println("queryAreaName");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select name from area", null);
+
+
+        String areaNames[] = new String[51];
+        int i = 0;
+        while(cursor.moveToNext())
+        {
+            areaNames[i] = cursor.getString(0);
+            i++;
+        }
+        areaNames[i] = null;
+        return areaNames;
+    }
+
+    /*-----------------------------------------
+     *           查询地区的数量
+     *---------------------------------------*/
+    public int queryAreaCount(Context context)
+    {
+        System.out.println("queryAreaCount");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select area from area", null);
+
+        int i = 0;
+        while(cursor.moveToNext())
+        {
+            i++;
+        }
+        return i;
     }
 
     /**

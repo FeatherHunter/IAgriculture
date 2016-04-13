@@ -1,6 +1,6 @@
 package com.ifuture.iagriculture.activity;
 
-import android.app.Activity;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,19 +8,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.Menu;
+
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ifuture.iagriculture.*;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel.BottomPanelCallback;
@@ -29,10 +33,11 @@ import com.ifuture.iagriculture.bottombar.HeadControlPanel;
 import com.ifuture.iagriculture.fragment.FragmentIHome;
 import com.ifuture.iagriculture.fragment.FragmentToalData;
 import com.ifuture.iagriculture.fragment.FragmentVideo;
-import com.ifuture.iagriculture.R;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.jeremyfeinstein.slidingmenu.lib.*;
+import com.jeremyfeinstein.slidingmenu.lib.app.*;
+import com.ifuture.iagriculture.slidemenu.*;
+import com.ifuture.iagriculture.R;
 
 /** 
  * @CopyRight: 王辰浩 2015~2025
@@ -69,9 +74,20 @@ import java.io.OutputStream;
  *      13.public boolean onKeyDown(int keyCode, KeyEvent event); //用于处理返回键等按下后的时间
  * @history:
  *    v2.10 2016/1/8 解决了手机待机导致程序崩溃BUG，解决了反复在登陆界面和控制界面切换导致控制界面显示出错BUG
+ *    v3.0  2016/4/11 新增侧边滑动菜单栏
  **/
 
-public class ClientMainActivity extends Activity implements BottomPanelCallback, HeadControlPanel.HeadPanelCallback {
+public class ClientMainActivity extends SlidingFragmentActivity implements BottomPanelCallback, HeadControlPanel.HeadPanelCallback {
+
+	/** 侧滑菜单 */
+	private SlidingMenu slidemenu;
+	/** 左边菜单、右边菜单 */
+	private LeftMenuFragment mLeftMenu;
+	private RightMenuFragment mRightMenu;
+	/** 动画类 */
+	private SlidingMenu.CanvasTransformer mTransformer;
+
+	/*头边框、底边框*/
 	BottomBarPanel bottomPanel = null;
 	HeadControlPanel headPanel = null;
 	LinearLayout warningLayout = null;
@@ -113,8 +129,9 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 	 *      2.获取从ClientActivity传递的信息，确定处于内网模式还是外网模式。
 	 *      3.动态注册Receiver(用于将从Service接受的结果发送给IHome Fragment并做出相应改变)
 	 **/
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_client_main);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -126,13 +143,15 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		initUI();
 
 		fragmentManager = getFragmentManager();
-		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IHOME);
+		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IGREEN);
 
 		warningLayout = (LinearLayout) findViewById(R.id.panel_offline_layout);
 		warningTexview = (TextView)findViewById(R.id.panel_offline_text);
 
+		/*------------------------------------------------------
+		 *             动态注册receiver
+		 *------------------------------------------------------- */
 		try {
-			/*动态注册receiver*/
 			contrlReceiver = new ContrlReceiver();
 			IntentFilter filter = new IntentFilter();
 			filter.addAction(CONTRL_ACTION);
@@ -144,6 +163,79 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		/*默认开启IHome界面*/
 		//onBottomPanelClick(Constant.BTN_FLAG_IHOME);
 		System.out.println("onCreate");
+
+		/*------------------------------------------------------
+		 *      侧边滑动菜单的准备工作
+		 *------------------------------------------------------- */
+		initAnimation();
+		slidemenu = getSlidingMenu();
+		setBehindContentView(R.layout.slidemenu_left_frag);         //设置左边滑动菜单
+		//slidemenu.setSecondaryMenu(R.layout.slidemenu_right_frag);
+		if (savedInstanceState == null) {
+			mLeftMenu = new LeftMenuFragment();
+			mRightMenu = new RightMenuFragment();
+			getSupportFragmentManager().beginTransaction().replace(R.id.menu_left_frag, mLeftMenu, "Left").commit();
+			//getSupportFragmentManager().beginTransaction().replace(R.id.menu_right_frag, mRightMenu, "Right").commit();
+		}
+		slidemenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		slidemenu.setFadeEnabled(false);
+		slidemenu.setBehindScrollScale(0.25f);
+		slidemenu.setFadeDegree(0.25f);
+
+		// 配置背景图片
+		slidemenu.setBackgroundResource(R.color.mygreen4);
+
+//		slidemenu.setSecondaryShadowDrawable(R.drawable.rightshadow); // 设置右边菜单的阴影
+//		slidemenu.setShadowDrawable(R.drawable.shadow); // 设置阴影图片
+//		slidemenu.setShadowWidthRes(R.dimen.shadow_width); // 设置阴影图片的宽度
+//		slidemenu.setBehindOffsetRes(R.dimen.slidingmenu_offset); // 显示主界面的宽度
+//		slidemenu.setFadeDegree(0f); // SlidingMenu滑动时的渐变程度
+//		slidemenu.setBehindScrollScale(0f);
+//		slidemenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN); // 设置滑动的屏幕范围，该设置为全屏区域都可以滑动
+//		slidemenu.setMode(SlidingMenu.LEFT_RIGHT); // 设置菜单同时兼具左右滑动
+//		slidemenu.setBehindCanvasTransformer(mTransformer); // 设置动画
+
+		// 设置专场动画效果
+		slidemenu.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
+			    @Override
+			    public void transformCanvas(Canvas canvas, float percentOpen) {
+				       float scale = (float) (percentOpen * 0.25 + 0.75);
+				       canvas.scale(scale, scale, -canvas.getWidth() / 2,
+					            canvas.getHeight() / 2);
+		   }
+		});
+
+		slidemenu.setAboveCanvasTransformer(new SlidingMenu.CanvasTransformer() {
+			@Override
+
+			public void transformCanvas(Canvas canvas, float percentOpen) {
+				float scale = (float) (1 - percentOpen * 0.25);
+				canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
+			}
+		});
+
+	}
+
+	private static Interpolator interp = new Interpolator() {
+		@Override
+		public float getInterpolation(float t) {
+			t -= 1.0f;
+			return t * t * t + 1.0f;
+		}
+	};
+	/**
+	 * 初始化菜单滑动的效果动画
+	 */
+	private void initAnimation() {
+		mTransformer = new SlidingMenu.CanvasTransformer() {
+			@Override
+			public void transformCanvas(Canvas canvas, float percentOpen) {
+				canvas.scale(interp.getInterpolation(percentOpen), interp.getInterpolation(percentOpen), canvas.getWidth() / 2, canvas.getHeight() / 2);
+				//canvas.translate(0, canvas.getHeight() * (1 - interp.getInterpolation(percentOpen))); //平移动画
+				//canvas.scale(percentOpen, 1, 0, 0); //缩放动画
+			}
+
+		};
 	}
 	
 	@Override
@@ -384,9 +476,9 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		// TODO Auto-generated method stub
 		String tag = "";
 		if((itemId & Constant.BTN_FLAG_IHOME) != 0){
-			tag = Constant.FRAGMENT_FLAG_IHOME;
-		}else if((itemId & Constant.BTN_FLAG_CONTRL) != 0){
-			tag = Constant.FRAGMENT_FLAG_CONTRL;
+			tag = Constant.FRAGMENT_FLAG_IGREEN;
+		}else if((itemId & Constant.BTN_FLAG_STATICS) != 0){
+			tag = Constant.FRAGMENT_FLAG_STATICS;
 		}else if((itemId & Constant.BTN_FLAG_VIDEO) != 0){
 			tag = Constant.FRAGMENT_FLAG_VIDEO;
 		}else if((itemId & Constant.BTN_FLAG_CSERVICE) != 0){
@@ -406,7 +498,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		// TODO Auto-generated method stub
 		String tag = "";
 		if((itemId & Constant.BTN_FLAG_IHOME) != 0){  //为简略数据
-			tag = Constant.FRAGMENT_FLAG_IHOME;
+			tag = Constant.FRAGMENT_FLAG_IGREEN;
 		}else if((itemId & Constant.BTN_FLAG_TOTAL_DATA) != 0){ //为详细数据
 			tag = Constant.FRAGMENT_FLAG_TOTAL_DATA;
 		}
@@ -419,7 +511,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 	public  void setTabSelection(String tag) {
 		// 开启一个Fragment事务
 		fragmentTransaction = fragmentManager.beginTransaction();
-		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IHOME)){
+		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IGREEN)){
 
 			Intent intent = new Intent();
 			intent.putExtra("type", "fragment");
@@ -444,6 +536,12 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 			if (fragmentVideo == null) {
 				fragmentVideo = new FragmentVideo();
 			} 
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_STATICS)){
+			//System.out.println("===================HeadPanelClick=====================");
+			if (fragmentToalData == null) {
+				fragmentToalData = new FragmentToalData();
+			}
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){
 			//System.out.println("===================HeadPanelClick=====================");
@@ -487,7 +585,7 @@ public class ClientMainActivity extends Activity implements BottomPanelCallback,
 		if(TextUtils.equals(tag, currFragTag)){
 			return;
 		}
-		//把上一个fragment detach掉 
+		//把上一个fragment detach掉
 		if(currFragTag != null && !currFragTag.equals("")){
 			detachFragment(getFragment(currFragTag));
 			//hideFragment(getFragment(currFragTag));

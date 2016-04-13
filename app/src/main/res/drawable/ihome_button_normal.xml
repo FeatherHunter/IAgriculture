@@ -6,8 +6,8 @@
     <solid android:color="#ffffff" />
 
     <stroke 
-        android:width="2dp"
-        android:color="#00cc00" />
+        android:width="1dip"
+        android:color="@color/dodgerblue" />
     <corners android:radius = "20dp" />
     <size 
         android:width="100dp"

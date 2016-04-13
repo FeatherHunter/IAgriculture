@@ -1,9 +1,11 @@
 package com.ifuture.iagriculture.fragment;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -59,13 +61,6 @@ import java.util.Calendar;
  *      4. showTodayHumi()  //显示今天湿度
  *      5. showTodayTemp()  //显示今天温度
  *      6. showWeekTemp()   //显示一周温度
- *      7. void commitTransactions
- *      8. void setDefaultFirstFragment
- *      9. FragmentTransaction ensureTransaction
- *      10.Fragment getFragment
- *      11.void detachFragment(Fragment f)
- *      12.void setHandler(Handler handler); //用于和FragmentIHome通信
- *      13.public boolean onKeyDown(int keyCode, KeyEvent event); //用于处理返回键等按下后的时间
  * @history:
  *    v1.0 完成温度和线型图和后台数据库的链接，能够通过数据正确的显示相应数据。
  **/
@@ -139,7 +134,10 @@ public class FragmentToalData extends BaseFragment{
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		databaseOperation = new DatabaseOperation();
+
+		SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
+		String accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
+		databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
 		databaseOperation.createDatabase(getActivity());//创建数据库
 
 		isDayButton = true;
@@ -216,46 +214,7 @@ public class FragmentToalData extends BaseFragment{
 			}
 		}
 	}
-//	/**
-//	 * @Class: tempDayOrWeekButtonListener
-//	 * @Description: 功能：温度图表切换的日和周的按键
-//	 */
-//	class tempDayOrWeekButtonListener implements View.OnClickListener
-//	{
-//		@Override
-//		public void onClick(View v) {
-//			if(v.getId() == R.id.button_statics_temp_day)  //当前为day按键
-//			{
-//				if(!isDayButton)//当前为一周温度，需要切换为当日温度
-//				{
-//					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-//					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
-//
-//					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-//					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
-//
-//					showTodayTemp();
-//					isDayButton = true;
-//				}
-//
-//			}
-//			else if(v.getId() == R.id.button_statics_temp_week) //当前为week按键
-//			{
-//				if(isDayButton)//当前为当日温度
-//				{
-//					tempWeekButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
-//					tempWeekButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.dodgerblue));
-//
-//					tempDayButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.black));
-//					tempDayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
-//
-//					showWeekTemp();
-//					isDayButton = false;
-//				}
-//
-//			}
-//		}//end of onClick
-//	}
+
 	/**
 	 * @Function: private void showNutrition()
 	 * @Description: 显示营养元素的饼状图
@@ -273,7 +232,7 @@ public class FragmentToalData extends BaseFragment{
 	private void showTodayHumi()
 	{
 		LineData humiLineData = getTodayHumiLineData();
-		LineChartShow lineChartShow = new LineChartShow(500, "今日湿度");
+		LineChartShow lineChartShow = new LineChartShow(10, "今日湿度");
 		showChart(humiLineChart, humiLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
 
@@ -284,7 +243,7 @@ public class FragmentToalData extends BaseFragment{
 	private void showTodayTemp()
 	{
 		LineData mLineData = getTodayTempLineData(); //获取今天24小时内的温度
-		LineChartShow lineChartShow = new LineChartShow(500, "今日温度");
+		LineChartShow lineChartShow = new LineChartShow(10, "今日温度");
 		showChart(tempLineChart, mLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
 
@@ -295,7 +254,7 @@ public class FragmentToalData extends BaseFragment{
 	private void showWeekTemp()
 	{
 		LineData weekLineData = getWeekTempLineData();
-		LineChartShow lineChartShow = new LineChartShow(500, "一周温度");
+		LineChartShow lineChartShow = new LineChartShow(10, "一周温度");
 		showChart(tempLineChart, weekLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
 
@@ -460,11 +419,19 @@ public class FragmentToalData extends BaseFragment{
 				yTodayValues.add(new Entry(temp, i));
 			}
 		}
-
+		/*-------------------------------------------------
+		 *                设置昨天的温度
+		 *------------------------------------------------*/
+		Calendar c = Calendar.getInstance(); // 当时的日期和时间
+		int day = c.get(Calendar.DAY_OF_MONTH) - 1;
+		c.set(Calendar.DAY_OF_MONTH, day);
 		ArrayList<Entry> yYesterdayValues = new ArrayList<>();
 		for (int i = 0; i < 24; i++) {
-			float value = (float)yesterday[i];
-			yYesterdayValues.add(new Entry(value, i));
+			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
+			if(temp_humi != null)
+			{
+				yYesterdayValues.add(new Entry(temp_humi[0], i));
+			}
 		}
 
 		// create a dataset and give it a type
@@ -543,7 +510,7 @@ public class FragmentToalData extends BaseFragment{
 		for(int i = 0; i < todayOfWeek; i++)
 		{
 			c = Calendar.getInstance(); // 当时的日期和时间
-			day = c.get(Calendar.DAY_OF_MONTH) - i;
+			day = c.get(Calendar.DAY_OF_MONTH) - (todayOfWeek-1) + i;
 			c.set(Calendar.DAY_OF_MONTH, day);
 			/* -------------------------------------------------------------
 			 *  查询到max,min,avg的温度，year需要%100，因为只保存十位个位
