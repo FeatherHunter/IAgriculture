@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
@@ -22,6 +23,8 @@ import com.ifuture.iagriculture.sqlite.DatabaseOperation;
  * @Date: 2016/4/10
  * @Description:
  * 		  在主界面点击创建地区后进入的dialog版的activity，用于创建地区号。
+ * 		   1. 确定：在本地数据库添加，并且发送给服务器
+ * 		   2. 取消：退出
  *
  * @Function List:
  *      1.
@@ -42,10 +45,11 @@ public class CreateAreaDialog extends Activity {
     private int RESULT_OK = 1;
     private int RESULT_ERR = 0;
 
-
-    /* ---------------------------------------------------------------------
-	 *               获取控件，得到activity传来的地区号，设置监听器
-	 * ---------------------------------------------------------------------*/
+    /** ---------------------------------------------------------------------
+     *   @Function:    buttonListener
+     *   @Description: 确定或者取消操作
+     *            1. 确定: 在数据库中添加, 并且发送给服务器。
+     * ---------------------------------------------------------------------*/
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);  //去除标题栏
@@ -71,6 +75,11 @@ public class CreateAreaDialog extends Activity {
         cancelButton.setOnClickListener(new buttonListener());
     }
 
+    /** ---------------------------------------------------------------------
+	 *   @Class:    buttonListener
+     *   @Description: 确定或者取消操作
+     *            1. 确定: 在数据库中添加, 并且发送给服务器。
+	 * ---------------------------------------------------------------------*/
     class buttonListener implements View.OnClickListener{
 
         @Override
@@ -89,8 +98,22 @@ public class CreateAreaDialog extends Activity {
                 }
                 else
                 {
-                    databaseOperation.insertArea(CreateAreaDialog.this, device_num, context); //增加地区
+
+                    /* ---------------------------------------------------------------------
+	                 *               通过广播将绑定地区号信息发送给服务器
+	                 * ---------------------------------------------------------------------*/
                     Intent intent = new Intent();
+                    intent.putExtra("type", "send");
+                    String msg = Instruction.bandArea(Integer.toString(device_num), context); //将地区号和地区名转为发送的信息
+                    intent.putExtra("send", msg);
+                    intent.setAction(intent.ACTION_MAIN);
+                    sendBroadcast(intent);
+
+                    /* ---------------------------------------------------------------------
+	                 *                            数据库中增加区域
+	                 * ---------------------------------------------------------------------*/
+                    databaseOperation.insertArea(CreateAreaDialog.this, device_num, context); //增加地区
+                    intent = new Intent();
                     setResult(RESULT_OK, intent);   //创建成功
                     finish();
                 }

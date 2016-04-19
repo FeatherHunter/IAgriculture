@@ -6,25 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.Instruction.Instruction;
@@ -32,9 +25,6 @@ import com.ifuture.iagriculture.activity.DatabaseTestActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 public class FragmentVideo extends BaseFragment{
 
@@ -59,7 +49,7 @@ public class FragmentVideo extends BaseFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.video_fragment, container, false);
+		return inflater.inflate(R.layout.fragment_video, container, false);
 	}
 	
 	

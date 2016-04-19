@@ -52,7 +52,15 @@
             android:label="创建区域"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
-        <activity android:name=".activity.BandTerminalDialog" >
+        <activity
+            android:name=".activity.BandTerminalDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".activity.CreateGHouseDialog"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity android:name=".activity.BandDeviceDialog" >
         </activity>
     </application>
 

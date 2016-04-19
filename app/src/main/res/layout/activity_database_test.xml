@@ -120,4 +120,12 @@
         android:layout_toRightOf="@id/dbtest_switch"
         android:text="清除allday"/>
 
+    <Button
+        android:id="@+id/dbtest_clearalltable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dbtest_searchallday"
+        android:layout_toRightOf="@id/dbtest_clearallday"
+        android:text="清除所有表"/>
+
 </RelativeLayout>

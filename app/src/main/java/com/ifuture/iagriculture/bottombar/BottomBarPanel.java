@@ -44,7 +44,7 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
     public void initBottomPanel(){
 		if(mMsgBtn != null){
 			mMsgBtn.setImage(R.drawable.farmhouse_unselected);
-			mMsgBtn.setText(Constant.FRAGMENT_TEXT_IGREEN);
+			mMsgBtn.setText(Constant.FRAGMENT_TEXT_HOME);
 		}
 		if(mContactsBtn != null){
 			mContactsBtn.setImage(R.drawable.statics_unselected);
@@ -99,8 +99,8 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
         int index = -1;  
         switch(v.getId()){  
         case R.id.btn_ihome:  
-            index = Constant.BTN_FLAG_IHOME;  
-            mMsgBtn.setChecked(Constant.BTN_FLAG_IHOME);  
+            index = Constant.BTN_FLAG_HOME;
+            mMsgBtn.setChecked(Constant.BTN_FLAG_HOME);
             break;  
         case R.id.btn_contrl:  
             index = Constant.BTN_FLAG_STATICS;
@@ -126,7 +126,7 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
      **/
     public void defaultBtnChecked(){  
         if(mMsgBtn != null){  
-            mMsgBtn.setChecked(Constant.BTN_FLAG_IHOME);  
+            mMsgBtn.setChecked(Constant.BTN_FLAG_HOME);
         }  
     }  
     @Override  

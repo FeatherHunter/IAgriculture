@@ -13,6 +13,6 @@ public class FragmentContrl extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }

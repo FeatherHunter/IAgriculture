@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/menu_left_frag"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/mydarkorange4">
 
-        <ImageView
+        <com.pkmmte.view.CircularImageView
             android:id="@+id/slidemenu_user_pic"
-            android:layout_width="35pt"
-            android:layout_height="35pt"
+            android:layout_width="40pt"
+            android:layout_height="40pt"
             android:src="@drawable/huayunkeji"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10pt"
-            />
+            app:border="true"
+            app:border_color="#EEEEEE"
+            app:border_width="4dp"
+            android:layout_marginTop="20pt"
+            app:shadow="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/lightgray"
+            android:layout_below="@id/slidemenu_user_pic"/>
+
         <TextView
             android:id="@+id/slidemenu_user_id"
             android:layout_width="match_parent"
@@ -25,40 +36,115 @@
             android:text="huayunkeji"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="10pt"
+            android:textSize="9pt"
             />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/lightgray"
+            android:layout_below="@id/slidemenu_user_id"/>
+
+        <ImageView
+            android:id="@+id/slidemenu_find_pic"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
+            android:src="@drawable/slidemenu_find"
+            android:layout_below="@id/slidemenu_user_id"
+            android:layout_marginLeft="20pt"/>
 
         <TextView
             android:id="@+id/tab_news"
-            style="@style/tab_style"
-            android:drawableLeft="@drawable/tab_news"
-            android:layout_centerHorizontal="true"
-            android:text="新闻"
-            android:layout_below="@id/slidemenu_user_id"/>
+            android:layout_width="40pt"
+            android:layout_height="20pt"
+            android:text="发现"
+            android:layout_below="@id/slidemenu_user_id"
+            android:layout_toRightOf="@id/slidemenu_find_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
+            android:id="@+id/slidemenu_device_pic"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
+            android:src="@drawable/slidemenu_device"
+            android:layout_below="@id/slidemenu_find_pic"
+            android:layout_marginLeft="20pt"/>
 
         <TextView
             android:id="@+id/tab_local"
-            style="@style/tab_style"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/tab_local"
-            android:text="本地"
-            android:layout_below="@id/tab_news"/>
+            android:layout_width="40pt"
+            android:layout_height="20pt"
+            android:text="设备管理"
+            android:layout_below="@id/slidemenu_find_pic"
+            android:layout_toRightOf="@id/slidemenu_find_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
+            android:id="@+id/slidemenu_dataasync_pic"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
+            android:src="@drawable/slidemenu_cloud_download"
+            android:layout_below="@id/slidemenu_device_pic"
+            android:layout_marginLeft="20pt"/>
 
         <TextView
             android:id="@+id/tab_vote"
-            style="@style/tab_style"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/tab_vote"
-            android:text="投票"
-            android:layout_below="@id/tab_local"/>
+            android:layout_width="40pt"
+            android:layout_height="20pt"
+            android:text="数据同步"
+            android:layout_below="@id/slidemenu_device_pic"
+            android:layout_toRightOf="@id/slidemenu_dataasync_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
+            android:id="@+id/slidemenu_quit_pic"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
+            android:src="@drawable/slidemenu_quit"
+            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_marginLeft="20pt"/>
 
         <TextView
             android:id="@+id/tab_ugc"
-            style="@style/tab_style"
-            android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/tab_ugc"
-            android:text="聚合阅读"
-            android:layout_below="@id/tab_vote"/>
+            android:layout_width="40pt"
+            android:layout_height="20pt"
+            android:text="退出登录"
+            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_toRightOf="@id/slidemenu_quit_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
+            android:id="@+id/slidemenu_setting_pic"
+            android:layout_width="18pt"
+            android:layout_height="18pt"
+            android:src="@drawable/slidemenu_setting"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10pt"/>
+
+        <TextView
+            android:id="@+id/tab_setting"
+            android:layout_width="25pt"
+            android:layout_height="18pt"
+            android:text="设置"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/slidemenu_setting_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
     </RelativeLayout>
 
 

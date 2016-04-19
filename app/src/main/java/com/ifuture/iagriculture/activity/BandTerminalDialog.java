@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
@@ -114,8 +115,22 @@ public class BandTerminalDialog extends Activity {
                 {
                     if(contextString.matches("[0-9]+")) //只包含0-9
                     {
-                        databaseOperation.insertTerminal(BandTerminalDialog.this, area_number, contextString); //增加终端
+                       /* ---------------------------------------------------------------------
+	                    *               让服务器绑定地区号和设备号
+	                    *               @by 广播发送给后台Service--转发给服务器
+	                    * ---------------------------------------------------------------------*/
                         Intent intent = new Intent();
+                        intent.putExtra("type", "send");
+                        String msg = Instruction.bandTerminal(Integer.toString(area_number), contextString); //将地区号和地区名转为发送的信息
+                        intent.putExtra("send", msg);
+                        intent.setAction(intent.ACTION_MAIN);
+                        sendBroadcast(intent);
+
+                        /* ---------------------------------------------------------------------
+	                     *                            数据库中绑定区域和终端
+	                     * ---------------------------------------------------------------------*/
+                        databaseOperation.insertTerminal(BandTerminalDialog.this, area_number, contextString); //增加终端
+                        intent = new Intent();
                         setResult(RESULT_OK, intent);   //创建成功
                         finish();
                     }

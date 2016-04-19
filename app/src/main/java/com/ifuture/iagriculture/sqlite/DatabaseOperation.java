@@ -55,9 +55,12 @@ public class DatabaseOperation {
     private String databaseName = "igreen_db";
     DayDatabaseHelper dbHelper  = null;
     public String tableAreaString   = DayDatabaseHelper.tableAreaName;
+    public String tableDeviceString = DayDatabaseHelper.tableDeviceName;
+    public String tableGHouseString = DayDatabaseHelper.tableGHouseName;
     public String tableTermString   = DayDatabaseHelper.tableTerminalName;
     public String tableNameString   = DayDatabaseHelper.tableTodayName;
     public String tableAlldayString = DayDatabaseHelper.tableAlldayName;
+    public String deviceString      = DayDatabaseHelper.device;
     public String yearString        = DayDatabaseHelper.year;
     public String monthString       = DayDatabaseHelper.month;
     public String dayString         = DayDatabaseHelper.day;
@@ -99,12 +102,20 @@ public class DatabaseOperation {
         {
             dbHelper.createTerminalTable(db);
         }
+        if(!tabbleIsExist(db, tableGHouseString)) //不存在创建大棚表
+        {
+            dbHelper.createGHouseTable(db);
+        }
+        if(!tabbleIsExist(db, tableDeviceString)) //不存在创建设备表
+        {
+            dbHelper.createDeviceTable(db);
+        }
     }
-    /**
+    /**--------------------------------------------------------------------------------------------
      * 判断某张表是否存在
      * @param tableName 表名
      * @return
-     */
+     *---------------------------------------------------------------------------------------------*/
     public boolean tabbleIsExist(SQLiteDatabase db, String tableName){
         boolean result = false;
         if(tableName == null){
@@ -155,6 +166,222 @@ public class DatabaseOperation {
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("delete from " + tableAlldayString);
+    }
+    /**----------------------------------------
+     *  清除table area的数据
+     *-----------------------------------------*/
+    public void clearTableArea(Context context)
+    {
+        System.out.println("clearTableArea");
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from " + tableAreaString);
+    }
+
+    /**----------------------------------------
+     *  清除table terminal的数据
+     *-----------------------------------------*/
+    public void clearTableTerminal(Context context)
+    {
+        System.out.println("clearTableTerminal");
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from " + tableTermString);
+    }
+
+    /**----------------------------------------
+     *  清除table greenhouse的数据
+     *-----------------------------------------*/
+    public void clearTableGHouse(Context context)
+    {
+        System.out.println("clearTableGHouse");
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from " + tableGHouseString);
+    }
+    /**----------------------------------------
+     *  清除table device的数据
+     *-----------------------------------------*/
+    public void clearTableDevice(Context context)
+    {
+        System.out.println("clearTableDevice");
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("delete from " + tableDeviceString);
+    }
+    /**
+     * =============================================================================================
+     * @Description
+     *                       设备表的增删改查
+     * =============================================================================================
+     * */
+
+    public void insertDevice(Context context, int area, String ghouseName, String deviceNum){
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        System.out.println("insertDevice");
+        if(recordExitsDevice(db, area, ghouseName, deviceNum)) //已经存在则更新
+        {
+            updateRecordDevice(context, area, ghouseName, deviceNum); //更新数据
+        }
+        else//不存在，则插入
+        {
+            System.out.println("insertDevice");
+            ContentValues values = new ContentValues();
+            values.put("area",area);
+            values.put("greenhouse",ghouseName);
+            values.put("device",deviceNum);
+            db.insert(tableDeviceString, null, values);//调用insert方法，就可以将数据插入到数据库当中
+        }
+    }
+
+    private boolean recordExitsDevice(SQLiteDatabase db, int area, String ghouseName,  String deviceNum)
+    {
+        Cursor cursor = db.rawQuery("select * from device where area=? and greenhouse=? and device=?", new String[]{"" + area, "" + ghouseName, "" + deviceNum});
+        if(cursor.getCount() != 0)//存在
+        {
+            return true;
+        }
+        return false; //不存在
+    }
+
+    public void updateRecordDevice(Context context, int area, String ghouseName,  String deviceNum)
+    {
+        System.out.println("updateRecordDevice");
+        // TODO Auto-generated method stub
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("area", area);
+        values.put("greenhouse",ghouseName);
+        values.put("device",deviceNum);
+        db.update(tableDeviceString, values, "area=? and greenhouse=? and device=?", new String[]{""+area, ""+ghouseName, ""+deviceNum});
+    }
+
+    /**------------------------------------------------------
+     *  @Function:    queryDevicePerGHouse
+     *  @Description: 按照在地区号和大棚号下查找设备号
+     *  @param areaNum 地区号
+     *  @param gHouseNum 大棚号
+     *  @return String[] 查询到的所有设备号
+     *------------------------------------------------------*/
+    public String[] queryDevicePerGHouse(Context context, int areaNum, String gHouseNum)
+    {
+        System.out.println("queryDevicePerGHouse");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select device from device where area=" + areaNum + " and greenhouse=" + gHouseNum, null);
+
+
+        String deviceNums[] = new String[100];
+        int i = 0;
+        while(cursor.moveToNext())
+        {
+            deviceNums[i] = cursor.getString(0);
+            i++;
+        }
+        deviceNums[i] = null;
+        return deviceNums;
+    }
+
+    /**------------------------------------------------------
+     *  @Function:    queryAreaGHouseByDevice
+     *  @Description: 通过设备号查找其所在地区和大棚号
+     *  @param deviceNum 设备号
+     *  @return String[] 查询到的所有设备号
+     *------------------------------------------------------*/
+    public String[] queryAreaGHouseByDevice(Context context, String deviceNum)
+    {
+        System.out.println("queryAreaGHouseByDevice");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select area,greenhouse from device where device="+deviceNum, null);
+
+
+        String areaGreenhouse[] = new String[2];
+        int i = 0;
+        if(cursor.moveToNext())
+        {
+            areaGreenhouse[0] = cursor.getString(0);
+            areaGreenhouse[1] = cursor.getString(1);
+            return areaGreenhouse;
+        }
+        return null;
+    }
+
+    /**
+     * =============================================================================================
+     * @Description
+     *                       大棚表的增删改查
+     * =============================================================================================
+     * */
+
+    public void insertGHouse(Context context, int area, String ghouseName){
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        System.out.println("insertGHouse");
+        if(recordExitsGHouse(db, area, ghouseName)) //已经存在则更新
+        {
+            updateRecordGHouse(context, area, ghouseName); //更新数据
+        }
+        else//不存在，则插入
+        {
+            System.out.println("insertGHouse");
+            ContentValues values = new ContentValues();
+            values.put("area",area);
+            values.put("greenhouse",ghouseName);
+            db.insert(tableGHouseString, null, values);//调用insert方法，就可以将数据插入到数据库当中
+        }
+    }
+
+    private boolean recordExitsGHouse(SQLiteDatabase db, int area, String ghouseName)
+    {
+        Cursor cursor = db.rawQuery("select * from greenhouse where area=? and greenhouse=?", new String[]{"" + area, "" + ghouseName});
+        if(cursor.getCount() != 0)//存在
+        {
+            return true;
+        }
+        return false; //不存在
+    }
+
+    public void updateRecordGHouse(Context context, int area, String ghouseName)
+    {
+        System.out.println("updateRecordGHouse");
+        // TODO Auto-generated method stub
+        //得到一个可写的SQLiteDatabase对象
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("area",area);
+        values.put("greenhouse",ghouseName);
+        db.update(tableGHouseString, values, "area=? and greenhouse=?", new String[]{"" + area, "" + ghouseName});
+    }
+
+    /**-----------------------------------------
+     *  @Function:    queryGHousePerArea(Context context, int areaNum)
+     *  @Description: 查询大棚表中某地区号内的所有大棚号
+     *  @param areaNum 需要查询的地区号
+     *  @return String[] 所有大棚号
+     *---------------------------------------*/
+    public String[] queryGHousePerArea(Context context, int areaNum)
+    {
+        System.out.println("queryGHousePerArea");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select greenhouse from greenhouse where area="+areaNum, null);
+
+
+        String gHouseNums[] = new String[51];
+        int i = 0;
+        while(cursor.moveToNext())
+        {
+            gHouseNums[i] = cursor.getString(0);
+            i++;
+        }
+        gHouseNums[i] = null;
+        return gHouseNums;
     }
     /**
      * =============================================================================================
@@ -288,19 +515,20 @@ public class DatabaseOperation {
      *  关于当天各方面数据的操作：增，删，改，查
      * =============================================================================================
      * */
-    public void insertToday(Context context, int hour, int min, int sec, float temp, float humi){
+    public void insertToday(Context context, String deviceNum, int hour, int min, int sec, float temp, float humi){
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         System.out.println("insertToday");
-        if(recordExitsToday(db, hour, min, sec)) //已经存在则更新
+        if(recordExitsToday(db, deviceNum, hour, min, sec)) //已经存在则更新
         {
-            updateRecordToday(context, hour, min, sec, temp, humi); //更新数据
+            updateRecordToday(context,deviceNum, hour, min, sec, temp, humi); //更新数据
         }
         else//不存在，则插入
         {
             //生成ContentValues对象
             ContentValues values = new ContentValues();
             //想该对象当中插入键值对，其中键是列名，值是希望插入到这一列的值，值必须和数据库当中的数据类型一致
+            values.put(deviceString, deviceNum);
             values.put(hourString, hour);
             values.put(minuteString,min);
             values.put(secondString,sec);
@@ -311,13 +539,13 @@ public class DatabaseOperation {
         }
     }
 
-    public void insertToday(Context context, int hour, int min, int sec, float tempOrHumi, String optionString){
+    public void insertToday(Context context, String deviceNum, int hour, int min, int sec, float tempOrHumi, String optionString){
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         System.out.println("insertToday optionString");
-        if(recordExitsToday(db, hour, min, sec)) //已经存在则更新
+        if(recordExitsToday(db, deviceNum, hour, min, sec)) //已经存在则更新
         {
-            updateRecordToday(context, hour, min, sec, tempOrHumi, optionString); //更新数据
+            updateRecordToday(context, deviceNum, hour, min, sec, tempOrHumi, optionString); //更新数据
         }
         else//不存在，则插入
         {
@@ -326,6 +554,7 @@ public class DatabaseOperation {
             {
                 ContentValues values = new ContentValues();//生成ContentValues对象
                 //想该对象当中插入键值对，其中键是列名，值是希望插入到这一列的值，值必须和数据库当中的数据类型一致
+                values.put(deviceString, deviceNum);
                 values.put(hourString, hour);
                 values.put(minuteString,min);
                 values.put(secondString,sec);
@@ -336,6 +565,7 @@ public class DatabaseOperation {
             {
                 ContentValues values = new ContentValues();//生成ContentValues对象
                 //想该对象当中插入键值对，其中键是列名，值是希望插入到这一列的值，值必须和数据库当中的数据类型一致
+                values.put(deviceString, deviceNum);
                 values.put(hourString, hour);
                 values.put(minuteString,min);
                 values.put(secondString,sec);
@@ -345,9 +575,9 @@ public class DatabaseOperation {
         }
     }
 
-    private boolean recordExitsToday(SQLiteDatabase db, int hour, int min, int sec)
+    private boolean recordExitsToday(SQLiteDatabase db, String deviceNum, int hour, int min, int sec)
     {
-        Cursor cursor = db.rawQuery("select * from today where hour=? and minute=? and second=?", new String[]{"" + hour, "" + min, "" + sec});
+        Cursor cursor = db.rawQuery("select * from today where device=? and hour=? and minute=? and second=?", new String[]{deviceNum, "" + hour, "" + min, "" + sec});
         if(cursor.getCount() != 0)//存在
         {
             return true;
@@ -355,7 +585,7 @@ public class DatabaseOperation {
         return false; //不存在
     }
 
-    public void updateRecordToday(Context context, int hour, int min, int sec, float temp, float humi)
+    public void updateRecordToday(Context context, String deviceNum, int hour, int min, int sec, float temp, float humi)
     {
         System.out.println("updateRecordToday");
         // TODO Auto-generated method stub
@@ -369,9 +599,9 @@ public class DatabaseOperation {
         //第一个参数是要更新的表名
         //第二个参数是一个ContentValeus对象
         //第三个参数是where子句
-        db.update(tableNameString, values, "hour=? and minute=? and second=?", new String[]{"" + hour, "" + min, "" + sec});
+        db.update(tableNameString, values, "device=? and hour=? and minute=? and second=?", new String[]{deviceNum, "" + hour, "" + min, "" + sec});
     }
-    public void updateRecordToday(Context context, int hour, int min, int sec,  float tempOrHumi, String optionString)
+    public void updateRecordToday(Context context,  String deviceNum, int hour, int min, int sec,  float tempOrHumi, String optionString)
     {
         // TODO Auto-generated method stub
         //得到一个可写的SQLiteDatabase对象
@@ -386,13 +616,13 @@ public class DatabaseOperation {
             //第一个参数是要更新的表名
             //第二个参数是一个ContentValeus对象
             //第三个参数是where子句
-            db.update(tableNameString, values, "hour=? and minute=? and second=?", new String[]{"" + hour, "" + min, "" + sec});
+            db.update(tableNameString, values, "device=? and hour=? and minute=? and second=?", new String[]{deviceNum, "" + hour, "" + min, "" + sec});
         }
         else if(optionString.equals(tempString))//更新温度
         {
             ContentValues values = new ContentValues();//生成ContentValues对象
             values.put(tempString,tempOrHumi);
-            db.update(tableNameString, values, "hour=? and minute=? and second=?", new String[]{"" + hour, "" + min, "" + sec});
+            db.update(tableNameString, values, "device=? and hour=? and minute=? and second=?", new String[]{deviceNum, "" + hour, "" + min, "" + sec});
         }
     }
     /**
@@ -401,13 +631,14 @@ public class DatabaseOperation {
      * @param hour,min,sec
      * @return 查询到的温度，湿度
      * */
-    public float[] querySecToday(Context context, int hour, int min, int sec)
+    public float[] querySecToday(Context context, String deviceNum, int hour, int min, int sec)
     {
         System.out.println("querySecPerDay");
 
         dbHelper = new DayDatabaseHelper(context, databaseName);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(tableNameString, new String[]{tempString, humiString}, "hour=? and minute=? and second=?", new String[]{"" + hour, "" + min, "" + sec}, null, null, null);
+        Cursor cursor = db.query(tableNameString, new String[]{tempString, humiString}, "device=? and hour=? and minute=? and second=?",
+                new String[]{deviceNum, "" + hour, "" + min, "" + sec}, null, null, null);
 
         float f[] = new float[2];
         if(cursor.getCount() == 0) return null;
@@ -425,13 +656,14 @@ public class DatabaseOperation {
      * @param hour,min
      * @return 查询到的温度，湿度
      * */
-    public float[] queryMinuteToday(Context context, int hour, int min)
+    public float[] queryMinuteToday(Context context, String deviceNum, int hour, int min)
     {
         System.out.println("queryMinutePerDay");
 
         dbHelper = new DayDatabaseHelper(context, databaseName);
         SQLiteDatabase db = dbHelper.getReadableDatabase();                                                                   //"hour      =  hour   and   minute        =  min"
-        Cursor cursor = db.query(tableNameString, new String[]{"avg(temperature), avg(humidity)"}, null, null, "hour, minute", hourString + "=" + hour + " and " + minuteString + "=" + min, null);
+        Cursor cursor = db.query(tableNameString, new String[]{"avg(temperature), avg(humidity)"}, null, null,
+                "device, hour, minute", deviceString+"="+deviceNum+ " and " +hourString+"="+hour+ " and " + minuteString+"="+min, null);
 
         float f[] = new float[2];
         if(cursor.getCount() == 0) return null;
@@ -449,13 +681,14 @@ public class DatabaseOperation {
      * @param hour
      * @return 查询到的温度，湿度
      * */
-    public float[] queryHourToday(Context context, int hour)
+    public float[] queryHourToday(Context context, String deviceNum, int hour)
     {
         float f[] = new float[2];
         System.out.println("queryHourPerDay");
         dbHelper = new DayDatabaseHelper(context, databaseName);
         SQLiteDatabase db = dbHelper.getReadableDatabase();                                                                   //"hour      =  hour   and   minute        =  min"
-        Cursor cursor = db.query(tableNameString, new String[]{"avg(temperature), avg(humidity)"}, null, null, "hour", hourString + "=" + hour, null);
+        Cursor cursor = db.query(tableNameString, new String[]{"avg(temperature), avg(humidity)"}, null, null,
+                "device, hour", deviceString+"="+deviceNum+ " and " +hourString+"="+hour, null);
 
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
@@ -476,7 +709,7 @@ public class DatabaseOperation {
 
         while(cursor.moveToNext())
         {
-            System.out.println(+cursor.getInt(0)+":"+cursor.getInt(1)+":"+cursor.getInt(2)+" temp/humi:  " + cursor.getFloat(3) + "/" + cursor.getFloat(4));
+            System.out.println(cursor.getString(0)+cursor.getInt(1)+":"+cursor.getInt(2)+":"+cursor.getInt(3)+" temp/humi:  " + cursor.getFloat(4) + "/" + cursor.getFloat(5));
         }
 
     }
@@ -486,20 +719,21 @@ public class DatabaseOperation {
      *  关于年月日表中各方面数据的操作：增，删，改，查
      * =============================================================================================
      * */
-    public void insertAllday(Context context, int year, int month, int day, int hour, float temp, float humi){
+    public void insertAllday(Context context, String deviceNum, int year, int month, int day, int hour, float temp, float humi){
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         System.out.println("insertAllday");
         System.out.println(""+year+"/"+month+"/"+day+"/"+hour);
-        if(recordExitsAllday(db, year, month, day, hour)) //已经存在则更新
+        if(recordExitsAllday(db, deviceNum, year, month, day, hour)) //已经存在则更新
         {
-            updateRecordAllday(context, year, month, day, hour, temp, humi); //更新数据
+            updateRecordAllday(context, deviceNum, year, month, day, hour, temp, humi); //更新数据
         }
         else//不存在，则插入
         {
             //生成ContentValues对象
             ContentValues values = new ContentValues();
             //想该对象当中插入键值对，其中键是列名，值是希望插入到这一列的值，值必须和数据库当中的数据类型一致
+            values.put(deviceString, deviceNum);
             values.put(yearString , year);
             values.put(monthString,month);
             values.put(dayString  ,  day);
@@ -511,14 +745,14 @@ public class DatabaseOperation {
         }
     }
 
-    public void insertAllday(Context context, int year, int month, int day, int hour, float tempOrHumi, String optionString){
+    public void insertAllday(Context context, String deviceNum, int year, int month, int day, int hour, float tempOrHumi, String optionString){
         dbHelper = new DayDatabaseHelper(context,databaseName);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         System.out.println("insertAllday optionString");
 
-        if(recordExitsAllday(db, year, month, day, hour)) //已经存在则更新
+        if(recordExitsAllday(db, deviceNum, year, month, day, hour)) //已经存在则更新
         {
-            updateRecordAllday(context, year, month, day, hour, tempOrHumi, optionString); //更新数据
+            updateRecordAllday(context, deviceNum, year, month, day, hour, tempOrHumi, optionString); //更新数据
         }
         else//不存在，则插入
         {
@@ -526,6 +760,7 @@ public class DatabaseOperation {
             if(optionString.equals(humiString))
             {
                 ContentValues values = new ContentValues();//生成ContentValues对象
+                values.put(deviceString, deviceNum);
                 values.put(yearString,  year);
                 values.put(monthString,month);
                 values.put(dayString  ,  day);
@@ -538,6 +773,7 @@ public class DatabaseOperation {
             {
                 ContentValues values = new ContentValues();//生成ContentValues对象
                 //想该对象当中插入键值对，其中键是列名，值是希望插入到这一列的值，值必须和数据库当中的数据类型一致
+                values.put(deviceString, deviceNum);
                 values.put(yearString,  year);
                 values.put(monthString,month);
                 values.put(dayString  ,  day);
@@ -548,7 +784,7 @@ public class DatabaseOperation {
         }
     }
 
-    public void updateRecordAllday(Context context, int year, int month, int day, int hour, float temp, float humi)
+    public void updateRecordAllday(Context context, String deviceNum, int year, int month, int day, int hour, float temp, float humi)
     {
         System.out.println("updateRecordAllday");
         // TODO Auto-generated method stub
@@ -562,9 +798,10 @@ public class DatabaseOperation {
         //第一个参数是要更新的表名
         //第二个参数是一个ContentValeus对象
         //第三个参数是where子句
-        db.update(tableAlldayString, values, "year=? and month=? and day=? and hour=?", new String[]{"" + year, "" + month, "" + day, "" + hour});
+        db.update(tableAlldayString, values, "device=? and year=? and month=? and day=? and hour=?",
+                new String[]{deviceNum, ""+year, ""+month, ""+day, ""+hour});
     }
-    public void updateRecordAllday(Context context, int year, int month, int day, int hour, float tempOrHumi, String optionString)
+    public void updateRecordAllday(Context context, String deviceNum, int year, int month, int day, int hour, float tempOrHumi, String optionString)
     {
         System.out.println("updateRecordAllday");
         //得到一个可写的SQLiteDatabase对象
@@ -579,19 +816,22 @@ public class DatabaseOperation {
             //第一个参数是要更新的表名
             //第二个参数是一个ContentValeus对象
             //第三个参数是where子句
-            db.update(tableAlldayString, values, "year=? and month=? and day=? and hour=?", new String[]{""+year, ""+month, ""+day, ""+hour});
+            db.update(tableAlldayString, values, "device=? and year=? and month=? and day=? and hour=?",
+                    new String[]{deviceNum, ""+year, ""+month, ""+day, ""+hour});
         }
         else if(optionString.equals(tempString))//更新温度
         {
             ContentValues values = new ContentValues();//生成ContentValues对象
             values.put(tempString,tempOrHumi);
-            db.update(tableAlldayString, values, "year=? and month=? and day=? and hour=?", new String[]{""+year, ""+month, ""+day, ""+hour});
+            db.update(tableAlldayString, values, "device=? and year=? and month=? and day=? and hour=?",
+                    new String[]{deviceNum, ""+year, ""+month, ""+day, ""+hour});
         }
     }
 
-    private boolean recordExitsAllday(SQLiteDatabase db, int year, int month, int day, int hour)
+    private boolean recordExitsAllday(SQLiteDatabase db, String deviceNum, int year, int month, int day, int hour)
     {
-        Cursor cursor = db.rawQuery("select * from allday where year=? and month=? and day=? and hour=?", new String[]{"" + year, "" + month, "" + day, "" + hour});
+        Cursor cursor = db.rawQuery("select * from allday where device=? and year=? and month=? and day=? and hour=?",
+                new String[]{deviceNum, ""+year, ""+month, ""+day, ""+hour});
         if(cursor.getCount() != 0)//存在
         {
             return true;
@@ -605,13 +845,14 @@ public class DatabaseOperation {
      * @param:
      * @return 查询到的温度，湿度
      * */
-    public float[] queryHourPerYear(Context context, int year, int month, int day, int hour)
+    public float[] queryHourPerYear(Context context, String deviceNum, int year, int month, int day, int hour)
     {
         float f[] = new float[2];
         System.out.println("queryHourPerYear");
         dbHelper = new DayDatabaseHelper(context, databaseName);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(tableAlldayString, new String[]{tempString, humiString}, "year=? and month=? and day=? and hour=?", new String[]{""+year, ""+month, ""+day, ""+hour}, null, null, null);
+        Cursor cursor = db.query(tableAlldayString, new String[]{tempString, humiString},
+                "device=? and year=? and month=? and day=? and hour=?", new String[]{deviceNum, ""+year, ""+month, ""+day, ""+hour}, null, null, null);
 
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
@@ -631,7 +872,7 @@ public class DatabaseOperation {
      * @param day   日
      * @return 日平均温度、湿度
      * */
-    public float[]  queryDayPerYear(Context context, int year, int month, int day)
+    public float[]  queryDayPerYear(Context context, String deviceNum, int year, int month, int day)
     {
         float f[] = new float[2];
         System.out.println("queryDayPerYear");
@@ -639,7 +880,7 @@ public class DatabaseOperation {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(tableAlldayString, new String[]{"avg(temperature), avg(humidity)"},  null, null,
-                "year, month, day", yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
+                "device, year, month, day", deviceString+"="+deviceNum+" and "+yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
         {
@@ -659,7 +900,7 @@ public class DatabaseOperation {
      * @param day   日
      * @return 日最高温度、湿度
      * */
-    public float[]  queryMaxDayPerYear(Context context, int year, int month, int day)
+    public float[]  queryMaxDayPerYear(Context context, String deviceNum, int year, int month, int day)
     {
         float f[] = new float[2];
         System.out.println("queryMaxDayPerYear");
@@ -667,7 +908,7 @@ public class DatabaseOperation {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(tableAlldayString, new String[]{"max(temperature), max(humidity)"},  null, null,
-                "year, month, day", yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
+                "device, year, month, day", deviceString+"="+deviceNum+" and "+yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
         {
@@ -687,7 +928,7 @@ public class DatabaseOperation {
      * @param day   日
      * @return 日最低温度、湿度
      * */
-    public float[]  queryMinDayPerYear(Context context, int year, int month, int day)
+    public float[]  queryMinDayPerYear(Context context, String deviceNum, int year, int month, int day)
     {
         float f[] = new float[2];
         System.out.println("queryMinDayPerYear");
@@ -695,7 +936,7 @@ public class DatabaseOperation {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(tableAlldayString, new String[]{"min(temperature), min(humidity)"},  null, null,
-                "year, month, day", yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
+                "device, year, month, day", deviceString+"="+deviceNum+" and "+yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
         {
@@ -714,7 +955,7 @@ public class DatabaseOperation {
      * @param month 月
      * @return 月平均温度，湿度
      * */
-    public float[] queryMonthPerYear(Context context, int year, int month)
+    public float[] queryMonthPerYear(Context context, String deviceNum, int year, int month)
     {
         float f[] = new float[2];
         System.out.println("queryMonthPerYear");
@@ -722,7 +963,7 @@ public class DatabaseOperation {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(tableAlldayString, new String[]{"avg(temperature), avg(humidity)"},  null, null,
-                "year, month", yearString+"="+year +" and "+ monthString+"="+month, null);
+                "device, year, month", deviceString+"="+deviceNum+" and "+yearString+"="+year +" and "+ monthString+"="+month, null);
         if(cursor.getCount() == 0) return null;
         for(int i = 0; i < cursor.getCount(); i++)
         {
@@ -742,7 +983,8 @@ public class DatabaseOperation {
 
         while(cursor.moveToNext())
         {
-            System.out.println("date:"+cursor.getInt(0)+"/"+cursor.getInt(1)+"/"+cursor.getInt(2)+" Time:"+cursor.getInt(3)+ "temp:" + cursor.getFloat(4) + " humi:" + cursor.getFloat(5));
+            System.out.println("device:"+cursor.getString(0)+"date:"+cursor.getInt(1)+"/"+cursor.getInt(2)+"/"+cursor.getInt(3)
+                    +" Time:"+cursor.getInt(4)+ "temp:" + cursor.getFloat(5) + " humi:" + cursor.getFloat(6));
         }
 
     }
@@ -755,7 +997,7 @@ public class DatabaseOperation {
         db.execSQL("drop table "+tableNameString);
     }
 
-    public void switchTodayToAllday(Context context, int start, int end)//不包含end
+    public void switchTodayToAllday(Context context, String deviceNum, int start, int end)//不包含end
     {
         TodayTime nowTime = new TodayTime();
         nowTime.update();
@@ -766,10 +1008,10 @@ public class DatabaseOperation {
         float f[] = null;
         for(int hour = start; hour < end; hour++)
         {
-            f = queryHourToday(context, hour); //查询每小时的数据
+            f = queryHourToday(context, deviceNum, hour); //查询每小时的数据
             if(f != null)//已获取到temp，humi，将其放入allday表中
             {
-                insertAllday(context, year, month, day, hour, f[0], f[1]);
+                insertAllday(context, deviceNum, year, month, day, hour, f[0], f[1]);
             }
         }
     }

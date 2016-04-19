@@ -24,13 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ifuture.iagriculture.*;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel.BottomPanelCallback;
 import com.ifuture.iagriculture.bottombar.Constant;
 import com.ifuture.iagriculture.bottombar.HeadControlPanel;
-import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentGreenHouse;
+import com.ifuture.iagriculture.fragment.FragmentHome;
 import com.ifuture.iagriculture.fragment.FragmentToalData;
 import com.ifuture.iagriculture.fragment.FragmentVideo;
 
@@ -95,16 +95,22 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	
 	private FragmentManager fragmentManager = null;
 	private FragmentTransaction fragmentTransaction = null;
-	FragmentIHome fragmentIHome;
+	FragmentHome fragmentIHome;
 	FragmentVideo fragmentVideo;
 	FragmentToalData fragmentToalData;
+	FragmentGreenHouse fragmentGreenHouse;
 
 	private boolean isConnected = false;
 	private ContrlReceiver contrlReceiver;
 	private String CONTRL_ACTION = "android.intent.action.EDIT";
-	
-	public Handler ihomeHandler;
-	public Handler videoHandler;
+
+	public String areaNumString = null;
+	public String greenhouseNumString = null;
+
+	/**
+	 * 大棚fragment与activty通信的handler
+	 * */
+	public Handler greenhouseHandler;
 /*	private MessageFragment messageFragment;
 	private ContactsFragment contactsFragment;
 	private NewsFragment newsFragment;
@@ -143,7 +149,7 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		initUI();
 
 		fragmentManager = getFragmentManager();
-		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_IGREEN);
+		setDefaultFirstFragment(Constant.FRAGMENT_FLAG_HOME);
 
 		warningLayout = (LinearLayout) findViewById(R.id.panel_offline_layout);
 		warningTexview = (TextView)findViewById(R.id.panel_offline_text);
@@ -261,17 +267,6 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		// TODO Auto-generated method stub
 		super.onPause();
 		System.out.println("onPause");
-	}
-
-	/*设置IHomeHandler用于和IHomeFragment通信*/
-	public void setIHomeHandler(Handler handler)
-	{
-		ihomeHandler = handler;
-	}
-	/*设置videoHandler用于和VideoFragment通信*/
-	public void setVideoHandler(Handler handler)
-	{
-		videoHandler = handler;
 	}
 
 	//接收器,更新温度等数据信息,显示连接和认证信息
@@ -468,6 +463,24 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 
 	}
 
+	/**-------------------------------------------------------------------------------
+	 * @Function: switchGreenHouse
+	 * @Description: 打开显示大棚数据的fragment,并且将地区号、大棚号发送给该fragment
+	 * @param areaNum 打开的地区号
+	 * @param greenhouseNum 打开的大棚号
+	 *
+	 *--------------------------------------------------------------------------------*/
+	public void switchGreenHouse(String areaNum, String greenhouseNum)
+	{
+		String tag = "";
+		tag = Constant.FRAGMENT_FLAG_GREENHOUSE;
+		areaNumString = areaNum;
+		greenhouseNumString = greenhouseNum;
+		setTabSelection(tag); //切换Fragment
+		headPanel.setMiddleTitle(tag);//切换标题
+		//sendMsgToGHouseFrag(areaNum, greenhouseNum);
+	}
+
 	/**
 	 * 处理BottomControlPanel的回调
 	 */
@@ -475,8 +488,8 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	public void onBottomPanelClick(int itemId) {
 		// TODO Auto-generated method stub
 		String tag = "";
-		if((itemId & Constant.BTN_FLAG_IHOME) != 0){
-			tag = Constant.FRAGMENT_FLAG_IGREEN;
+		if((itemId & Constant.BTN_FLAG_HOME) != 0){
+			tag = Constant.FRAGMENT_FLAG_HOME;
 		}else if((itemId & Constant.BTN_FLAG_STATICS) != 0){
 			tag = Constant.FRAGMENT_FLAG_STATICS;
 		}else if((itemId & Constant.BTN_FLAG_VIDEO) != 0){
@@ -488,17 +501,17 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		headPanel.setMiddleTitle(tag);//切换标题
 	}
 
-	/**
+	/**-----------------------------------------------------------------------
 	 * @Function: public void onHeadPanelClick(int itemId)
 	 * @Description: 处理HeadControlPanel的回调
 	 * @param itemId 获取的ID用于标示是总结的数据还是详细数据
-	 */
+	 *-----------------------------------------------------------------------*/
 	@Override
 	public void onHeadPanelClick(int itemId) {
 		// TODO Auto-generated method stub
 		String tag = "";
-		if((itemId & Constant.BTN_FLAG_IHOME) != 0){  //为简略数据
-			tag = Constant.FRAGMENT_FLAG_IGREEN;
+		if((itemId & Constant.BTN_FLAG_HOME) != 0){  //为简略数据
+			tag = Constant.FRAGMENT_FLAG_HOME;
 		}else if((itemId & Constant.BTN_FLAG_TOTAL_DATA) != 0){ //为详细数据
 			tag = Constant.FRAGMENT_FLAG_TOTAL_DATA;
 		}
@@ -511,7 +524,7 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	public  void setTabSelection(String tag) {
 		// 开启一个Fragment事务
 		fragmentTransaction = fragmentManager.beginTransaction();
-		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IGREEN)){
+		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_HOME)){
 
 			Intent intent = new Intent();
 			intent.putExtra("type", "fragment");
@@ -521,7 +534,7 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 			this.sendBroadcast(intent);
 
 		   if (fragmentIHome == null) {
-			   fragmentIHome = new FragmentIHome();
+			   fragmentIHome = new FragmentHome();
 			} 
 		 }
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_VIDEO)){
@@ -547,6 +560,14 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 			//System.out.println("===================HeadPanelClick=====================");
 			if (fragmentToalData == null) {
 				fragmentToalData = new FragmentToalData();
+			}
+		}
+		/* -----------------------------------------
+		 *  创建需要显示的某大棚数据
+		 * -----------------------------------------*/
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GREENHOUSE)){
+			if (fragmentGreenHouse == null) {
+				fragmentGreenHouse = new FragmentGreenHouse();
 			}
 		}
 		else
@@ -576,6 +597,35 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		}*/
 		switchFragment(tag);
 		 
+	}
+
+//	/**---------------------------------------------------------------------------------------------
+//	 * @Function: private void sendMsgToGHouseFrag(String areaNum, String greenHouseNum)
+//	 * @param areaNum 地区号
+//	 * @param greenHouseNum 大棚号
+//	 * @Description:
+//	 *        发送地区号、大棚号给GreenHouseFragment
+//	 *----------------------------------------------------------------------------------------------*/
+//	private void sendMsgToGHouseFrag(String areaNum, String greenHouseNum)
+//	{
+//		Message msgMessage = new Message();
+//		Bundle bundle = new Bundle();
+//		bundle.putString("area", areaNum);
+//		bundle.putString("greenhouse", greenHouseNum);
+//		msgMessage.setData(bundle);
+//		if(greenhouseHandler != null)
+//		greenhouseHandler.sendMessage(msgMessage);
+//	}
+
+	/**---------------------------------------------------------------------------------------------
+	 * @Function: public void setIHomeHandler(Handler handler)
+	 * @param handler
+	 * @Description:
+	 *        用于设置FragmentGreenHouse(具体大棚数据的fragment)和ClientMainActivity通信的handler
+	 *----------------------------------------------------------------------------------------------*/
+	public void setGreenHouseHandler(Handler handler)
+	{
+		greenhouseHandler = handler;
 	}
 	
 	/**切换fragment 
@@ -625,11 +675,17 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 			fragmentTransaction = null;
 		}
 	}
-	
+
+	/**----------------------------------------------------------------
+	 * @Function: private void setDefaultFirstFragment(String tag)
+	 * @Description:
+	 *        用于刚打开时，设置默认的fragment
+	 *----------------------------------------------------------------*/
 	private void setDefaultFirstFragment(String tag){
 		//Log.i("yan", "setDefaultFirstFragment enter... currFragTag = " + currFragTag);
 		setTabSelection(tag);
 		bottomPanel.defaultBtnChecked();
+		headPanel.setMiddleTitle(tag);//切换标题
 		//Log.i("yan", "setDefaultFirstFragment exit...");
 	}
 	
@@ -638,21 +694,27 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		if(fragmentTransaction == null){
 			fragmentTransaction = fragmentManager.beginTransaction();
 			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			
 		}
+
 		return fragmentTransaction;
-		
 	}
 	
 	private Fragment getFragment(String tag){
 		
-		Fragment f = fragmentManager.findFragmentByTag(tag);
+		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 		
-		if(f == null){
-			f = BaseFragment.newInstance(getApplicationContext(), tag);
+		if(fragment == null){
+			fragment = BaseFragment.newInstance(getApplicationContext(), tag);
 		}
-		return f;
-		
+//		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GREENHOUSE))//具体大棚的界面，设置
+//		{
+//			Bundle bundle = new Bundle();
+//			bundle.putString("area", areaNumString);
+//			bundle.putString("greenhouse", greenhouseNumString);
+//			fragment.setArguments(bundle);
+//
+//		}
+		return fragment;
 	}
 	private void detachFragment(Fragment f){
 		

@@ -50,7 +50,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
     public void initHeadPanel() {
 
         if (mMidleTitle != null) {
-            setMiddleTitle(Constant.FRAGMENT_FLAG_IGREEN);
+            setMiddleTitle(Constant.FRAGMENT_FLAG_HOME);
         }
         radioGroup.setOnCheckedChangeListener(this);
     }
@@ -60,18 +60,35 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
      * @Description: 切换Fragment的时候设置中间的标题
      * */
     public void setMiddleTitle(String s) {
-        if(s.equals(Constant.FRAGMENT_FLAG_IGREEN) )
+        if(s.equals(Constant.FRAGMENT_FLAG_HOME) )
         {
-            radioGroup.setVisibility(View.VISIBLE);
-            mMidleTitle.setVisibility(View.INVISIBLE);
-            mRightTitle.setVisibility(View.VISIBLE);
-            mRightTitle.setText(s);
-            mRightTitle.setTextSize(right_title_size);
+            /*---------------------------------------------------
+             *    农场界面上方标题栏（该界面用于选择具体大棚）
+             *-------------------------------------------------*/
+            radioGroup.setVisibility(View.INVISIBLE);
+            mMidleTitle.setVisibility(View.VISIBLE); //显示“农场”
+            mRightTitle.setVisibility(View.INVISIBLE);
+            mMidleTitle.setText(s);
+            mMidleTitle.setTextSize(middle_title_size);
             leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
 
         }
+        else if(s.equals(Constant.FRAGMENT_FLAG_GREENHOUSE) )
+        {
+            /*---------------------------------------------------
+             *    农场界面（此时进入具体大棚）
+             *-------------------------------------------------*/
+            radioGroup.setVisibility(View.VISIBLE);
+            mMidleTitle.setVisibility(View.INVISIBLE);
+            mRightTitle.setVisibility(View.VISIBLE);
+            mMidleTitle.setText(s);
+            mMidleTitle.setTextSize(middle_title_size);
+        }
         else if(s.equals(Constant.FRAGMENT_FLAG_STATICS) )
         {
+            /*---------------------------------------------------
+             *    数据统计界面上方标题栏
+             *-------------------------------------------------*/
             radioGroup.setVisibility(View.INVISIBLE);
             mRightTitle.setVisibility(View.INVISIBLE);
             mMidleTitle.setVisibility(View.VISIBLE);
@@ -101,10 +118,10 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
         mHeadCallback = bottomCallback;
     }
 
-    /**
+    /**---------------------------------------------------------------------------
      * @Function: public void onCheckedChanged(RadioGroup group, int checkedId)
      * @Description: 主界面 “总结/详细”中groupbutton的监听
-     * */
+     * --------------------------------------------------------------------------*/
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         int index = -1;
@@ -112,7 +129,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
         System.out.println("ID:" + radioButtonId+" "+R.id.rb_left+"/"+R.id.rb_right);
         switch(radioButtonId){
             case R.id.rb_left:
-                index = Constant.BTN_FLAG_IHOME;
+                index = Constant.BTN_FLAG_GREENHOUSE;
                 //mMsgBtn.setChecked(Constant.BTN_FLAG_IHOME);
                 break;
             case R.id.rb_right:

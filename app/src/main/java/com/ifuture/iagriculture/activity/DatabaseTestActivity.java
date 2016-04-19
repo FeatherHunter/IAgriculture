@@ -15,7 +15,7 @@ import com.ifuture.iagriculture.sqlite.DayDatabaseHelper;
 
 public class DatabaseTestActivity extends Activity {
 
-    Button create, delete, clear, insert, query, queryallday, clearallday, switchButton;
+    Button create, delete, clear, insert, query, queryallday, clearallday, switchButton, clearalltable;
     EditText year, month, day, hour, minute, second;
     EditText temp, humi;
     DatabaseOperation databaseOperation;
@@ -32,6 +32,7 @@ public class DatabaseTestActivity extends Activity {
         queryallday = (Button) findViewById(R.id.dbtest_searchallday);
         clearallday = (Button) findViewById(R.id.dbtest_clearallday);
         switchButton = (Button) findViewById(R.id.dbtest_switch);
+        clearalltable = (Button) findViewById(R.id.dbtest_clearalltable);
 
         year = (EditText) findViewById(R.id.dbtest_year);
         month = (EditText) findViewById(R.id.dbtest_month);
@@ -51,6 +52,7 @@ public class DatabaseTestActivity extends Activity {
         queryallday.setOnClickListener(new QueryAlldayButton());
         clearallday.setOnClickListener(new ClearAlltodayButton());
         switchButton.setOnClickListener(new SwitchButton());
+        clearalltable.setOnClickListener(new ClearAllTableButton());
 
         SharedPreferences apSharedPreferences = getSharedPreferences("saved", Activity.MODE_PRIVATE);
         accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
@@ -90,6 +92,20 @@ public class DatabaseTestActivity extends Activity {
         }
     }
 
+    class ClearAllTableButton implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            databaseOperation = new DatabaseOperation(accountString);
+            databaseOperation.clearTableAllday(DatabaseTestActivity.this);//清除数据库
+            databaseOperation.clearTableToday(DatabaseTestActivity.this);//清除数据库
+            databaseOperation.clearTableArea(DatabaseTestActivity.this);//清除数据库
+            databaseOperation.clearTableTerminal(DatabaseTestActivity.this);//清除数据库
+            databaseOperation.clearTableDevice(DatabaseTestActivity.this);//清除数据库
+            databaseOperation.clearTableGHouse(DatabaseTestActivity.this);//清除数据库
+        }
+    }
+
     class SwitchButton implements View.OnClickListener {
 
         @Override
@@ -105,7 +121,7 @@ public class DatabaseTestActivity extends Activity {
             if(lasthour < nowhour)
             {
                 DatabaseOperation tempOperation = new DatabaseOperation(accountString);
-                tempOperation.switchTodayToAllday(DatabaseTestActivity.this, lasthour, nowhour);
+//                tempOperation.switchTodayToAllday(DatabaseTestActivity.this, lasthour, nowhour);
             }
         }
     }
@@ -124,7 +140,7 @@ public class DatabaseTestActivity extends Activity {
 
             float tempFloat = Float.parseFloat(temp.getText().toString());
             float humiFloat = Float.parseFloat(humi.getText().toString());
-            databaseOperation.insertToday(DatabaseTestActivity.this, hourInt, minuteInt, secondInt, tempFloat, humiFloat);
+//            databaseOperation.insertToday(DatabaseTestActivity.this, hourInt, minuteInt, secondInt, tempFloat, humiFloat);
         }
     }
 

@@ -13,7 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ifuture.iagriculture.fragment.FragmentIHome;
+import com.ifuture.iagriculture.fragment.FragmentGreenHouse;
+import com.ifuture.iagriculture.fragment.FragmentHome;
 import com.ifuture.iagriculture.fragment.FragmentToalData;
 import com.ifuture.iagriculture.fragment.FragmentVideo;
 
@@ -104,16 +105,16 @@ public class BaseFragment extends Fragment {
 		super.onDestroy();
 	}
 
-	/**
+	/**--------------------------------------------------------------------------------
 	 * newInstance
 	 * @param context
 	 * @param tag 表明是什么Fragment
 	 * @return 返回获得的Fragment，如FragmentVideo
-	 */
+	 *-------------------------------------------------------------------------------*/
 	public static BaseFragment newInstance(Context context,String tag){
 		BaseFragment baseFragment =  null;
-		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_IGREEN)){
-			baseFragment = new FragmentIHome();
+		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_HOME)){
+			baseFragment = new FragmentHome();
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_STATICS)){//统计数据，暂时用 FragmentToalData();
 			baseFragment = new FragmentToalData();
@@ -123,6 +124,9 @@ public class BaseFragment extends Fragment {
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){//详细数据
 			baseFragment = new FragmentToalData();
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GREENHOUSE)){//具体大棚的界面
+			baseFragment = new FragmentGreenHouse();
 		}
 		/*
 		}else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_NEWS)){

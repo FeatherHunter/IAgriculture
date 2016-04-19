@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150pt"
+    tools:context="com.ifuture.iagriculture.activity.CreateGHouseDialog"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/bandGH_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="20pt"
+        android:background="@color/mygreen4"
+        android:gravity="center"
+        android:text="绑定终端"
+        android:textColor="@color/white"
+        android:textSize="12pt" />
+
+    <TextView
+        android:id="@+id/bandGH_area_text"
+        android:layout_width="50pt"
+        android:layout_height="15pt"
+        android:layout_below="@id/bandGH_title_text"
+        android:layout_marginLeft="10pt"
+        android:text="地区选择"
+        android:textColor="@color/dodgerblue"
+        android:textSize="12pt" />
+
+    <Spinner
+        android:id="@+id/bandGH_area_spinner"
+        android:layout_width="80pt"
+        android:layout_height="20pt"
+        android:layout_below="@id/bandGH_title_text"
+        android:layout_marginLeft="15pt"
+        android:layout_toRightOf="@id/bandGH_area_text"
+        android:gravity="center"
+        android:textColor="@color/dodgerblue"
+        android:textSize="6pt">
+
+    </Spinner>
+
+    <TextView
+        android:layout_width="140pt"
+        android:layout_height="10pt"
+        android:layout_below="@id/bandGH_area_spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2pt"
+        android:text="这次是可以自己选择的哦，记得不要选错了。" />
+
+    <TextView
+        android:id="@+id/bandGH_greenhouse_num_text"
+        android:layout_width="40pt"
+        android:layout_height="15pt"
+        android:layout_below="@id/bandGH_area_text"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="20pt"
+        android:text="大棚号"
+        android:textColor="@color/dodgerblue"
+        android:textSize="12pt" />
+
+    <EditText
+        android:id="@+id/bandGH_greenhouse_num"
+        android:layout_width="80pt"
+        android:layout_height="20pt"
+        android:layout_alignTop="@id/bandGH_greenhouse_num_text"
+        android:layout_marginLeft="15pt"
+        android:layout_toRightOf="@id/bandGH_greenhouse_num_text" />
+
+    <TextView
+        android:layout_width="100pt"
+        android:layout_height="20pt"
+        android:layout_below="@id/bandGH_greenhouse_num"
+        android:layout_centerHorizontal="true"
+        android:text="输入数字,如(1，2,13)都可以" />
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/bandGH_check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:layout_alignParentBottom="true"
+        android:background="#1E88E5"
+        android:text="确定" />
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/bandGH_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#1E88E5"
+        android:text="取消" />
+
+</RelativeLayout>

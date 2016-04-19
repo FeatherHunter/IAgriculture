@@ -27,6 +27,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.pkmmte.view:circularimageview:1.1'
     compile project(':library_SlidingMenu')
     compile files('libs/android-support-v4.jar')
     compile project(':library_library_pinned_section_listview')

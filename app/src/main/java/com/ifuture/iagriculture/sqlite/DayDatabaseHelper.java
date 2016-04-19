@@ -18,9 +18,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DayDatabaseHelper extends SQLiteOpenHelper{
     private static final int VERSION = 1;
     public static final String tableAreaName  = "area";
+    public static final String tableDeviceName  = "device";
+    public static final String tableGHouseName  = "greenhouse";
     public static final String tableTerminalName  = "terminal";
     public static final String tableTodayName  = "today";
     public static final String tableAlldayName = "allday";
+    public static final String device        = "device";
     public static final String year        = "year";
     public static final String month       = "month";
     public static final String day         = "day";
@@ -51,14 +54,18 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
         createTodayTable(db);
         createAlldayTable(db);
         createAreaTable(db);
+        createTerminalTable(db);
+        createGHouseTable(db);
+        createDeviceTable(db);
+
     }
     public void createTodayTable(SQLiteDatabase db)
     {
-        db.execSQL("create table today(hour int, minute int, second int, temperature  float, humidity float, primary key(hour,minute,second))"); //
+        db.execSQL("create table today(device varchar(32), hour int, minute int, second int, temperature  float, humidity float, primary key(device,hour,minute,second))"); //
     }
     public void createAlldayTable(SQLiteDatabase db)
     {
-        db.execSQL("create table allday(year int, month int, day int, hour int, temperature  float, humidity float, primary key(year,month,day,hour))");
+        db.execSQL("create table allday(device varchar(32), year int, month int, day int, hour int, temperature  float, humidity float, primary key(device,year,month,day,hour))");
     }
 
     public void createAreaTable(SQLiteDatabase db)
@@ -69,6 +76,16 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
     public void createTerminalTable(SQLiteDatabase db)
     {
         db.execSQL("create table terminal(area int, terminal varchar(20), primary key(area,terminal))");
+    }
+
+    public void createGHouseTable(SQLiteDatabase db)
+    {
+        db.execSQL("create table greenhouse(area int, greenhouse varchar(20), primary key(area,greenhouse))");
+    }
+
+    public void createDeviceTable(SQLiteDatabase db)
+    {
+        db.execSQL("create table device(area int, greenhouse varchar(20), device varchar(32), primary key(area,greenhouse,device))");
     }
 
     @Override

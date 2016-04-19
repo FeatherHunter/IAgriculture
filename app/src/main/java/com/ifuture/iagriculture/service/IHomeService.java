@@ -654,23 +654,16 @@ public class IHomeService extends Service{
 	 * */
 	private int dealResTemp(String msg, int index)
 	{
-		String terminalString;
+		String areaString;
+		String greenHouseString;
 		String deviceString;
 		String tempString;
 		String timeString;
 		int i = index;
 		int msgLength = msg.length();
 		int startIndex;
-		while(i < msgLength)
-		{
-			if(msg.charAt(i) == Instruction.CMD_SEP) break;
-			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
-			i++;
-		}
-		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
-		i++;
 
-		/*=======获取终端ID号===============*/
+		/*=======获取地区号===============*/
 		startIndex = i;
 		while(i < msgLength)
 		{
@@ -680,9 +673,9 @@ public class IHomeService extends Service{
 		}
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
-		terminalString = msg.substring(startIndex, i-1); //获取终端ID号
-		System.out.println("get terminal："+terminalString);
-		/*=======获取终端ID号===============*/
+		areaString = msg.substring(startIndex, i-1); //获取地区号
+		System.out.println("get areaString："+areaString);
+		/*=======获取大棚号===============*/
 		startIndex = i;
 		while(i < msgLength)
 		{
@@ -692,7 +685,20 @@ public class IHomeService extends Service{
 		}
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
-		deviceString = msg.substring(startIndex, i-1); //获取设备ID号
+		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
+		System.out.println("get greenHouseString："+greenHouseString);
+
+		/*=======获取设备号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		deviceString = msg.substring(startIndex, i-1); //获取设备号
 		System.out.println("get deviceString："+deviceString);
 
 		/*=======获取温度值===============*/
@@ -732,7 +738,7 @@ public class IHomeService extends Service{
 
 
 			System.out.println("tempString= " + tempString);
-			databaseOperation.insertToday(this, hour, mintue, second, Float.parseFloat(tempString), DayDatabaseHelper.temperature);//插入温度
+			databaseOperation.insertToday(this, deviceString, hour, mintue, second, Float.parseFloat(tempString), DayDatabaseHelper.temperature);//插入温度
 			/* -------------------------------------------------------
 	     	 *  通过SharedPreferences保存实时温度数据
 	     	 *  用于fragment切换时候的数据保存
@@ -741,7 +747,7 @@ public class IHomeService extends Service{
 			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
 			editor.putString("temperature", tempString);
 			editor.commit();
-			broadcastUpdateTemp(tempString);//将温度数据广播出去
+			broadcastUpdateTemp(areaString, greenHouseString, deviceString, tempString);//将温度数据广播出去（如具体大棚数据的fragment）
 
 			/* -------------------------------------------------------
 	     	 *  将today表数据添加到allday表中
@@ -754,7 +760,7 @@ public class IHomeService extends Service{
 			if(lasthour < nowhour)
 			{
 				DatabaseOperation tempOperation = new DatabaseOperation(account);
-				tempOperation.switchTodayToAllday(this, lasthour, nowhour);
+				tempOperation.switchTodayToAllday(this, deviceString, lasthour, nowhour);
 			}
 		}
 
@@ -768,16 +774,19 @@ public class IHomeService extends Service{
 		return i - index;
 	}
 
-	/**
+	/**-------------------------------------------------------------------
 	 * 	 @Function: private void broadcastUpdateTemp(String tempString)
 	 * 	 @Description: 广播需要更新的温度给Fragment
 	 * 	 @Input:  String tempString 需要广播的温度
-	 * */
-	private void broadcastUpdateTemp(String tempString)
+	 *----------------------------------------------------------------------*/
+	private void broadcastUpdateTemp(String areaNum, String greenHouseNum, String deviceString, String tempString)
 	{
 		Intent intent = new Intent();
 		intent.setAction(intent.ACTION_ANSWER);
 		intent.putExtra("update", "temp");
+		intent.putExtra("area", areaNum);
+		intent.putExtra("greenhouse", greenHouseNum);
+		intent.putExtra("device", deviceString);
 		intent.putExtra("temp", tempString);
 		sendBroadcast(intent);
 	}
@@ -875,7 +884,7 @@ public class IHomeService extends Service{
 
 	/** 
 	 * @Description:
-	 * 	 监听发送给Service的广播 
+	 * 	监听发送给Service的广播（来自于ClientmainActivity的重新登录请求，来自于各个fragment需要发送信息给服务器的请求）
 	 *  用于转发信息给服务器
 	 **/
 	private class ServiceReceiver extends BroadcastReceiver{

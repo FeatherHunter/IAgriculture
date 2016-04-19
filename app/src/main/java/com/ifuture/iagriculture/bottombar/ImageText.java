@@ -69,7 +69,7 @@ public class ImageText extends LinearLayout{
         }  
         int checkDrawableId = -1;  
         switch (itemID){  
-        case Constant.BTN_FLAG_IHOME:  
+        case Constant.BTN_FLAG_HOME:
             checkDrawableId = R.drawable.farmhouse_selected;
             break;  
         case Constant.BTN_FLAG_STATICS:

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150pt"
-    tools:context="com.ifuture.iagriculture.activity.BandTerminalDialog">
+    tools:context="com.ifuture.iagriculture.activity.BandTerminalDialog"
     android:background="@color/white">
 
     <TextView
@@ -35,7 +35,8 @@
         android:layout_toRightOf="@id/bandT_area_text"
         android:gravity="center"
         android:textColor="@color/dodgerblue"
-        android:textSize="6pt" >
+        android:textSize="6pt"
+        android:spinnerMode="dropdown">
 
     </Spinner>
 

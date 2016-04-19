@@ -13,8 +13,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,9 +29,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.ifuture.iagriculture.Calendar.TodayTime;
 import com.ifuture.iagriculture.LineChartShow;
 import com.ifuture.iagriculture.R;
-import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
-import com.ifuture.iagriculture.bottombar.Constant;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
 import java.util.ArrayList;
@@ -82,6 +78,12 @@ public class FragmentToalData extends BaseFragment{
 	private RadioButton tempDayButton;
 	private RadioButton tempWeekButton;
 
+	/* -----------------------------------------
+	 *    记录当前fragmeent表示的地区号，设备号
+	 * -----------------------------------------*/
+	String areaNumString = null;
+	String greenHouseNumString = null;
+
 
 	private LineChart tempLineChart;
 	private LineChart humiLineChart;
@@ -119,7 +121,7 @@ public class FragmentToalData extends BaseFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return inflater.inflate(R.layout.totaldata_fragment, container, false);
+		return inflater.inflate(R.layout.fragment_totaldata, container, false);
 	}
 
 	/**
@@ -339,12 +341,12 @@ public class FragmentToalData extends BaseFragment{
 		 */
 		ArrayList<Entry> yTodayGValues = new ArrayList<>(); //今天的数值
 		for (int i = 0; i < ycount; i++) {
-			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
-			if(temp_humi != null)
-			{
-				temp = (float)temp_humi[1]; //1为湿度
-				yTodayGValues.add(new Entry(temp, i));
-			}
+//			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
+//			if(temp_humi != null)
+//			{
+//				temp = (float)temp_humi[1]; //1为湿度
+//				yTodayGValues.add(new Entry(temp, i));
+//			}
 		}
 
         /*空气湿度*/
@@ -412,12 +414,12 @@ public class FragmentToalData extends BaseFragment{
 		// y轴的数据
 		ArrayList<Entry> yTodayValues = new ArrayList<>(); //今天的数值
 		for (int i = 0; i < ycount; i++) {
-			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
-			if(temp_humi != null)
-			{
-				temp = (float)temp_humi[0];
-				yTodayValues.add(new Entry(temp, i));
-			}
+//			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
+//			if(temp_humi != null)
+//			{
+//				temp = (float)temp_humi[0];
+//				yTodayValues.add(new Entry(temp, i));
+//			}
 		}
 		/*-------------------------------------------------
 		 *                设置昨天的温度
@@ -427,11 +429,11 @@ public class FragmentToalData extends BaseFragment{
 		c.set(Calendar.DAY_OF_MONTH, day);
 		ArrayList<Entry> yYesterdayValues = new ArrayList<>();
 		for (int i = 0; i < 24; i++) {
-			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
-			if(temp_humi != null)
-			{
-				yYesterdayValues.add(new Entry(temp_humi[0], i));
-			}
+//			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
+//			if(temp_humi != null)
+//			{
+//				yYesterdayValues.add(new Entry(temp_humi[0], i));
+//			}
 		}
 
 		// create a dataset and give it a type
@@ -515,12 +517,12 @@ public class FragmentToalData extends BaseFragment{
 			/* -------------------------------------------------------------
 			 *  查询到max,min,avg的温度，year需要%100，因为只保存十位个位
 			 * -------------------------------------------------------------*/
-			value = databaseOperation.queryMaxDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			if(value != null) yWeekMaxValues.add(new Entry(value[0], i));
-			value = databaseOperation.queryMinDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			if(value != null) yWeekMinValues.add(new Entry(value[0], i));
-			value = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			if(value != null) yWeekAvgValues.add(new Entry(value[0], i));
+//			value = databaseOperation.queryMaxDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+//			if(value != null) yWeekMaxValues.add(new Entry(value[0], i));
+//			value = databaseOperation.queryMinDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+//			if(value != null) yWeekMinValues.add(new Entry(value[0], i));
+//			value = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+//			if(value != null) yWeekAvgValues.add(new Entry(value[0], i));
 		}
 
 		// create a dataset and give it a type

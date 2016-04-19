@@ -25,24 +25,44 @@ public class ListViewItem {
 
     public int sectionPosition;
     public int listPosition;
+    public String areaNum = null;
+    public String greenhouseNum = null;
 
     public ListViewItem(int type, String text) {
         this.type = type;
         this.text = text;
     }
 
-
-    public ListViewItem(int type, String text, int sectionPosition, int listPosition) {
+    public ListViewItem(int type, String text, String areaNum, String greenhouseNum) {
         super();
         this.type = type;
         this.text = text;
-        this.sectionPosition = sectionPosition;
-        this.listPosition = listPosition;
+        if(type == ITEM)
+        {
+            this.areaNum = areaNum;
+            this.greenhouseNum = greenhouseNum;
+
+        }
     }
+
+
+//    public ListViewItem(int type, String text, int sectionPosition, int listPosition) {
+//        super();
+//        this.type = type;
+//        this.text = text;
+//        this.sectionPosition = sectionPosition;
+//        this.listPosition = listPosition;
+//    }
 
     @Override public String toString() {
         return text;
     }
+
+    /**-----------------------------------------------------------------------------
+     *  @Function: getData
+     *  @description: 获取存储地区号和大棚号的链表，用于设置listview来显示
+     *  @return 得到的链表
+     *-------------------------------------------------------------------------------*/
     public static ArrayList<ListViewItem> getData(Context context){
         ArrayList<ListViewItem>  list=new ArrayList<ListViewItem>();
 
@@ -51,10 +71,18 @@ public class ListViewItem {
         DatabaseOperation databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
         databaseOperation.createDatabase(context);//创建数据库
 
+        /* -----------------------------------------------------------------
+	     *             查询地区名,并且根据地区号获取该地区所有的大棚号
+	     * -----------------------------------------------------------------*/
         String areaNames[] = databaseOperation.queryAreaName(context);
         for(int i = 0; areaNames[i] != null; i++)
         {
             list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i]));
+            String greenHouseNums[] = databaseOperation.queryGHousePerArea(context, i); //i就为当前的地区号
+            for(int j = 0; greenHouseNums[j] != null; j++)
+            {
+                list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j]));
+            }
         }
 
         return list;
