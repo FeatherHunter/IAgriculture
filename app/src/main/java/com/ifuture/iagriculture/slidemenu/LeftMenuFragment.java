@@ -1,5 +1,6 @@
 package com.ifuture.iagriculture.slidemenu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
+import com.ifuture.iagriculture.wxapi.WXEntryActivity;
 
 public class LeftMenuFragment extends Fragment implements OnClickListener {
 
@@ -27,16 +29,19 @@ public class LeftMenuFragment extends Fragment implements OnClickListener {
 		//view.findViewById(R.id.tab_focus).setOnClickListener(this);
 		view.findViewById(R.id.tab_vote).setOnClickListener(this);
 		view.findViewById(R.id.tab_ugc).setOnClickListener(this);
+		view.findViewById(R.id.tab_share).setOnClickListener(this);
 		return view;
 	}
 
 	@Override
 	public void onClick(View v) {
 //		BaseFragment fragment = null;
-//		switch (v.getId()) {
-//		case R.id.tab_news:
-//			fragment = new HomeFragment();
-//			break;
+		switch (v.getId()) {
+		case R.id.tab_share:
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), WXEntryActivity.class);
+			getActivity().startActivity(intent);
+			break;
 //		case R.id.tab_read:
 //			fragment = new ReadFragment();
 //			break;
@@ -58,9 +63,9 @@ public class LeftMenuFragment extends Fragment implements OnClickListener {
 //		case R.id.tab_ugc:
 //			fragment = new UgcFragment();
 //			break;
-//		default:
-//			break;
-//		}
+		default:
+			break;
+		}
 //		mAct.switchContent(fragment);
 //		fragment = null;
 	}

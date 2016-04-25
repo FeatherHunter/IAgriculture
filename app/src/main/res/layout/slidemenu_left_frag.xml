@@ -106,11 +106,31 @@
             />
 
         <ImageView
+            android:id="@+id/slidemenu_share_pic"
+            android:layout_width="20pt"
+            android:layout_height="20pt"
+            android:src="@drawable/slidemenu_star"
+            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_marginLeft="20pt"/>
+
+        <TextView
+            android:id="@+id/tab_share"
+            android:layout_width="40pt"
+            android:layout_height="20pt"
+            android:text="微信"
+            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_toRightOf="@id/slidemenu_share_pic"
+            android:gravity="center"
+            android:textSize="8pt"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
             android:id="@+id/slidemenu_quit_pic"
             android:layout_width="20pt"
             android:layout_height="20pt"
             android:src="@drawable/slidemenu_quit"
-            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_below="@id/slidemenu_share_pic"
             android:layout_marginLeft="20pt"/>
 
         <TextView
@@ -118,7 +138,7 @@
             android:layout_width="40pt"
             android:layout_height="20pt"
             android:text="退出登录"
-            android:layout_below="@id/slidemenu_dataasync_pic"
+            android:layout_below="@id/slidemenu_share_pic"
             android:layout_toRightOf="@id/slidemenu_quit_pic"
             android:gravity="center"
             android:textSize="8pt"

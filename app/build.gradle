@@ -31,4 +31,5 @@ dependencies {
     compile project(':library_SlidingMenu')
     compile files('libs/android-support-v4.jar')
     compile project(':library_library_pinned_section_listview')
+    compile files('libs/libammsdk.jar')
 }

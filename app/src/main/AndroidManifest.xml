@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ifuture.iagriculture" >
+    package="com.ifuture.iagriculture">
 
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
     android:versionCode="1"
     android:versionName="1.0" >
+
+    <!-- 以太网需要的权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- 以下是wifi访问网络需要的权限 -->
@@ -20,48 +22,48 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/igreens_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:replace="android:allowBackup" >
+        tools:replace="android:allowBackup">
         <activity
             android:name=".activity.ClientActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:exported="true"/>
+
         <activity
             android:name=".activity.ClientMainActivity"
             android:label="hello" />
 
-        <service android:name=".service.IHomeService" >
-        </service>
+        <service android:name=".service.IHomeService"></service>
 
-        <activity android:name=".activity.DatabaseTestActivity" >
-        </activity>
+        <activity android:name=".activity.DatabaseTestActivity"></activity>
         <activity
             android:name=".activity.CreateAreaDialog"
             android:label="创建区域"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:theme="@android:style/Theme.Dialog"></activity>
         <activity
             android:name=".activity.BandTerminalDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
+            android:theme="@android:style/Theme.Dialog"></activity>
         <activity
             android:name=".activity.CreateGHouseDialog"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity android:name=".activity.BandDeviceDialog" >
-        </activity>
+            android:theme="@android:style/Theme.Dialog"></activity>
+        <activity android:name=".activity.BandDeviceDialog"></activity>
+        <activity android:name=".WeiXin.WeiXinActivity"></activity>
     </application>
 
 </manifest>

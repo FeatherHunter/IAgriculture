@@ -349,6 +349,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			String typeString = intent.getStringExtra("update");
 			if(typeString != null)
 			{
+				System.out.println("RecvReceiver=======================RecvReceiver====================");
 				String areaString = intent.getStringExtra("area");
 				String greenhouseString = intent.getStringExtra("greenhouse");
 				String deviceString = intent.getStringExtra("device");
