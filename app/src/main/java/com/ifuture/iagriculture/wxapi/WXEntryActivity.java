@@ -3,6 +3,8 @@ package com.ifuture.iagriculture.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.ifuture.iagriculture.R;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -134,7 +136,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
         setContentView(R.layout.activity_wei_xin);
 
         regToWx(); //注册到微信
-        shareTextToMoments("这个demo测试，自动分享的信息");
+        Button shareButton = (Button) findViewById(R.id.weixin_share_button);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //regToWx(); //注册到微信
+                shareTextToMoments("这个demo测试，自动分享的信息");
+            }
+        });
         api.handleIntent(getIntent(), this);
 
     }
@@ -152,6 +161,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
      * @Description: 发送到微信请求的响应结果将回调到onResp方法
      *-----------------------------------------------------*/
     public void onResp(BaseResp baseResp) {
+        this.finish();
 
     }
 }

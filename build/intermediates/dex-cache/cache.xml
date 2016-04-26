@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\feather\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_8106aa9608754af32d832974a2d1973bf373f37e\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="75935b470207f8a6a7cc0ad535da3a74321793ab">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_c467d9c73f4634c0c3e601692124e23754de9e8e\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.github.navasmdc\MaterialDesign\1.5\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="12b228574de7977e56e41cbfb385b1463bbdb41a">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.navasmdc-MaterialDesign-1.5_0be273f3aa983e52afbd4463991c7bf7e6044e27\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\feather\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.2.3\f474798fde03291398b1a016118b9809a79550b7\MPAndroidChart-v2.2.3.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="f474798fde03291398b1a016118b9809a79550b7">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v2.2.3_c3327040dff09e63289822521f1592831ec9de28\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.pkmmte.view\circularimageview\1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="c341a7ad32bc2eef9dcfab239262b77ac60788cc">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.pkmmte.view-circularimageview-1.1_472e120c513c55cca0d8f80f8de207ee2f1fc3f0\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_70e2f978cd4f56b6bf93c249a435395638deb920\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\libs\libammsdk.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="11b09244aedaa51bfd09269637be7c32c60da314">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\2\libammsdk_8d92c716b24a387c0b8d33873c92efe4877bfcaa\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="bbc0e4638fae8dec8a8efd411671e8c59568cee4">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_81cba3ae1b865120fbf0a8ece18a434f275c4dcd\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\IAgriculture\library_SlidingMenu\unspecified\jars\libs\android-support-v4.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="e4583ac23bad6c56852aa714403b3ec283e0e690">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\8\android-support-v4_829802d816a60e8352a13be395535eb1178464a5\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\IAgriculture\library_SlidingMenu\unspecified\jars\libs\android-support-v7-appcompat.jar"
+        jumboMode="true"
+        revision="21.1.2"
+        sha1="23eeb90479e47a62db6449f03df3b219bbfc1c12">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\8\android-support-v7-appcompat_2ca46abcb868be2c6115f2ba9b3eb9e2819ce3d5\classes.dex" />
+    </item>
+
+</items>

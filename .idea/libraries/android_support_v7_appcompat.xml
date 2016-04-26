@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="android-support-v7-appcompat">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/android-support-v7-appcompat.jar!/" />
+      <root url="jar://$PROJECT_DIR$/library_SlidingMenu/libs/android-support-v7-appcompat.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

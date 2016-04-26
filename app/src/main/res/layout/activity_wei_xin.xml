@@ -8,5 +8,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.ifuture.iagriculture.WeiXin.WeiXinActivity">
+    <Button
+        android:id="@+id/weixin_share_button"
+        android:layout_width="wrap_content"
+        android:layout_height="20pt"
+        android:text="分享"/>
 
 </RelativeLayout>

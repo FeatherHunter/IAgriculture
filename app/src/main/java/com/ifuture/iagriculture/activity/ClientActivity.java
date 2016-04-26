@@ -207,6 +207,11 @@ public class ClientActivity extends Activity {
 			accountString = client_account.getText().toString();
 			passwordString = client_password.getText().toString();
 
+			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+			editor.putString("account", accountString);
+			editor.putString("password", passwordString);//提交当前数据
+			editor.commit();
+
 			Intent intent = new Intent();
 			intent.setClass(ClientActivity.this, ClientMainActivity.class);
 			ClientActivity.this.startActivity(intent);
