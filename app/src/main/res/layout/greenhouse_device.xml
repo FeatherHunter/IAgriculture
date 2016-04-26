@@ -1,185 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/mygreen4"
-    android:weightSum="5"
+    android:background="@color/white"
+    android:padding="1pt"
     >
-    <!-- 设备号 -->
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="1pt"
-        android:layout_weight="1"
-        android:weightSum="3"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/mygreen4"
+        android:weightSum="5"
         >
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:text="设备"
-            android:textSize="5pt"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:id="@+id/device_id"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+        <!-- 设备号 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_weight="1"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+            <TextView
+                android:text="设备"
+                android:textSize="8pt"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:id="@+id/device_id"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <!-- 温度值 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_weight="1"
+            android:weightSum="7"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:text="温度"
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+            <TextView
+                android:id="@+id/device_temp"
+                android:text="22"
+                android:textSize="9pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="3"/>
+            <TextView
+                android:text="℃"
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <!-- 湿度值 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_weight="1"
+            android:weightSum="7"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:text="湿度"
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+            <TextView
+                android:id="@+id/device_humi"
+                android:text="34"
+                android:textSize="9pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="3"/>
+            <TextView
+                android:text="%"
+                android:textSize="7pt"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <!-- 设备状态和控制 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_weight="1"
+            android:weightSum="6"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="取暖设备"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="7pt"/>
+
+            <com.gc.materialdesign.views.Switch
+                android:id="@+id/device_warm_switch"
+                android:layout_width="1pt"
+                android:background="#1E88E5"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                />
+
+            <!--
+            <com.gc.materialdesign.views.Switch
+                android:id="@+id/device_warm_switch"
+                android:layout_width="1pt"
+                android:background="#1E88E5"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                />
+            -->
+
+        </LinearLayout>
+        <!-- 设备状态和控制 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1pt"
+            android:layout_weight="1"
+            android:weightSum="6"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="灌溉设备"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="7pt"/>
+
+
+            <com.gc.materialdesign.views.Switch
+                android:id="@+id/device_irrigation_switch"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:background="#1E88E5"
+                android:layout_weight="4"
+                />
+
+            <!--
+            <com.gc.materialdesign.views.Switch
+                android:id="@+id/device_irrigation_switch"
+                android:layout_width="1pt"
+                android:layout_height="match_parent"
+                android:background="#1E88E5"
+                android:layout_weight="3"
+                />
+            -->
+
+        </LinearLayout>
+
     </LinearLayout>
-    <!-- 温度值 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1pt"
-        android:layout_weight="1"
-        android:weightSum="7"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:text="温度"
-            android:textSize="5pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/device_temp"
-            android:text="22"
-            android:textSize="8pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-        <TextView
-            android:text="℃"
-            android:textSize="5pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <!-- 湿度值 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1pt"
-        android:layout_weight="1"
-        android:weightSum="7"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:text="湿度"
-            android:textSize="5pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:id="@+id/device_humi"
-            android:text="34"
-            android:textSize="8pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-        <TextView
-            android:text="%"
-            android:textSize="5pt"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <!-- 设备状态和控制 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1pt"
-        android:layout_weight="1"
-        android:weightSum="6"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="取暖设备"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="5pt"/>
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
-        <Switch
-            android:id="@+id/device_warm_switch"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-
-        <!--
-        <com.gc.materialdesign.views.Switch
-            android:id="@+id/device_warm_switch"
-            android:layout_width="1pt"
-            android:background="#1E88E5"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            />
-        -->
-
-    </LinearLayout>
-    <!-- 设备状态和控制 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1pt"
-        android:layout_weight="1"
-        android:weightSum="6"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="灌溉设备"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="5pt"/>
-        <TextView
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <Switch
-            android:id="@+id/device_irrigation_switch"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
-
-        <!--
-        <com.gc.materialdesign.views.Switch
-            android:id="@+id/device_irrigation_switch"
-            android:layout_width="1pt"
-            android:layout_height="match_parent"
-            android:background="#1E88E5"
-            android:layout_weight="3"
-            />
-        -->
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

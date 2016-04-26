@@ -73,21 +73,22 @@ public class Instruction {
 
     /** ---------------------------------------------------------------------
      *   @Function:    ctrlLamp
-     *   @param terminalNumber 终端号
-     *   @param deviceNumber   设备号
+     *   @param areaNum           终端号
+     *   @param greenHouseNumber  大棚号
+     *   @param deviceNum         设备号
      *   @param lamp_on        灯的开/关
      *   @return 绑定地区号和大棚号的指令
      * ---------------------------------------------------------------------*/
-    public static String ctrlLamp(String terminalNumber, String deviceNumber, boolean lamp_on)
+    public static String ctrlLamp(String areaNum, String greenHouseNumber, String deviceNum, boolean lamp_on)
     {
         String msg;
         if(lamp_on)
         {
-            msg = ""+ CMD_HEAD + CMD_CTRL + CTRL_LAMP + terminalNumber + CMD_SEP + deviceNumber + CMD_SEP + LAMP_ON + CMD_END;
+            msg = ""+ CMD_HEAD + CMD_CTRL + CTRL_LAMP + areaNum + CMD_SEP + greenHouseNumber + CMD_SEP + deviceNum + CMD_SEP + LAMP_ON + CMD_END;
         }
         else
         {
-            msg = ""+ CMD_HEAD + CMD_CTRL + CTRL_LAMP + terminalNumber + CMD_SEP + deviceNumber + CMD_SEP + LAMP_OFF + CMD_END;
+            msg = ""+ CMD_HEAD + CMD_CTRL + CTRL_LAMP + areaNum + CMD_SEP + greenHouseNumber + CMD_SEP + deviceNum + CMD_SEP + LAMP_OFF + CMD_END;
         }
         return msg;
     }

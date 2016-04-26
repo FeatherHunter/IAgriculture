@@ -189,7 +189,7 @@ public class FragmentVideo extends BaseFragment{
 						videoImageView.setImageDrawable(animon);  //将动画设置为ImageView背景
 						animon.start();   //开始动画
 
-						intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, false));
+						//intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, false));
 						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
 						//videoImageView.setImageResource(R.drawable.demo_lamp_on);
 						SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
@@ -200,7 +200,7 @@ public class FragmentVideo extends BaseFragment{
 						videoImageView.setImageDrawable(animoff);  //将动画设置为ImageView背景
 						animoff.start();   //开始动画
 
-						intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, true));
+						//intent.putExtra("send", Instruction.ctrlLamp("10000", "" + (char) 0 + (char) 0 + (char) 0 + (char) 1, true));
 						ledButton.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_default));
 						//videoImageView.setImageResource(R.drawable.demo_lamp_off);
 						SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);

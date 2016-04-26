@@ -67,8 +67,8 @@ public class IHomeService extends Service{
 	private ServiceReceiver serviceReceiver;
 	private String SERVICE_ACTION = "android.intent.action.MAIN";
 
-	//private String IGServerIP = "192.168.191.1";
-	private String IGServerIP = "139.129.19.115";
+	private String IGServerIP = "192.168.191.1";
+	//private String IGServerIP = "139.129.19.115";
 	private int IGServerPort = 8080;
 	private FileOutputStream jpegOutputStream = null;
 	

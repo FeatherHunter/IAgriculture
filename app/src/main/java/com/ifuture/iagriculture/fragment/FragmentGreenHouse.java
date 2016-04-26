@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,16 +17,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-
+import com.gc.materialdesign.views.Switch;
 import com.ifuture.iagriculture.Device.Device;
+import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
-
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**======================================================================================================
  * @CopyRight: 王辰浩 2016~2026
@@ -66,6 +64,7 @@ public class FragmentGreenHouse extends BaseFragment{
 	String areaNumString = null;
 	String greenHouseNumString = null;
 
+	Hashtable<String, Device> deviceHashtable = new Hashtable<String, Device>();
 	ArrayList<Device> deviceList = new ArrayList<Device>();   //设备列表
 
 	DatabaseOperation databaseOperation = null; //数据库操作类
@@ -165,8 +164,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			View view2 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
 
 			//每一个设备框的大小
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					width/2 - 10, 400);
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
 			//将linearLayout加入到relative布局中
 			RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -174,24 +172,31 @@ public class FragmentGreenHouse extends BaseFragment{
 			view1.setLayoutParams(layoutParams);
 			view2.setLayoutParams(layoutParams);
 
-			/*将第一个设备加入到list中*/
+			/* -----------------------------------------------------------------
+	         *             获取设备1加入到HashTable中
+	         *             获取温度、湿度switch并且设置监听器
+	         * -----------------------------------------------------------------*/
 			TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
 			TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
 			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
 			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
 
+			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
 			Device device1 = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
-			if(device1 != null)
-			   deviceList.add(device1);
+			deviceHashtable.put(devices[i*2],device1);
 
+			/* -----------------------------------------------------------------
+	         *             获取设备1加入到HashTable中
+	         *             获取温度、湿度switch并且设置监听器
+	         * -----------------------------------------------------------------*/
 			tempValue = (TextView) view2.findViewById(R.id.device_temp);
 			humiValue = (TextView) view2.findViewById(R.id.device_humi);
 			warmDeviceState = (Switch) view2.findViewById(R.id.device_warm_switch);
 			irriDeviceState = (Switch) view2.findViewById(R.id.device_irrigation_switch);
 
+			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2+1]));
 			Device device2 = new Device(devices[i*2+1], tempValue, humiValue, warmDeviceState, irriDeviceState);
-			if(device2 != null)
-				deviceList.add(device2);
+			deviceHashtable.put(devices[i*2+1],device2);
 
 			// 添加到每行的linearlayout中
 			linearLayout.addView(view1);
@@ -207,7 +212,7 @@ public class FragmentGreenHouse extends BaseFragment{
 		}
 		if(deviceCount%2 == 1)
 		{
-			// 每行都有一个linearlayout
+			// 每行的linearlayout
 			LinearLayout linearLayout = new LinearLayout(getActivity());
 			linearLayout.setId(i + 10);
 			linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -218,8 +223,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			View view1 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
 
 			//每一个设备框的大小
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					width/2 - 10, 400);
+			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
 			//将linearLayout加入到relative布局中
 			RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -229,44 +233,24 @@ public class FragmentGreenHouse extends BaseFragment{
 			/*将第一个设备加入到list中*/
 			TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
 			TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
+
+			/* -----------------------------------------------------------------
+	         *             获取设备的switch并且设置监听器
+	         * -----------------------------------------------------------------*/
 			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
 			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
 
-			deviceList.add(new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState));
-
+			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
+			Device device = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
+			deviceHashtable.put(devices[i*2],device);
 
 			// 添加到每行的linearlayout中
 			linearLayout.addView(view1);
-
 			relativeParams.addRule(RelativeLayout.BELOW, i + 10 - 1);
-
-
 			// 把每个linearlayout加到relativelayout中
 			ghLayout.addView(linearLayout, relativeParams);
 		}
-//		greenHouseDeviceLayout = (RelativeLayout) getActivity().findViewById(R.id.gh_device_layout);
-//
-//		View view = View.inflate(getActivity(), R.layout.greenhouse_device, null);
-//		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(500, 300,
-//				Gravity.LEFT);
-//
-//		params.bottomMargin = 50 ;
-//		params.rightMargin = 50;
-//
-//		greenHouseDeviceLayout.addView(view, params);
-//		TextView temp = (TextView) view.findViewById(R.id.device_temp);
-//		temp.setText("24");
 
-//		view = View.inflate(getActivity(), R.layout.greenhouse_device, null);
-//		params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-//				Gravity.BOTTOM|Gravity.LEFT);
-//
-//		params.bottomMargin = 50 ;
-//		params.rightMargin = 50;
-//
-//		greenHouseDeviceLayout.addView(view, params);
-//		temp = (TextView) view.findViewById(R.id.device_temp);
-//		temp.setText("28");
 		video_start = false; //默认视频关闭
 		/* -------------------------------------------------------
 		 *  动态注册receiver
@@ -291,36 +275,56 @@ public class FragmentGreenHouse extends BaseFragment{
 			// TODO: handle exception
 			System.out.println("had been registerReceiver");
 		}
-//		/* -------------------------------------------------------
-//	     *  通过SharedPreferences获取当前温度等数据,显示出来。
-//	     *  用于fragment切换时候的数据保存
-//		 * -------------------------------------------------------*/
-//		apSharedPreferences = getActivity().getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
-//		tempCATextview.setText(apSharedPreferences.getString("temperature", "") + "℃"); //第2个参数是value的默认值
-//		tempCGTextview.setText(apSharedPreferences.getString("temperature", "")+"℃"); //第2个参数是value的默认值
-//
-//		/* -------------------------------------------------------
-//	     *                      视频监控相关
-//		 * -------------------------------------------------------*/
-//		videoImageButton = (Button) getActivity().findViewById(R.id.igreen_video_start_button);
-//		videoImageButton.setOnClickListener(new videoImageButtonListener());
-//
-//		videoImageView = (ImageView) getActivity().findViewById(R.id.igreen_video_imageview);
-//
-//		/* -------------------------------------------------------
-//	     *  通过SharedPreferences获取当前视频状态
-//	     *  用于fragment切换时候的数据保存
-//		 * -------------------------------------------------------*/
-//		apSharedPreferences = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
-//		if(apSharedPreferences.getString("demo", "").equals("on"))
-//		{
-//			videoImageView.setImageResource(R.drawable.demo_on8);
-//		}
-//		else
-//		{
-//			videoImageView.setImageResource(R.drawable.demo_on1);
-//		}
-//		videoRelativelayout = (RelativeLayout) getActivity().findViewById(R.id.igreen_video_dislayout);
+
+	}
+
+	/**------------------------------------------------------------------------
+	 * @Function: switchWarmOnCheckedChangeListener
+	 * @Description:
+	 *      监听各个独立设备的取暖器switch的开关状态
+	 *------------------------------------------------------------------------*/
+	class switchWarmOnCheckedChangeListener implements Switch.OnCheckListener {
+
+		String deviceNum = null;
+		public switchWarmOnCheckedChangeListener(String deviceNum)
+		{
+			Log.d("Debug", deviceNum);
+			this.deviceNum = deviceNum;
+		}
+
+		@Override
+		public void onCheck(Switch view, boolean check) {
+			if(deviceNum == null) return;
+			/* -----------------------------------------
+			 *      打开设备（发送指令给服务器，通过Service）
+			 * -----------------------------------------*/
+			if(check) {
+				//Log.d("Debug", "check is true");
+				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, true));
+
+			}
+			/* -----------------------------------------
+			 *      关闭取暖灯
+			 * -----------------------------------------*/
+			else {
+				//Log.d("Debug", "check is false");
+				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, false));
+			}
+		}
+	}
+
+	/**-------------------------------------------------------------------
+	 * 	 @Function: private void broadcastMsgToServer(String msg)
+	 * 	 @Description: 发送控制等信息给广播
+	 * 	 @param msg 需要发送的信息
+	 *----------------------------------------------------------------------*/
+	private void broadcastMsgToServer(String msg)
+	{
+		Intent intent = new Intent();
+		intent.setAction(intent.ACTION_MAIN);
+		intent.putExtra("type", "send");
+		intent.putExtra("send", msg);
+		getActivity().sendBroadcast(intent);
 	}
 
 	class staticsButtonListenner implements OnClickListener{
@@ -337,6 +341,9 @@ public class FragmentGreenHouse extends BaseFragment{
 	 * @Function: private class ContrlReceiver extends BroadcastReceiver
 	 * @Description:
 	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
+	 *
+	 * @Debug :
+	 *  1. areaString.equals(areaNumString) ---写成areaString == areaNumString
 	 *------------------------------------------------------------------------*/
 	private class RecvReceiver extends BroadcastReceiver {
 
@@ -349,18 +356,23 @@ public class FragmentGreenHouse extends BaseFragment{
 			String typeString = intent.getStringExtra("update");
 			if(typeString != null)
 			{
-				System.out.println("RecvReceiver=======================RecvReceiver====================");
 				String areaString = intent.getStringExtra("area");
 				String greenhouseString = intent.getStringExtra("greenhouse");
 				String deviceString = intent.getStringExtra("device");
 				if(areaString!=null && greenhouseString!=null)
 				{
-					if(areaString == areaNumString && greenhouseString == greenHouseNumString)
+					if(areaString.equals(areaNumString) && greenhouseString.equals(greenHouseNumString))
 					{
 						if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
 						{
 							String tempString = intent.getStringExtra("temp");
 							tempCurrenAirTextview.setText(tempString);
+
+							/* ------------------------------------------------------
+			 				 *      通过设备号获取Device，并且改变其中的值
+			                 * --------------------------------------------------*/
+							Device device = deviceHashtable.get(deviceString);
+							device.getTempValue().setText(tempString);
 						}
 						else if(typeString.equals("humi"))/*发送给第一个ihome fragment*/
 						{
@@ -371,26 +383,6 @@ public class FragmentGreenHouse extends BaseFragment{
 				}//end of 地区号，大棚号
 			}//end of typeString
 		}//onReceive
-	}
-
-	class videoImageButtonListener implements  OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-//			if(v.getId() == R.id.igreen_video_start_button)
-//			{
-//				if(video_start == true)//关闭视频
-//				{
-//					video_start = false;
-//					videoImageButton.setBackground(getResources().getDrawable(R.drawable.igreen_video_unselected));
-//					videoRelativelayout.setVisibility(View.GONE);
-//				}else { //开启视频
-//					video_start = true;
-//					videoImageButton.setBackground(getResources().getDrawable(R.drawable.igreen_video_selected));
-//					videoRelativelayout.setVisibility(View.VISIBLE);
-//				}
-//			}
-		}
 	}
 
 	/**
