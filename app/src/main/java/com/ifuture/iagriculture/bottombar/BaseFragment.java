@@ -116,14 +116,14 @@ public class BaseFragment extends Fragment {
 		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_HOME)){
 			baseFragment = new FragmentHome();
 		}
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_STATICS)){//统计数据，暂时用 FragmentToalData();
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_AREA_STATICS)){//统计数据，暂时用 FragmentToalData();
+			baseFragment = new FragmentToalData();
+		}
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GHOUSE_STATICS)){//统计数据，暂时用 FragmentToalData();
 			baseFragment = new FragmentToalData();
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_VIDEO)){//视频
 			baseFragment = new FragmentVideo();
-		}
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){//详细数据
-			baseFragment = new FragmentToalData();
 		}
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GREENHOUSE)){//具体大棚的界面
 			baseFragment = new FragmentGreenHouse();

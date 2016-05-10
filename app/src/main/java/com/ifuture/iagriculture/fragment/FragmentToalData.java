@@ -13,9 +13,14 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -27,13 +32,16 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.ifuture.iagriculture.Calendar.TodayTime;
+import com.ifuture.iagriculture.Device.Device;
 import com.ifuture.iagriculture.LineChartShow;
 import com.ifuture.iagriculture.R;
+import com.ifuture.iagriculture.activity.ClientMainActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @CopyRight: 王辰浩 2016~2026
@@ -62,7 +70,12 @@ import java.util.Calendar;
  **/
 public class FragmentToalData extends BaseFragment{
 
+	ClientMainActivity mainActivity; //主activty,用于获取mainactivity的数据
+
 	DatabaseOperation databaseOperation = null;
+
+	boolean isAreaDate = true;
+	private ArrayAdapter<String> adapter = null;
 
 	private RecvReceiver recvReceiver;
 	private String RECV_ACTION = "android.intent.action.ANSWER";
@@ -70,6 +83,16 @@ public class FragmentToalData extends BaseFragment{
 	TextView tempCGTextview;//C当前温度 for air
 	TextView humiCATextview;//C当前湿度 for ground 土壤
 	TextView humiCGTextview;//C当前湿度 for ground
+
+	/* ---------------------------------------------------------------------
+	 *    选择地区和大棚的布局以及控件
+	 * ---------------------------------------------------------------------*/
+	private LinearLayout areaLinearlayout;
+	private LinearLayout greenhouseLinearlayout;
+	private Spinner areaSpinner = null;        //地区号spinner
+	private Spinner gHouseSpinner = null;      //大棚号spinner
+	private List<String> arealist = null;
+	private List<String> ghouselist = null;
 
 	/* ---------------------------------------------------------------------
 	 *
@@ -83,6 +106,9 @@ public class FragmentToalData extends BaseFragment{
 	 * -----------------------------------------*/
 	String areaNumString = null;
 	String greenHouseNumString = null;
+
+	private int area_number = -1;
+	private int greenhouse_number = -1;
 
 
 	private LineChart tempLineChart;
@@ -167,9 +193,6 @@ public class FragmentToalData extends BaseFragment{
 		tempLineChart  = (LineChart) getActivity().findViewById(R.id.temp_line_chart);
 		humiLineChart  = (LineChart) getActivity().findViewById(R.id.humi_line_chart);
 		nutritionChart = (PieChart) getActivity().findViewById(R.id.nutrition_pie_chart); //获取营养物质饼状图
-		showTodayTemp(); //显示温度
-		showTodayHumi(); //显示湿度
-		showNutrition(); //显示营养成分
 
 		/*---------------------------------------------------------------------
 		 *  获取温度线型图相关控件的获取和日，周切换绑定监听器
@@ -184,6 +207,13 @@ public class FragmentToalData extends BaseFragment{
 		radioGroupTempDayWeek.setOnCheckedChangeListener(new tempDayOrWeekButtonListener());
 		tempDayButton.setChecked(true);
 
+		/* -----------------------------------------------------------------
+	    *             获取地区号和大棚号的spinner
+	    * -----------------------------------------------------------------*/
+		greenhouseLinearlayout = (LinearLayout) getActivity().findViewById(R.id.statics_greenhouse_linearlayout);
+		areaSpinner = (Spinner) getActivity().findViewById(R.id.statics_area_spinner);
+		gHouseSpinner = (Spinner) getActivity().findViewById(R.id.statics_greenhouse_spinner);
+
 		/*----------------------------------------------------------------------
 		 *  动态注册receiver，用于接收数据变化的广播
 		 *----------------------------------------------------------------------*/
@@ -196,6 +226,112 @@ public class FragmentToalData extends BaseFragment{
 			// TODO: handle exception
 			System.out.println("fragmentIHome registerReceiver");
 		}
+
+		/*----------------------------------------------------------------------
+		 *  根据是否是地区数据，来决定该数据统计界面是地区数据还是大棚数据
+		 *----------------------------------------------------------------------*/
+		isAreaDate = ((ClientMainActivity)getActivity()).isAreaData;//从主Activity获得isAreaData标志，表示显示哪种数据
+		areaNumString = mainActivity.areaNumString;
+		greenHouseNumString = mainActivity.greenhouseNumString;
+		if(isAreaDate)
+		{
+			/* -----------------------------------------------------------------
+	     	 *             将地区号和地区名添加到spinner(下拉框)中去
+	     	 * -----------------------------------------------------------------*/
+			String areas[] = databaseOperation.queryAreaName(getActivity()); //获得地区名
+			arealist = new ArrayList<String>();
+			int i;
+			for(i = 0; areas[i] != null; i++)
+			{
+				arealist.add(""+i+"-"+areas[i]);    //spinner获取显示内容
+			}
+			if(i == 0)//不存在地区号
+			{
+				Toast.makeText(getActivity(),"请先绑定地区", Toast.LENGTH_SHORT).show();
+			}
+			else//存在地区，默认显示地区0
+			{
+				/* -----------------------------------------------------------------
+	     		 *             存在地区设置地区号
+	     		 * -----------------------------------------------------------------*/
+				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arealist);//添加arealist链表
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);//为适配器设置下拉列表下拉时的菜单样式。
+				areaSpinner.setAdapter(adapter);
+				areaSpinner.setOnItemSelectedListener(new areaSpinnerOnItemSelectedListener()); //设置监听器
+
+				area_number = 0;//地区号:0
+				TodayTime todayTime = new TodayTime();
+				todayTime.update();
+				showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示今日地区温度
+				showTodayHumi(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
+				showNutrition();
+			}
+		}
+		else
+		{
+			greenhouseLinearlayout.setVisibility(View.VISIBLE);   //显示大棚号的布局文件设置为VISIBLE
+
+			/* -----------------------------------------------------------------
+	     	 *             将地区号和地区名添加到spinner(下拉框)中去
+	     	 * -----------------------------------------------------------------*/
+			String areas[] = databaseOperation.queryAreaName(getActivity()); //获得地区名
+			arealist = new ArrayList<String>();
+			int i;
+			for(i = 0; areas[i] != null; i++)
+			{
+				arealist.add(""+i+"-"+areas[i]);    //spinner获取显示内容
+			}
+			if(i == 0)//不存在地区号
+			{
+				Toast.makeText(getActivity(),"请先绑定地区", Toast.LENGTH_SHORT).show();
+			}
+			else
+			{
+				adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arealist);//添加arealist链表
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);//为适配器设置下拉列表下拉时的菜单样式。
+				areaSpinner.setAdapter(adapter);
+				areaSpinner.setOnItemSelectedListener(new areaSpinnerOnItemSelectedListener()); //设置监听器
+				areaSpinner.setSelection(Integer.parseInt(areaNumString)); //将当前的地区号，显示在spinner中
+			}
+			/* -----------------------------------------------------------------
+	     	 *             存在地区时，显示地区号0的所有大棚号(处于Spinner中)
+	     	 * -----------------------------------------------------------------*/
+			if(areas[0] != null)
+			{
+				String ghouses[] = databaseOperation.queryGHousePerArea(getActivity(), Integer.parseInt(areaNumString)); //获得地区名
+				ghouselist = new ArrayList<String>();
+				int j;
+				int green_number = 0;
+				for(j = 0; ghouses[j] != null; j++)
+				{
+					ghouselist.add(""+ghouses[j]);    //spinner获取显示内容
+					if(ghouses[j].equals(greenHouseNumString))
+					{
+						green_number = j;
+					}
+				}
+				if(j == 0)//不存在地区号
+				{
+					Toast.makeText(getActivity(),"不存在该大棚", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ghouselist);//添加arealist链表
+					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);//为适配器设置下拉列表下拉时的菜单样式。
+					gHouseSpinner.setAdapter(adapter);
+					gHouseSpinner.setOnItemSelectedListener(new gHouseSpinnerOnItemSelectedListener()); //设置监听器
+					gHouseSpinner.setSelection(green_number); //将spinner中内容设置为需要显示的大棚号
+
+					area_number = 0;//地区号:0
+					TodayTime todayTime = new TodayTime();
+					todayTime.update();
+					showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示今日地区温度
+					showTodayHumi(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
+					showNutrition();
+				}
+
+			}
+		}
 	}
 
 	class tempDayOrWeekButtonListener implements RadioGroup.OnCheckedChangeListener
@@ -207,7 +343,7 @@ public class FragmentToalData extends BaseFragment{
 			System.out.println("ID:" + radioButtonId+" "+R.id.rb_temp_day+"/"+R.id.rb_temp_week);
 			switch(radioButtonId){
 				case R.id.rb_temp_day:
-					showTodayTemp();
+					//showTodayTemp();
 					break;
 				case R.id.rb_temp_week:
 					showWeekTemp();
@@ -231,9 +367,9 @@ public class FragmentToalData extends BaseFragment{
 	 * @Function: private void showTodayHumi()
 	 * @Description: 显示今天湿度的折线图
 	 */
-	private void showTodayHumi()
+	private void showTodayHumi(int year, int month, int day)
 	{
-		LineData humiLineData = getTodayHumiLineData();
+		LineData humiLineData = getTodayHumiLineData(year, month, day);
 		LineChartShow lineChartShow = new LineChartShow(10, "今日湿度");
 		showChart(humiLineChart, humiLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
@@ -242,9 +378,9 @@ public class FragmentToalData extends BaseFragment{
 	 * @Function: private void showTodayTemp()
 	 * @Description: 显示今天温度的折线图
 	 */
-	private void showTodayTemp()
+	private void showTodayTemp(int year, int month, int day)
 	{
-		LineData mLineData = getTodayTempLineData(); //获取今天24小时内的温度
+		LineData mLineData = getTodayTempLineData(year, month, day); //获取今天24小时内的温度
 		LineChartShow lineChartShow = new LineChartShow(10, "今日温度");
 		showChart(tempLineChart, mLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
@@ -321,39 +457,99 @@ public class FragmentToalData extends BaseFragment{
 	 * 		 获取到空气湿度、土壤湿度
 	 * @return 数据集
 	 */
-	private LineData getTodayHumiLineData() {
+	private LineData getTodayHumiLineData(int year, int month, int day) {
 
 		int ycount;
+		boolean isTodayDate = false;//表明当前日期为今日日期
+		ArrayList<Entry> yTodayGValues = new ArrayList<>(); //今天的数值
+		ArrayList<Entry> yTodayAValues = new ArrayList<>(); //昨天数值
+
 		TodayTime todayTime = new TodayTime();
 		todayTime.update();
-		ycount = todayTime.getHour(); //当前时间
+		if((todayTime.getYear() == year) && (todayTime.getMonth() == month) && (todayTime.getDay() == day))
+		{
+			ycount = todayTime.getHour(); //当前时间
+			isTodayDate = true; //为今天数据
+		}
+		else
+		{
+			ycount = 24;
+		}
 
 		ArrayList<String> xValues = new ArrayList<>();
 		for (int i = 0; i < 24; i++) {
 			// x轴显示的数据，这里默认使用数字下标显示
 			xValues.add("" + i +":00");
 		}
-
-		float temp;
-		/*----------------------------------------------
-		 * 获取今天此时之前的所有温度数据（以小时为单位）
-		 * ---------------------------------------------
-		 */
-		ArrayList<Entry> yTodayGValues = new ArrayList<>(); //今天的数值
-		for (int i = 0; i < ycount; i++) {
-//			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
+		float humi;
+		/*----------------------------------------------------------------
+		 *                当前统计界面以地区为单位显示数据
+		 *---------------------------------------------------------------*/
+		if(isAreaDate)
+		{
+			// y轴的数据
+			for (int i = 0; i <= ycount; i++) {
+				float temp_humi[] = null;
+				if(isTodayDate)//为今天的地区数据-查询today表
+				{
+					temp_humi = databaseOperation.queryHourTodayByArea(getActivity(), areaNumString, i); //获取当前地区的温度值
+				}
+				else//为以往的数据,查询allday表
+				{
+					temp_humi = databaseOperation.queryHourPerYearByArea(getActivity(), greenHouseNumString, year, month, day, i); //获取当前地区的温度值
+				}
+				if(temp_humi != null)
+				{
+					humi = (float)temp_humi[1];
+					yTodayGValues.add(new Entry(humi, i));
+				}
+			}
+		   /*-------------------------------------------------
+		    *                设置昨天的温度
+		    *------------------------------------------------*/
+			Calendar c = Calendar.getInstance(); // 当时的日期和时间
+			int yesday = c.get(Calendar.DAY_OF_MONTH) - 1;
+			c.set(Calendar.DAY_OF_MONTH, yesday);
+			for (int i = 0; i < 24; i++) {
+//			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
 //			if(temp_humi != null)
 //			{
-//				temp = (float)temp_humi[1]; //1为湿度
-//				yTodayGValues.add(new Entry(temp, i));
+//				yYesterdayValues.add(new Entry(temp_humi[0], i));
 //			}
+			}
 		}
-
-        /*空气湿度*/
-		ArrayList<Entry> yTodayAValues = new ArrayList<>();
-		for (int i = 0; i < 24; i++) {
-			float value = (float)todayAHumi[i];
-			yTodayAValues.add(new Entry(value, i));
+		else
+		{
+			// y轴的数据
+			for (int i = 0; i <= ycount; i++) {
+				float temp_humi[] = null;
+				if(isTodayDate)//为今天的地区数据-查询today表
+				{
+					temp_humi = databaseOperation.queryHourTodayByGHouse(getActivity(), areaNumString, greenHouseNumString, i); //获取今天某大棚的温湿度
+				}
+				else//为以往的数据,查询allday表
+				{
+					temp_humi = databaseOperation.queryHourPerYearByGHouse(getActivity(), areaNumString, greenHouseNumString,year, month, day, i); //获取当前地区的温度值
+				}
+				if(temp_humi != null)
+				{
+					humi = (float)temp_humi[1];
+					yTodayAValues.add(new Entry(humi, i));
+				}
+			}
+		   /*-------------------------------------------------
+		    *                设置昨天的温度
+		    *------------------------------------------------*/
+			Calendar c = Calendar.getInstance(); // 当时的日期和时间
+			int yesday = c.get(Calendar.DAY_OF_MONTH) - 1;
+			c.set(Calendar.DAY_OF_MONTH, yesday);
+			for (int i = 0; i < 24; i++) {
+//			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
+//			if(temp_humi != null)
+//			{
+//				yYesterdayValues.add(new Entry(temp_humi[0], i));
+//			}
+			}
 		}
 
 		// create a dataset and give it a type
@@ -395,45 +591,105 @@ public class FragmentToalData extends BaseFragment{
 	/**
 	 * @Function: private LineData getTodayTempLineData()
 	 * @Description: 得到今天温度的线型数据集
-	 * @param
+	 * @param year  年
+	 * @param month 月
+	 * @param day   日
 	 * @return
 	 */
-	private LineData getTodayTempLineData() {
+	private LineData getTodayTempLineData(int year, int month, int day) {
 
 		int ycount;
+		boolean isTodayDate = false;//表明当前日期为今日日期
+		ArrayList<Entry> yTodayValues = new ArrayList<>(); //今天的数值
+		ArrayList<Entry> yYesterdayValues = new ArrayList<>(); //昨天数值
+
 		TodayTime todayTime = new TodayTime();
 		todayTime.update();
-		ycount = todayTime.getHour(); //当前时间
+		if((todayTime.getYear() == year) && (todayTime.getMonth() == month) && (todayTime.getDay() == day))
+		{
+			ycount = todayTime.getHour(); //当前时间
+			isTodayDate = true; //为今天数据
+		}
+		else
+		{
+			ycount = 24;
+		}
 		ArrayList<String> xValues = new ArrayList<>();
 		for (int i = 0; i < 24; i++) {
 			// x轴显示的数据，这里默认使用数字下标显示
 			xValues.add("" + i+":00");
 		}
 
-		float temp;
-		// y轴的数据
-		ArrayList<Entry> yTodayValues = new ArrayList<>(); //今天的数值
-		for (int i = 0; i < ycount; i++) {
-//			float temp_humi[] = databaseOperation.queryHourToday(getActivity(), i); //以小时为单位获取今天的温度
-//			if(temp_humi != null)
-//			{
-//				temp = (float)temp_humi[0];
-//				yTodayValues.add(new Entry(temp, i));
-//			}
-		}
-		/*-------------------------------------------------
-		 *                设置昨天的温度
-		 *------------------------------------------------*/
-		Calendar c = Calendar.getInstance(); // 当时的日期和时间
-		int day = c.get(Calendar.DAY_OF_MONTH) - 1;
-		c.set(Calendar.DAY_OF_MONTH, day);
-		ArrayList<Entry> yYesterdayValues = new ArrayList<>();
-		for (int i = 0; i < 24; i++) {
+		/*----------------------------------------------------------------
+		 *                当前统计界面以地区为单位显示数据
+		 *---------------------------------------------------------------*/
+		if(isAreaDate)
+		{
+			float temp;
+			// y轴的数据
+			for (int i = 0; i <= ycount; i++) {
+				float temp_humi[] = null;
+				if(isTodayDate)//为今天的地区数据-查询today表
+				{
+					temp_humi = databaseOperation.queryHourTodayByArea(getActivity(), areaNumString, i); //获取当前地区的温度值
+				}
+				else//为以往的数据,查询allday表
+				{
+					temp_humi = databaseOperation.queryHourPerYearByArea(getActivity(), greenHouseNumString, year, month, day, i); //获取当前地区的温度值
+				}
+				if(temp_humi != null)
+				{
+					temp = (float)temp_humi[0];
+					yTodayValues.add(new Entry(temp, i));
+				}
+			}
+		   /*-------------------------------------------------
+		    *                设置昨天的温度
+		    *------------------------------------------------*/
+			Calendar c = Calendar.getInstance(); // 当时的日期和时间
+			int yesday = c.get(Calendar.DAY_OF_MONTH) - 1;
+			c.set(Calendar.DAY_OF_MONTH, yesday);
+			for (int i = 0; i < 24; i++) {
 //			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
 //			if(temp_humi != null)
 //			{
 //				yYesterdayValues.add(new Entry(temp_humi[0], i));
 //			}
+			}
+		}
+		else
+		{
+			float temp;
+			// y轴的数据
+			for (int i = 0; i <= ycount; i++) {
+				float temp_humi[] = null;
+				if(isTodayDate)//为今天的地区数据-查询today表
+				{
+					temp_humi = databaseOperation.queryHourTodayByGHouse(getActivity(), areaNumString, greenHouseNumString, i); //获取今天某大棚的温湿度
+				}
+				else//为以往的数据,查询allday表
+				{
+					temp_humi = databaseOperation.queryHourPerYearByGHouse(getActivity(), areaNumString, greenHouseNumString,year, month, day, i); //获取当前地区的温度值
+				}
+				if(temp_humi != null)
+				{
+					temp = (float)temp_humi[0];
+					yTodayValues.add(new Entry(temp, i));
+				}
+			}
+		   /*-------------------------------------------------
+		    *                设置昨天的温度
+		    *------------------------------------------------*/
+			Calendar c = Calendar.getInstance(); // 当时的日期和时间
+			int yesday = c.get(Calendar.DAY_OF_MONTH) - 1;
+			c.set(Calendar.DAY_OF_MONTH, yesday);
+			for (int i = 0; i < 24; i++) {
+//			float temp_humi[] = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR) % 100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)); //以小时为单位获取今天的温度
+//			if(temp_humi != null)
+//			{
+//				yYesterdayValues.add(new Entry(temp_humi[0], i));
+//			}
+			}
 		}
 
 		// create a dataset and give it a type
@@ -716,6 +972,17 @@ public class FragmentToalData extends BaseFragment{
 		return pieData;
 	}
 
+	/**-----------------------------------------------------------
+	 *  @Function: public void onAttach(Activity activity)
+	 *  @Description: 设置大棚handler，处理信息
+	 *----------------------------------------------------------*/
+	@Override
+	public void onAttach(Activity activity){
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		mainActivity = (ClientMainActivity) activity;
+	}
+
 	/**
 	 * @Function: private class ContrlReceiver extends BroadcastReceiver
 	 * @Description:
@@ -729,19 +996,85 @@ public class FragmentToalData extends BaseFragment{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-			String typeString = intent.getStringExtra("update");
+			String typeString = intent.getStringExtra("datatype");
 			if(typeString != null)
 			{
-				if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
-				{
-					String tempString = intent.getStringExtra("temp");
-					//tempCATextview.setText(tempString+"℃");
-					//tempCGTextview.setText(tempString+"℃");
-				}
-			}
+//				System.out.println("RecvReceiver===============================");
+//				if(typeString.equals("areadata"))//各个地区的数据
+//				{
+//					isAreaDate = true;
+//				}
+//				else if(typeString.equals("greenhousedata"))//大棚
+//				{
+//					isAreaDate = false;//不是地区数据，是具体到大棚的数据
+//				}
+
+			}//end of typeString
 
 		}//onReceive
 
 
+	}
+	class gHouseSpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener{
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			if(greenhouse_number != position) {
+				greenhouse_number = position;//地区号
+				greenHouseNumString = gHouseSpinner.getSelectedItem().toString();
+
+				TodayTime todayTime = new TodayTime();
+				todayTime.update();
+				showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示今日地区温度
+				showTodayHumi(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示湿度
+				showNutrition(); //显示营养成分
+			}
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+
+		}
+	}
+
+	class areaSpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener{
+
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+			if(area_number != position)
+			{
+				area_number = position;//地区号
+				areaNumString = ""+position;
+				//处理地区的数据
+				if(isAreaDate)
+				{
+					TodayTime todayTime = new TodayTime();
+					todayTime.update();
+					showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示今日地区温度
+					showTodayHumi(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay()); //显示湿度
+					showNutrition(); //显示营养成分
+				}
+				else//显示地区某一大棚的统计数据
+				{
+					String ghouses[] = databaseOperation.queryGHousePerArea(getActivity(), area_number); //获得地区名
+					ghouselist = new ArrayList<String>();
+					for(int j = 0; ghouses[j] != null; j++)
+					{
+						ghouselist.add(""+ghouses[j]);    //spinner获取显示内容
+					}
+					adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ghouselist);//添加arealist链表
+					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);//为适配器设置下拉列表下拉时的菜单样式。
+					gHouseSpinner.setAdapter(adapter);
+					gHouseSpinner.setOnItemSelectedListener(new gHouseSpinnerOnItemSelectedListener()); //设置监听器
+				}
+			}
+
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+
+		}
 	}
 }

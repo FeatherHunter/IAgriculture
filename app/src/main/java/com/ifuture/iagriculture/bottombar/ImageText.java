@@ -72,7 +72,7 @@ public class ImageText extends LinearLayout{
         case Constant.BTN_FLAG_HOME:
             checkDrawableId = R.drawable.farmhouse_selected;
             break;  
-        case Constant.BTN_FLAG_STATICS:
+        case Constant.BTN_FLAG_AREA_STATICS:
             checkDrawableId = R.drawable.statics_selected;
             break;  
         case Constant.BTN_FLAG_VIDEO: 

@@ -1,6 +1,9 @@
 package com.ifuture.iagriculture.service;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +17,8 @@ import android.os.IBinder;
 
 import com.ifuture.iagriculture.Calendar.TodayTime;
 import com.ifuture.iagriculture.Instruction.Instruction;
+import com.ifuture.iagriculture.R;
+import com.ifuture.iagriculture.activity.ClientActivity;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 import com.ifuture.iagriculture.sqlite.DayDatabaseHelper;
 
@@ -67,8 +72,8 @@ public class IHomeService extends Service{
 	private ServiceReceiver serviceReceiver;
 	private String SERVICE_ACTION = "android.intent.action.MAIN";
 
-	private String IGServerIP = "192.168.191.1";
-	//private String IGServerIP = "139.129.19.115";
+	//private String IGServerIP = "192.168.191.1";
+	private String IGServerIP = "139.129.19.115";
 	private int IGServerPort = 8080;
 	private FileOutputStream jpegOutputStream = null;
 	
@@ -612,6 +617,30 @@ public class IHomeService extends Service{
 							}
 							//res = -1, 指令不全，什么都不做等待下一部分
 						}
+						else if(message.charAt(index) == Instruction.RES_HUMI) //检查次类指令
+						{
+							index += 1;
+							if(index >= msgLength) break;
+							int res = dealResHumi(message, index); //处理返回的湿度信息
+							if(res > 0)//正确返回截短
+							{
+								System.out.println("正确返回截短 " + res);
+								index += res;
+								message = message.substring(index);
+							}
+							else if(res == 0)//正好处理完
+							{
+								System.out.println("正好处理完 " + res);
+								message = "";
+								break; //结束
+							}
+							else if(res == -2) break;
+							else
+							{
+								System.out.println("为-1 " + res);
+							}
+							//res = -1, 指令不全，什么都不做等待下一部分
+						}
 						else
 						{
 													/*找到END或者HEAD*/
@@ -645,6 +674,139 @@ public class IHomeService extends Service{
 			}
 		}
 	};
+
+	/**
+	 * 	 @Function: private int dealResHumi(String msg, int index)
+	 * 	 @Input:  String msg:需要处理的信息
+	 * 	           int dex:   msg中的偏移量
+	 *   @Return: -1: 指令不全 0: 正好处理完全 >0：在String中偏移的值
+	 * */
+	private int dealResHumi(String msg, int index)
+	{
+		String areaString;
+		String greenHouseString;
+		String deviceString;
+		String humiString;
+		String timeString;
+		int i = index;
+		int msgLength = msg.length();
+		int startIndex;
+
+		/*=======获取地区号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		areaString = msg.substring(startIndex, i-1); //获取地区号
+		System.out.println("get areaString："+areaString);
+		/*=======获取大棚号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
+		System.out.println("get greenHouseString："+greenHouseString);
+
+		/*=======获取设备号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		deviceString = msg.substring(startIndex, i-1); //获取设备号
+		System.out.println("get deviceString："+deviceString);
+
+		/*=======获取温度值===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		humiString = msg.substring(startIndex, i-1); //获取温度值
+		System.out.println("get humiString："+humiString);
+		/*=======获取时间===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_END) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		timeString = msg.substring(startIndex, i); //获取时间
+		System.out.println("timeString："+timeString.length());
+		/* -------------------------------------------------------
+		 *  拆解事件数据，保存到数据库中
+		 * -------------------------------------------------------*/
+		if(timeString.length() == 6)
+		{
+			int year   = timeString.charAt(0);
+			int month  = timeString.charAt(1);
+			int day    = timeString.charAt(2);
+			int hour   = timeString.charAt(3);
+			int mintue = timeString.charAt(4);
+			int second = timeString.charAt(5);
+			System.out.println("" + year + "/" + month + "/" + day + " " + hour + ":" + mintue + ":" + second);
+
+			databaseOperation = new DatabaseOperation(account);
+			databaseOperation.insertToday(this, deviceString, hour, mintue, second, Float.parseFloat(humiString), DayDatabaseHelper.humidity);//插入温度
+			/* -------------------------------------------------------
+	     	 *  通过SharedPreferences保存实时温度数据
+	     	 *  用于fragment切换时候的数据保存
+		     * -------------------------------------------------------*/
+			apSharedPreferences = getSharedPreferences("humidata", Activity.MODE_PRIVATE);
+			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+			editor.putString("humidity", humiString);
+			editor.commit();
+			broadcastUpdateHumi(areaString, greenHouseString, deviceString, humiString);//将温度数据广播出去（如具体大棚数据的fragment）
+
+			/* -------------------------------------------------------
+	     	 *  将today表数据添加到allday表中
+		     * -------------------------------------------------------*/
+			apSharedPreferences = getSharedPreferences("today_To_allday", Activity.MODE_PRIVATE);
+			int lasthour = apSharedPreferences.getInt("hour", 25);
+			TodayTime nowTime = new TodayTime();
+			nowTime.update();
+			int nowhour = nowTime.getHour();
+			if(lasthour < nowhour)
+			{
+				DatabaseOperation tempOperation = new DatabaseOperation(account);
+				tempOperation.switchTodayToAllday(this, deviceString, lasthour, nowhour);
+				/* ----------------------------------------------------------------------------
+		 		 *   保存当前时间，设置lasttime，用于下次转换
+		 	 	* ---------------------------------------------------------------------------*/
+				editor = apSharedPreferences.edit();//用putString的方法保存数据
+				editor.putInt("hour", nowhour);
+				editor.commit();
+			}
+		}
+
+//		for(int count = 2; count > 0; count--)
+//		{
+//			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+//			i++;
+//		}
+		if(i > msgLength) return -1; //越界
+		if(i == msgLength) return 0;
+		return i - index;
+	}
 
 	/**
 	 * 	 @Function: private int dealResTemp(String msg, int index)
@@ -735,10 +897,42 @@ public class IHomeService extends Service{
 			int mintue = timeString.charAt(4);
 			int second = timeString.charAt(5);
 			System.out.println("" + year + "/" + month + "/" + day + " " + hour + ":" + mintue + ":" + second);
+			float temp = Float.parseFloat(tempString); //获得温度的浮点值
+			databaseOperation = new DatabaseOperation(account);
+			databaseOperation.insertToday(this, deviceString, hour, mintue, second, temp, DayDatabaseHelper.temperature);//插入温度
+			/* -------------------------------------------------------
+	     	 *  实时温度大于35度时，报警。
+		     * -------------------------------------------------------*/
+			if(temp > 35)
+			{
+				// 在Android进行通知处理，首先需要重系统哪里获得通知管理器NotificationManager，它是一个系统Service。
+				NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+				int NOTIFICATION_FLAG = 1;
 
-			System.out.println("tempString= " + tempString);
-			databaseOperation.insertToday(this, deviceString, hour, mintue, second, Float.parseFloat(tempString), DayDatabaseHelper.temperature);//插入温度
+				PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, ClientActivity.class), 0);
+				// 通过Notification.Builder来创建通知，注意API Level
+				// API11之后才支持
+				Notification notify = new Notification.Builder(this)
+						.setSmallIcon(R.drawable.feather) // 设置状态栏中的小图片，尺寸一般建议在24×24，这个图片同样也是在下拉状态栏中所显示，如果在那里需要更换更大的图片，可以使用setLargeIcon(Bitmap
+						// icon)
+						.setTicker("TickerText:" + "您有新短消息，请注意查收！")// 设置在status
+						// bar上显示的提示文字
+						.setContentTitle("Notification Title")// 设置在下拉status
+						// bar后Activity，本例子中的NotififyMessage的TextView中显示的标题
+						.setContentText("This is the notification message")// TextView中显示的详细内容
+						.setContentIntent(pendingIntent) // 关联PendingIntent
+						.setNumber(1) // 在TextView的右方显示的数字，可放大图片看，在最右侧。这个number同时也起到一个序列号的左右，如果多个触发多个通知（同一ID），可以指定显示哪一个。
+						.getNotification(); // 需要注意build()是在API level
+				// 16及之后增加的，在API11中可以使用getNotificatin()来代替
+				notify.flags |= Notification.FLAG_AUTO_CANCEL;
+				notify.defaults = Notification.DEFAULT_SOUND;    //采用默认声音
+				notify.defaults |= Notification.DEFAULT_VIBRATE; //默认震动方式，需要权限
+													//<uses-permissionandroid:name="android.permission.VIBRATE"></uses-permission>
+				manager.notify(NOTIFICATION_FLAG, notify);
+
+			}
+
 			/* -------------------------------------------------------
 	     	 *  通过SharedPreferences保存实时温度数据
 	     	 *  用于fragment切换时候的数据保存
@@ -761,6 +955,12 @@ public class IHomeService extends Service{
 			{
 				DatabaseOperation tempOperation = new DatabaseOperation(account);
 				tempOperation.switchTodayToAllday(this, deviceString, lasthour, nowhour);
+				/* ----------------------------------------------------------------------------
+		 		 *   保存当前时间，设置lasttime，用于下次转换
+		 	 	* ---------------------------------------------------------------------------*/
+				editor = apSharedPreferences.edit();//用putString的方法保存数据
+				editor.putInt("hour", nowhour);
+				editor.commit();
 			}
 		}
 
@@ -775,7 +975,7 @@ public class IHomeService extends Service{
 	}
 
 	/**-------------------------------------------------------------------
-	 * 	 @Function: private void broadcastUpdateTemp(String tempString)
+	 * 	 @Function: private void broadcastUpdateTemp(String areaNum, String greenHouseNum, String deviceString, String tempString)
 	 * 	 @Description: 广播需要更新的温度给Fragment
 	 * 	 @Input:  String tempString 需要广播的温度
 	 *----------------------------------------------------------------------*/
@@ -791,16 +991,19 @@ public class IHomeService extends Service{
 		sendBroadcast(intent);
 	}
 
-	/**
-	 * 	 @Function: private void broadcastUpdateHumi(String humiString)
-	 * 	 @Description: 广播需要更新的湿度给Fragment
-	 * 	 @Input:  String humiString 需要广播的湿度
-	 * */
-	private void broadcastUpdateHumi(String humiString)
+	/**-------------------------------------------------------------------
+	 * 	 @Function: private void broadcastUpdateHumi(String areaNum, String greenHouseNum, String deviceString, String humiString)
+	 * 	 @Description: 广播需要更新的温度给Fragment
+	 * 	 @Input:  String tempString 需要广播的湿度
+	 *----------------------------------------------------------------------*/
+	private void broadcastUpdateHumi(String areaNum, String greenHouseNum, String deviceString, String humiString)
 	{
 		Intent intent = new Intent();
 		intent.setAction(intent.ACTION_ANSWER);
 		intent.putExtra("update", "humi");
+		intent.putExtra("area", areaNum);
+		intent.putExtra("greenhouse", greenHouseNum);
+		intent.putExtra("device", deviceString);
 		intent.putExtra("humi", humiString);
 		sendBroadcast(intent);
 	}

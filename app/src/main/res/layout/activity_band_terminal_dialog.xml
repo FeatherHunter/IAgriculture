@@ -36,7 +36,8 @@
         android:gravity="center"
         android:textColor="@color/dodgerblue"
         android:textSize="6pt"
-        android:spinnerMode="dropdown">
+        android:spinnerMode="dropdown"
+        >
 
     </Spinner>
 

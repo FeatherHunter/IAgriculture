@@ -140,7 +140,7 @@ public class DatabaseTestActivity extends Activity {
 
             float tempFloat = Float.parseFloat(temp.getText().toString());
             float humiFloat = Float.parseFloat(humi.getText().toString());
-//            databaseOperation.insertToday(DatabaseTestActivity.this, hourInt, minuteInt, secondInt, tempFloat, humiFloat);
+            databaseOperation.insertToday(DatabaseTestActivity.this, "1", hourInt, minuteInt, secondInt, tempFloat, "temperature");
         }
     }
 

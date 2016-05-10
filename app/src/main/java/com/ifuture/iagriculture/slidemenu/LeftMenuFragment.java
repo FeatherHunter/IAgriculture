@@ -15,13 +15,13 @@ import com.ifuture.iagriculture.wxapi.WXEntryActivity;
 
 public class LeftMenuFragment extends Fragment implements OnClickListener {
 
-	private ClientMainActivity mAct;
+	private ClientMainActivity clientMainActivity;
 	private View view;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.slidemenu_left_frag, null);
-		mAct = (ClientMainActivity) getActivity();
+		clientMainActivity = (ClientMainActivity) getActivity();
 		view.findViewById(R.id.tab_news).setOnClickListener(this);
 		//view.findViewById(R.id.tab_read).setOnClickListener(this);
 		view.findViewById(R.id.tab_local).setOnClickListener(this);
@@ -43,9 +43,19 @@ public class LeftMenuFragment extends Fragment implements OnClickListener {
 			intent.setClass(getActivity(), WXEntryActivity.class);
 			getActivity().startActivity(intent);
 			break;
-//		case R.id.tab_read:
-//			fragment = new ReadFragment();
-//			break;
+		case R.id.tab_ugc:
+			/*---------------------------------------------
+			 *        告诉ClientActivity 我们要回到主界面
+			 *--------------------------------------------*/
+			System.out.println("KEYCODE_BACK");
+			Intent intent1 = new Intent();
+			intent1.putExtra("type", "ClientMainBack");
+			intent1.setAction(intent1.ACTION_MAIN);
+			clientMainActivity.sendBroadcast(intent1);
+
+			clientMainActivity.unregisterReceiver(clientMainActivity.getContrlReceiver());//解除注册的Receiver
+			clientMainActivity.finish();
+			break;
 //		case R.id.tab_local:
 //			fragment = new LocalFragment();
 //			break;

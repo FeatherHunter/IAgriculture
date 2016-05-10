@@ -17,11 +17,67 @@
                 android:id="@+id/statics_layout_tempbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/statics_area_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5pt"
+                    android:layout_marginLeft="10pt"
+                    android:layout_marginRight="10pt"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/statics_area_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18pt"
+                        android:text="地区"
+                        android:textSize="10pt"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+                    <Spinner
+                        android:id="@+id/statics_area_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18pt"
+                        android:gravity="center"
+                        android:textColor="@color/dodgerblue"
+                        android:textSize="4pt"
+                        android:spinnerMode="dropdown">
+                    </Spinner>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/statics_greenhouse_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/statics_area_linearlayout"
+                    android:layout_marginLeft="10pt"
+                    android:layout_marginRight="10pt"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/statics_greenhouse_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15pt"
+                        android:text="大棚"
+                        android:textSize="10pt"
+                        android:textColor="@color/black"/>
+                    <Spinner
+                        android:id="@+id/statics_greenhouse_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18pt"
+                        android:gravity="center"
+                        android:textColor="@color/dodgerblue"
+                        android:textSize="6pt">
+                    </Spinner>
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/statics_temp_text"
                     android:layout_width="40pt"
                     android:layout_height="10pt"
-                    android:layout_marginTop="10pt"
+                    android:layout_below="@id/statics_greenhouse_linearlayout"
+                    android:layout_marginTop="5pt"
                     android:layout_marginLeft="10pt"
                     android:text="温度(?)"
                     android:textSize="8pt"
@@ -33,7 +89,7 @@
                     android:layout_marginLeft="10pt"
                     android:layout_marginRight="10pt"
                     android:layout_width="match_parent"
-                    android:layout_height="20pt "
+                    android:layout_height="20pt"
                     android:weightSum="2"
                     android:orientation="vertical"
                     android:background="@drawable/static_bg"
@@ -194,7 +250,7 @@
                     android:layout_marginLeft="10pt"
                     android:layout_marginRight="10pt"
                     android:layout_width="match_parent"
-                    android:layout_height="20pt "
+                    android:layout_height="20pt"
                     android:weightSum="2"
                     android:orientation="vertical"
                     android:background="@drawable/static_bg"

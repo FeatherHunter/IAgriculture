@@ -152,6 +152,8 @@ public class FragmentHome extends BaseFragment{
 						 *  调用ClientMainActivity的switchGreenHouse进行fragment切换(先强制类型转换)
 						 *---------------------------------------------------------------------*/
 						((ClientMainActivity)getActivity()).switchGreenHouse(item.areaNum, item.greenhouseNum);
+						((ClientMainActivity)getActivity()).areaNumString = item.areaNum;
+						((ClientMainActivity)getActivity()).greenhouseNumString = item.greenhouseNum;
 						System.out.println("" + item.text);
 					}
 				}

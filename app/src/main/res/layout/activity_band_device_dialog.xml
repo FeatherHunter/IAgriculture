@@ -31,11 +31,12 @@
         android:layout_width="80pt"
         android:layout_height="20pt"
         android:layout_below="@id/bandDevice_title_text"
-        android:layout_marginLeft="1pt"
+        android:layout_marginLeft="3pt"
         android:layout_toRightOf="@id/bandDevice_area_text"
         android:gravity="center"
         android:textColor="@color/dodgerblue"
-        android:textSize="6pt">
+        android:textSize="6pt"
+        android:spinnerMode="dropdown">
     </Spinner>
 
     <TextView
@@ -55,11 +56,12 @@
         android:layout_height="20pt"
         android:layout_below="@id/bandDevice_area_text"
         android:layout_alignTop="@id/bandDevice_ghouse_text"
-        android:layout_marginLeft="1pt"
+        android:layout_marginLeft="3pt"
         android:layout_toRightOf="@id/bandDevice_ghouse_text"
         android:gravity="center"
         android:textColor="@color/dodgerblue"
-        android:textSize="6pt">
+        android:textSize="6pt"
+        android:spinnerMode="dropdown">
 
     </Spinner>
 
@@ -87,7 +89,7 @@
         android:layout_width="80pt"
         android:layout_height="20pt"
         android:layout_alignTop="@id/bandDevice_device_num_text"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="3pt"
         android:layout_toRightOf="@id/bandDevice_device_num_text" />
 
     <TextView

@@ -70,7 +70,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
             mRightTitle.setVisibility(View.INVISIBLE);
             mMidleTitle.setText(s);
             mMidleTitle.setTextSize(middle_title_size);
-            leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
+            //leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
 
         }
         else if(s.equals(Constant.FRAGMENT_FLAG_GREENHOUSE) )
@@ -83,17 +83,30 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
             mRightTitle.setVisibility(View.VISIBLE);
             mMidleTitle.setText(s);
             mMidleTitle.setTextSize(middle_title_size);
+            leftButton.setChecked(true); //总结/详细中左边按键处于选中状态
         }
-        else if(s.equals(Constant.FRAGMENT_FLAG_STATICS) )
+        else if(s.equals(Constant.FRAGMENT_FLAG_AREA_STATICS) )
         {
             /*---------------------------------------------------
-             *    数据统计界面上方标题栏
+             *    地区数据统计界面上方标题栏
              *-------------------------------------------------*/
             radioGroup.setVisibility(View.INVISIBLE);
             mRightTitle.setVisibility(View.INVISIBLE);
             mMidleTitle.setVisibility(View.VISIBLE);
             mMidleTitle.setText(s);
             mMidleTitle.setTextSize(middle_title_size);
+        }
+        else if(s.equals(Constant.FRAGMENT_FLAG_GHOUSE_STATICS) )
+        {
+            /*---------------------------------------------------
+             *    地区大棚数据统计界面上方标题栏
+             *-------------------------------------------------*/
+            radioGroup.setVisibility(View.VISIBLE);
+            mMidleTitle.setVisibility(View.INVISIBLE);
+            mRightTitle.setVisibility(View.VISIBLE);
+            mMidleTitle.setText(s);
+            mMidleTitle.setTextSize(middle_title_size);
+            rightButton.setChecked(true); //总结/详细中右边按键处于选中状态
         }
         else if(s.equals(Constant.FRAGMENT_FLAG_VIDEO) )
         {
@@ -133,7 +146,7 @@ public class HeadControlPanel extends RelativeLayout implements RadioGroup.OnChe
                 //mMsgBtn.setChecked(Constant.BTN_FLAG_IHOME);
                 break;
             case R.id.rb_right:
-                index = Constant.BTN_FLAG_TOTAL_DATA;
+                index = Constant.BTN_FLAG_GHOUSE_STATICS;
                 //mContactsBtn.setChecked(Constant.BTN_FLAG_CONTRL);
                 break;
             default:break;

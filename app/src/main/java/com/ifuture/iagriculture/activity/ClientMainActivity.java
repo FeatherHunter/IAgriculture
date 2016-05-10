@@ -21,9 +21,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.widgets.Dialog;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel;
 import com.ifuture.iagriculture.bottombar.BottomBarPanel.BottomPanelCallback;
@@ -101,11 +104,13 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	FragmentGreenHouse fragmentGreenHouse;
 
 	private boolean isConnected = false;
+
 	private ContrlReceiver contrlReceiver;
 	private String CONTRL_ACTION = "android.intent.action.EDIT";
 
 	public String areaNumString = null;
 	public String greenhouseNumString = null;
+	public boolean isAreaData = true;
 
 	/**
 	 * 大棚fragment与activty通信的handler
@@ -137,6 +142,8 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	 **/
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SysApplication.getInstance().addActivity(this); //将本activity添加到链表中用于完全退出应用程序的所有activity
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_client_main);
 
@@ -229,6 +236,11 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 			return t * t * t + 1.0f;
 		}
 	};
+
+	public ContrlReceiver getContrlReceiver() {
+		return contrlReceiver;
+	}
+
 	/**
 	 * 初始化菜单滑动的效果动画
 	 */
@@ -313,123 +325,6 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 					Toast.makeText(ClientMainActivity.this, "登陆成功", Toast.LENGTH_LONG).show();
 				}
 			}
-//			else if(typeString.equals("temp"))/*发送给第一个ihome fragment*/
-//			{
-//				bundle.putString("type", "temp");
-//				String IDString = intent.getStringExtra("temp");
-//				bundle.putString("temp", IDString);
-//				bundle.putString(IDString, intent.getStringExtra(IDString));
-//				msgMessage.setData(bundle);
-//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-//				{
-//					ihomeHandler.sendMessage(msgMessage);
-//				}
-//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-//				{
-//					videoHandler.sendMessage(msgMessage);
-//				}
-//
-//			}
-//			/*更新温度信息*/
-//			else if(typeString.equals("humi"))
-//			{
-//				bundle.putString("type", "humi");
-//				String IDString = intent.getStringExtra("humi");
-//				bundle.putString("humi", IDString);
-//				bundle.putString(IDString, intent.getStringExtra(IDString));
-//				msgMessage.setData(bundle);
-//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-//				{
-//					ihomeHandler.sendMessage(msgMessage);
-//				}
-//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-//				{
-//					videoHandler.sendMessage(msgMessage);
-//				}
-//			}
-//			/*灯的状态*/
-//			else if(typeString.equals("ledon"))
-//			{
-//				bundle.putString("type", "ledon");
-//				bundle.putString("ledon", intent.getStringExtra("ledon"));
-//				msgMessage.setData(bundle);
-//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-//				{
-//					ihomeHandler.sendMessage(msgMessage);
-//				}
-//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-//				{
-//					videoHandler.sendMessage(msgMessage);
-//				}
-//			}
-//			/*灯的状态*/
-//			else if(typeString.equals("ledoff"))
-//			{
-//				bundle.putString("type", "ledoff");
-//				String ledString = intent.getStringExtra("ledoff");
-//				bundle.putString("ledoff", ledString);
-//				msgMessage.setData(bundle);
-//				if(currFragTag.equals(Constant.FRAGMENT_FLAG_IHOME))
-//				{
-//					ihomeHandler.sendMessage(msgMessage);
-//				}
-//				else if(currFragTag.equals(Constant.FRAGMENT_FLAG_VIDEO))
-//				{
-//					videoHandler.sendMessage(msgMessage);
-//				}
-//			}
-//			/*显示连接和认证身份情况*/
-//			else if(typeString.equals("disconnect"))
-//			{
-//				String stateString = intent.getStringExtra("disconnect");
-//				if(stateString.equals("authing"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "正在验证信息...", Toast.LENGTH_SHORT).show();
-//				}
-//				else if(stateString.equals("connecting"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "正在连接服务器...", Toast.LENGTH_SHORT).show();
-//				}
-//				else if(stateString.equals("connected"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
-//				}
-//				else if(stateString.equals("authed"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "认证成功", Toast.LENGTH_SHORT).show();
-//				}
-//				else if(stateString.equals("video connecting"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "正在连接视频服务器...", Toast.LENGTH_SHORT).show();
-//				}
-//				else if(stateString.equals("video success"))
-//				{
-//					Toast.makeText(ClientMainActivity.this, "视频连接成功", Toast.LENGTH_SHORT).show();
-//				}
-//
-//			}
-//			/*发送IHome mode开启状况*/
-//			else if(typeString.equals("ihome"))
-//			{
-//				bundle.putString("type", "ihome");
-//				String modeString = intent.getStringExtra("ihome");
-//				bundle.putString("ihome", modeString);
-//				msgMessage.setData(bundle);
-//				ihomeHandler.sendMessage(msgMessage);
-//				Toast.makeText(ClientMainActivity.this, modeString, Toast.LENGTH_SHORT).show();
-//			}
-//			else if(typeString.equals("videofinish"))
-//			{
-//				bundle.putString("type", "videofinish");
-//				String operationString = intent.getStringExtra("videofinish");
-//				bundle.putString("videofinish", operationString);
-//				msgMessage.setData(bundle);
-//				videoHandler.sendMessage(msgMessage);
-//			}
-//			else if(typeString.equals("tempCtrl")) //ihomefragment让其切换到空调遥控器fragment
-//			{
-//				setTabSelection(Constant.FRAGMENT_FLAG_CONTRL); //切换到遥控Fragment
-//			}
 
 		}
 
@@ -481,6 +376,29 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		//sendMsgToGHouseFrag(areaNum, greenhouseNum);
 	}
 
+	/**-------------------------------------------------------------------------------
+	 * @Function: switchTotalDateFragment
+	 * @Description: 打开显示大棚数据的fragment,并且将地区号、大棚号发送给该fragment
+	 * @param areaNum 打开的地区号
+	 * @param greenhouseNum 打开的大棚号
+	 *
+	 *--------------------------------------------------------------------------------*/
+	public void switchTotalDateFragment(boolean isAreaData, String areaNum, String greenhouseNum, String tag)
+	{
+		this.isAreaData = isAreaData; //表明切换到统计界面时，显示的是大棚总数据还是地区总数据
+		if(isAreaData == false)
+		{
+			areaNumString = areaNum;
+			greenhouseNumString = greenhouseNum;
+		}
+//		else
+//		{
+//			headPanel.setMiddleTitle(tag);//切换标题
+//		}
+		setTabSelection(tag); //切换Fragment
+		headPanel.setMiddleTitle(tag);//切换标题
+	}
+
 	/**
 	 * 处理BottomControlPanel的回调
 	 */
@@ -490,8 +408,10 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		String tag = "";
 		if((itemId & Constant.BTN_FLAG_HOME) != 0){
 			tag = Constant.FRAGMENT_FLAG_HOME;
-		}else if((itemId & Constant.BTN_FLAG_STATICS) != 0){
-			tag = Constant.FRAGMENT_FLAG_STATICS;
+		}else if((itemId & Constant.BTN_FLAG_AREA_STATICS) != 0){
+			tag = Constant.FRAGMENT_FLAG_AREA_STATICS;
+			switchTotalDateFragment(true, null, null,tag);
+			return;
 		}else if((itemId & Constant.BTN_FLAG_VIDEO) != 0){
 			tag = Constant.FRAGMENT_FLAG_VIDEO;
 		}else if((itemId & Constant.BTN_FLAG_CSERVICE) != 0){
@@ -510,10 +430,14 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	public void onHeadPanelClick(int itemId) {
 		// TODO Auto-generated method stub
 		String tag = "";
-		if((itemId & Constant.BTN_FLAG_HOME) != 0){  //为简略数据
-			tag = Constant.FRAGMENT_FLAG_HOME;
-		}else if((itemId & Constant.BTN_FLAG_TOTAL_DATA) != 0){ //为详细数据
-			tag = Constant.FRAGMENT_FLAG_TOTAL_DATA;
+		if((itemId & Constant.BTN_FLAG_GREENHOUSE) != 0){  //为简略数据
+			//tag = Constant.FRAGMENT_FLAG_GREENHOUSE;
+			switchGreenHouse(areaNumString, greenhouseNumString);
+			return;
+		}else if((itemId & Constant.BTN_FLAG_GHOUSE_STATICS) != 0){ //为详细数据
+			tag = Constant.FRAGMENT_FLAG_GHOUSE_STATICS;
+			switchTotalDateFragment(false, areaNumString, greenhouseNumString, tag);
+			return;
 		}
 		setTabSelection(tag); //切换Fragment
 	}
@@ -526,37 +450,23 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		fragmentTransaction = fragmentManager.beginTransaction();
 		if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_HOME)){
 
-			Intent intent = new Intent();
-			intent.putExtra("type", "fragment");
-			intent.putExtra("ihome", "start");
-			intent.putExtra("video", "stop");
-			intent.setAction(intent.ACTION_MAIN);
-			this.sendBroadcast(intent);
-
 		   if (fragmentIHome == null) {
 			   fragmentIHome = new FragmentHome();
 			} 
 		 }
 		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_VIDEO)){
 
-			Intent intent = new Intent();
-			intent.putExtra("type", "fragment");
-			intent.putExtra("ihome", "stop");
-			intent.putExtra("video", "start");
-			intent.setAction(intent.ACTION_MAIN);
-			this.sendBroadcast(intent);
-
 			if (fragmentVideo == null) {
 				fragmentVideo = new FragmentVideo();
 			} 
 		}
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_STATICS)){
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_AREA_STATICS)){
 			//System.out.println("===================HeadPanelClick=====================");
 			if (fragmentToalData == null) {
 				fragmentToalData = new FragmentToalData();
 			}
 		}
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_TOTAL_DATA)){
+		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_GHOUSE_STATICS)){
 			//System.out.println("===================HeadPanelClick=====================");
 			if (fragmentToalData == null) {
 				fragmentToalData = new FragmentToalData();
@@ -572,29 +482,13 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		}
 		else
 		{
-			Intent intent = new Intent();
-			intent.putExtra("type", "fragment");
-			intent.putExtra("ihome", "stop");
-			intent.putExtra("video", "stop");
-			intent.setAction(intent.ACTION_MAIN);
-			this.sendBroadcast(intent);
+//			Intent intent = new Intent();
+//			intent.putExtra("type", "fragment");
+//			intent.putExtra("ihome", "stop");
+//			intent.putExtra("video", "stop");
+//			intent.setAction(intent.ACTION_MAIN);
+//			this.sendBroadcast(intent);
 		}
-        /*
-		else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_NEWS)){
-			if (newsFragment == null) {
-				newsFragment = new NewsFragment();
-			}
-			
-		}else if(TextUtils.equals(tag,Constant.FRAGMENT_FLAG_SETTING)){
-			if (settingFragment == null) {
-				settingFragment = new SettingFragment();
-			}
-		}else if(TextUtils.equals(tag, Constant.FRAGMENT_FLAG_SIMPLE)){
-			if (simpleFragment == null) {
-				simpleFragment = new SimpleFragment();
-			} 
-			
-		}*/
 		switchFragment(tag);
 		 
 	}
@@ -735,20 +629,39 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 		System.out.println("onKeyDown");
 		if(keyCode == KeyEvent.KEYCODE_BACK) //按下返回键
 		{
-			/*---------------------------------------------
-			 *        告诉ClientActivity 我们要回到主界面
-			 *--------------------------------------------*/
-			System.out.println("KEYCODE_BACK");
-			Intent intent = new Intent();
-			intent.putExtra("type", "ClientMainBack");
-			intent.setAction(intent.ACTION_MAIN);
-			this.sendBroadcast(intent);
-			
-			unregisterReceiver(contrlReceiver);//解除注册的Receiver
-			
-			boolean res =super.onKeyDown(keyCode, event);
-			//this.onDestory();
-			return res;
+			/*------------------------------------------------------------
+			 *    为主界面显示具体大棚数据通过标题栏切换进入的统计界面
+			 *    此时点击回退键，仅仅返回到HOME界面
+			 *--------------------------------------------------------*/
+			if(TextUtils.equals(Constant.FRAGMENT_FLAG_GHOUSE_STATICS, currFragTag))
+			{
+				String tag = "";
+				tag = Constant.FRAGMENT_FLAG_GREENHOUSE;
+//				System.out.println(currFragTag+"============================"+tag);
+				setTabSelection(tag); //切换Fragment
+				headPanel.setMiddleTitle(tag);//切换标题
+			}
+			else if(TextUtils.equals(Constant.FRAGMENT_FLAG_GREENHOUSE, currFragTag))
+			{
+				String tag = "";
+				tag = Constant.FRAGMENT_FLAG_HOME;
+				setTabSelection(tag); //切换Fragment
+				headPanel.setMiddleTitle(tag);//切换标题
+			}
+			else
+			{
+				Dialog dialog = new Dialog(this, null, "退出程序？");
+				dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SysApplication.getInstance().exit();
+					}
+				});
+				ButtonFlat acceptButton = dialog.getButtonAccept();
+				if(acceptButton!=null)acceptButton.setText("正确");
+				dialog.show();
+			}
+			return true;
 		}
 		else {
 			return super.onKeyDown(keyCode, event);
@@ -771,5 +684,4 @@ public class ClientMainActivity extends SlidingFragmentActivity implements Botto
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
 	}
-
 }

@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +80,9 @@ public class ClientActivity extends Activity {
 	private TextView icon_text = null;
 	//IHomeService.ServiceBinder serviceBinder;//IHomeService中的binder
 	SharedPreferences apSharedPreferences = null; //用于保存和获取账号和密码
+
+	RelativeLayout reloginBackground = null;//自动登录时,显示的加载画面
+	RelativeLayout loginBackground = null;
 	/**
 	 *  @Function:void onCreate
 	 *  @author:Feather Hunter
@@ -93,6 +97,7 @@ public class ClientActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+		SysApplication.getInstance().addActivity(this); //将本activity添加到链表中用于完全退出应用程序的所有activity
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //状态栏
@@ -119,6 +124,9 @@ public class ClientActivity extends Activity {
 		client_login.setOnClickListener(new LoginButtonListener());
 		client_bluetooth.setOnClickListener(new BluetoothButtonListener());
 		//client_bluetooth.setVisibility(View.GONE );
+
+		reloginBackground = (RelativeLayout) findViewById(R.id.client_relogin_background_layout);
+		loginBackground = (RelativeLayout) findViewById(R.id.client_login_background_layout);
 
 		/* -------------------------------------------------------
 		 *  打开wifi的请求
@@ -149,6 +157,39 @@ public class ClientActivity extends Activity {
 		dialog.setTitle("提示");
 		dialog.setMessage("正在登录中...");
 		dialog.setCancelable(false);
+
+		if(apSharedPreferences.getBoolean("authed", false) == true)
+		{
+			relogin();
+		}
+	}
+	private void relogin()
+	{
+		reloginBackground.setVisibility(View.VISIBLE);
+		loginBackground.setVisibility(View.GONE);
+		accountString = client_account.getText().toString();
+		passwordString = client_password.getText().toString();
+
+    	/*动态注册receiver*/
+		authReceiver = new AuthReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(AUTH_ACTION);
+		registerReceiver(authReceiver, filter);//注册
+
+    	/*绑定service, 利用connection建立与service的联系*/
+		serviceIntent = new Intent();
+		serviceIntent.putExtra("command", "auth");
+		serviceIntent.putExtra("account", accountString);
+		serviceIntent.putExtra("password", passwordString);
+		serviceIntent.setClass(ClientActivity.this, IHomeService.class);
+
+		//bindService(serviceIntent, connection, BIND_AUTO_CREATE); //绑定service,并且自动创建service
+		startService(serviceIntent); //开启服务
+		dialog.show(); //显示登陆进度条
+		isDealLoginError = false;
+    		/*超时处理*/
+		Thread thread = new Thread(loginOvertimeRunnable);
+		thread.start();
 	}
     /**
 	 *  @Class:LoginButtonListener
@@ -252,8 +293,15 @@ public class ClientActivity extends Activity {
 						// TODO Auto-generated method stub
 						Toast.makeText(ClientActivity.this, "登陆超时", Toast.LENGTH_SHORT).show();
 						stopService();
+						reloginBackground.setVisibility(View.GONE);
+						loginBackground.setVisibility(View.VISIBLE);
 					}
 				});//end of handler
+				SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+				editor.putString("account", "");
+				editor.putString("password", "");//提交当前数据
+				editor.putBoolean("authed", false);//保存上一次登陆成功的信息，直接登录
+				editor.commit();
 
 			}//end of if
 		}//end of run
@@ -305,7 +353,10 @@ public class ClientActivity extends Activity {
 					  System.out.println("========================relogin======================");
 					  firstSwitch = true;
 					  isOnPaused = false;
+					  isAuthed = false;
 					  stopService();//结束服务
+					  reloginBackground.setVisibility(View.GONE);
+					  loginBackground.setVisibility(View.VISIBLE);
 				  }
 				  /* -------------------------------------------------------
 		 	   	   *  处于暂停状态不接收广播
@@ -329,6 +380,7 @@ public class ClientActivity extends Activity {
 						  SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
 						  editor.putString("account", accountString);
 						  editor.putString("password", passwordString);//提交当前数据
+						  editor.putBoolean("authed", true);//保存上一次登陆成功的信息，直接登录
 						  editor.commit();
 
 						/*切换到主控界面*/
@@ -351,6 +403,11 @@ public class ClientActivity extends Activity {
 							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
 							  Toast.makeText(ClientActivity.this, "账号/密码验证失败", Toast.LENGTH_SHORT).show();
 							  dialog.dismiss(); //解除进度条
+
+							  SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+							  editor.putBoolean("authed", false);//保存登陆错误的信息
+							  reloginBackground.setVisibility(View.GONE);
+							  loginBackground.setVisibility(View.VISIBLE);
 						  }
 					  }
 					  else if(intent.getStringExtra("res_login").equals("connect error"))
@@ -363,6 +420,22 @@ public class ClientActivity extends Activity {
 							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
 							  Toast.makeText(ClientActivity.this, "连接服务器失败:请检查网络或服务器正在维护", Toast.LENGTH_LONG).show();
 							  dialog.dismiss(); //解除进度条
+							  reloginBackground.setVisibility(View.GONE);
+							  loginBackground.setVisibility(View.VISIBLE);
+						  }
+					  }
+					  else
+					  {
+						  System.out.println("unkonew error");
+						  firstSwitch = true;
+						  stopService();//结束服务
+						  if(isDealLoginError == false) //登录失败
+						  {
+							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
+							  Toast.makeText(ClientActivity.this, "未知错误", Toast.LENGTH_LONG).show();
+							  dialog.dismiss(); //解除进度条
+							  reloginBackground.setVisibility(View.GONE);
+							  loginBackground.setVisibility(View.VISIBLE);
 						  }
 					  }
 				  }
@@ -378,6 +451,8 @@ public class ClientActivity extends Activity {
 							  isDealLoginError = true;  //完成登陆错误处理，超时定时器不需要重复显示
 							  Toast.makeText(ClientActivity.this, "网络不可用，请检查相关设置", Toast.LENGTH_SHORT).show();
 							  dialog.dismiss(); //解除进度条
+							  reloginBackground.setVisibility(View.GONE);
+							  loginBackground.setVisibility(View.VISIBLE);
 						  }
 					  }
 				  }

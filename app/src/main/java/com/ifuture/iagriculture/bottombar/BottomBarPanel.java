@@ -48,7 +48,7 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
 		}
 		if(mContactsBtn != null){
 			mContactsBtn.setImage(R.drawable.statics_unselected);
-			mContactsBtn.setText(Constant.FRAGMENT_TEXT_STATICS);
+			mContactsBtn.setText(Constant.FRAGMENT_TEXT_AREA_STATICS);
 		}
 		if(mNewsBtn != null){
 			mNewsBtn.setImage(R.drawable.contacts_unselected);
@@ -103,8 +103,8 @@ public class BottomBarPanel extends RelativeLayout implements View.OnClickListen
             mMsgBtn.setChecked(Constant.BTN_FLAG_HOME);
             break;  
         case R.id.btn_contrl:  
-            index = Constant.BTN_FLAG_STATICS;
-            mContactsBtn.setChecked(Constant.BTN_FLAG_STATICS);
+            index = Constant.BTN_FLAG_AREA_STATICS;
+            mContactsBtn.setChecked(Constant.BTN_FLAG_AREA_STATICS);
             break;  
         case R.id.btn_video:  
             index = Constant.BTN_FLAG_VIDEO;  

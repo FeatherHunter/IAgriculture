@@ -35,7 +35,8 @@
         android:layout_toRightOf="@id/bandGH_area_text"
         android:gravity="center"
         android:textColor="@color/dodgerblue"
-        android:textSize="6pt">
+        android:textSize="6pt"
+        android:spinnerMode="dropdown">
 
     </Spinner>
 
