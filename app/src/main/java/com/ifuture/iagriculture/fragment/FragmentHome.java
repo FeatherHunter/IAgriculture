@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.gc.materialdesign.views.ButtonFloat;
 import com.gc.materialdesign.views.ButtonFloatSmall;
 import com.gc.materialdesign.views.ButtonRectangle;
@@ -71,7 +73,13 @@ public class FragmentHome extends BaseFragment{
 	private int REQUEST_TERM   = 1;
 	private int REQUEST_GHOUSE = 2;
 	private int REQUEST_DEVICE = 3;
-	private int RESULT_OK = -1;
+	private int RESULT_OK = Activity.RESULT_OK;
+
+	//显示哪些步骤没有完成，帮助用户进行各类操作
+	TextView helpArea = null;
+	TextView helpGreenhouse = null;
+	TextView helpTerminal = null;
+	TextView helpDevice = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,8 +90,14 @@ public class FragmentHome extends BaseFragment{
 		init_listview(view);
 		System.out.println("onCreateView");
 
+		helpArea = (TextView) getActivity().findViewById(R.id.home_help_area); //绑定地区
+		helpGreenhouse = (TextView) getActivity().findViewById(R.id.home_help_greenhouse);//绑定大棚
+		helpTerminal = (TextView) getActivity().findViewById(R.id.home_help_terminal);//绑定终端
+		helpDevice = (TextView) getActivity().findViewById(R.id.home_help_device);//绑定设备
+
 		return view;
 	}
+
 	/**
 	 *  @Function: init_listview
 	 *  @description: 初始化listview: 消除滚动条，配置适配器和监听器，设置padding
@@ -111,6 +125,48 @@ public class FragmentHome extends BaseFragment{
 		float density = getResources().getDisplayMetrics().density;
 		int padding = (int) (1 * density);
 		listView.setPadding(padding, padding, padding, padding);
+	}
+
+	/**
+	 *  @author: 王辰浩
+	 *  @function: helpUserWarning()
+	 *  @description: 查询地区，大棚，终端，设备是否全部绑定成功，提示用户进行操作
+	 *
+	 **/
+	public void helpUserWarning()
+	{
+		String areaNames[] = databaseOperation.queryAreaName(getActivity());
+		if(areaNames[0] == null) //没有查询到地区
+		{
+			helpArea.setTextColor(ContextCompat.getColor(getActivity(),R.color.redincorrect)); //提示错误
+			helpArea.setText("  请先“创建地区”   右下角悬浮按钮进行相关操作");
+			helpArea.setVisibility(View.VISIBLE);//显示
+		}
+//		else//存在地区
+//		{
+//			helpArea.setTextColor(ContextCompat.getColor(getActivity(),R.color.greengoogle)); //正确设置
+//			helpArea.setText("  已经成功“创建地区”");
+//		}
+		for(int i = 0; areaNames[i] != null; i++)
+		{
+
+			String greenHouseNums[] = databaseOperation.queryGHousePerArea(getActivity(), i); //i就为当前的地区号
+			if(greenHouseNums[0] == null) //没有查询到地区
+			{
+				helpGreenhouse.setTextColor(ContextCompat.getColor(getActivity(),R.color.redincorrect)); //提示错误
+				helpGreenhouse.setText("  请先“绑定大棚”   存在地区没有绑定大棚");
+				helpGreenhouse.setVisibility(View.VISIBLE);//显示
+			}
+//			else//存在地区
+//			{
+//				helpGreenhouse.setTextColor(ContextCompat.getColor(getActivity(),R.color.greengoogle)); //正确设置
+//				helpGreenhouse.setText("  已经成功“创建地区”");
+//			}
+			for(int j = 0; greenHouseNums[j] != null; j++)
+			{
+				//list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j]));
+			}
+		}
 	}
 
 	public void refreshListView() {

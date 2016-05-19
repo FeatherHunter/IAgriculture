@@ -39,6 +39,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
     </layouts>
   </component>
   <component name="AndroidLogFilters">
@@ -46,149 +51,22 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a626c13f-c9b0-4c1c-87ca-02ab056bdf75" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/MPAndroidChart_v2_2_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/MaterialDesign_1_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v7_appcompat.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/circularimageview_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_12.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/libammsdk.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/library_2_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/multidex_1_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/multidex_instrumentation_1_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_3_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_3_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/generated/mockable-android-21.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/buildConfig/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/buildConfig/debug/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/r/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/r/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/r/debug/com/jeremyfeinstein/slidingmenu/lib/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/androidTest/debug/multi/values.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/androidTest/debug/single/layout.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/debug/multi/values.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/debug/single/layout.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/R.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/aapt/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/classes.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/libs/android-support-v7-appcompat.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/res/layout/slidingmenumain.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/debug/res/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/androidTest/debug/com/jeremyfeinstein/slidingmenu/lib/test/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CanvasTransformerBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$OnPageChangeListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove$SimpleOnPageChangeListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/CustomViewBehind.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$CanvasTransformer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnCloseListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnClosedListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnOpenListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$OnOpenedListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$SavedState$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu$SavedState.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityBase.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingActivityHelper.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingListActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/classes/debug/com/jeremyfeinstein/slidingmenu/lib/app/SlidingPreferenceActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/compileDebugAidl/dependency.store" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/compileDebugAndroidTestAidl/dependency.store" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/packageDebugResources/merger.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/androidTest/debug/layout/slidingmenumain.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/androidTest/debug/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/debug/layout/slidingmenumain.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/debug/values/values.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/symbols/androidTest/debug/R.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/outputs/aar/library_SlidingMenu-debug.aar" afterPath="" />
+    <list default="true" id="a626c13f-c9b0-4c1c-87ca-02ab056bdf75" name="Default" comment="2016/5/19 23:25&#10;git测试">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/classes.jar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/libs/android-support-v7-appcompat.jar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/libs/android-support-v7-appcompat.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/outputs/aar/library_SlidingMenu-release.aar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/outputs/aar/library_SlidingMenu-release.aar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateAreaDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateAreaDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_band_device_dialog.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_band_device_dialog.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_band_terminal_dialog.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_band_terminal_dialog.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/buildConfig/release/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/generated/source/buildConfig/release/com/jeremyfeinstein/slidingmenu/lib/BuildConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/release/multi/values.json" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/release/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/release/single/layout.json" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/blame/res/release/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/AndroidManifest.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/aapt/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/res/values/values.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/AndroidManifest.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aapt/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/MediaMetadataCompat.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/MediaMetadataCompat.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/RatingCompat.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/RatingCompat.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/MediaSessionCompat.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/MediaSessionCompat.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/ParcelableVolumeInfo.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/ParcelableVolumeInfo.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/PlaybackStateCompat.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/media/session/PlaybackStateCompat.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/os/ResultReceiver.aidl" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/aidl/android/support/v4/os/ResultReceiver.aidl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseAssets/merger.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseJniLibFolders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseResources/merger.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/packageReleaseResources/merger.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/packageReleaseResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/release/values/values.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/res/merged/release/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" afterPath="$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" afterPath="$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" />
     </list>
     <ignored path="IAgriculture.iws" />
@@ -224,11 +102,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="activity_setting.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_setting.xml">
+      <file leaf-file-name="FragmentHome.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.051282">
+              <caret line="164" column="58" selection-start-line="164" selection-start-column="58" selection-end-line="164" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HomeListViewAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/adapter/HomeListViewAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+              <caret line="52" column="74" selection-start-line="52" selection-start-column="74" selection-end-line="52" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home_listview.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.4073276">
+              <caret line="7" column="43" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -237,73 +135,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BandDeviceDialog.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java">
+      <file leaf-file-name="colors.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35179642">
-              <caret line="46" column="63" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="63" />
+            <state vertical-scroll-proportion="-9.0">
+              <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SettingActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java">
+      <file leaf-file-name="activity_client_main.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_client_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="86" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="86" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#5130#5131#0" expanded="false" />
-                <element signature="e#5202#5203#0" expanded="false" />
-                <element signature="e#6827#6828#0" expanded="false" />
-                <element signature="e#6899#6900#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="-2.589041">
+              <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="40" />
+              <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Instruction.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java">
+      <file leaf-file-name="fragment_totaldata.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BandTerminalDialog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="54" selection-start-line="58" selection-start-column="54" selection-end-line="58" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FragmentGreenHouse.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="317" column="88" selection-start-line="317" selection-start-column="88" selection-end-line="317" selection-end-column="88" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_greenhouse.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="102" column="75" selection-start-line="102" selection-start-column="75" selection-end-line="102" selection-end-column="75" />
+            <state vertical-scroll-proportion="-1.1095891">
+              <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -316,24 +175,18 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="132" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1979#1980#0" expanded="false" />
-                <element signature="e#2023#2024#0" expanded="false" />
-              </folding>
+              <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CreateGHouseDialog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java">
+      <file leaf-file-name="DatabaseOperation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="54" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <caret line="579" column="20" selection-start-line="579" selection-start-column="20" selection-end-line="579" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -3530,9 +3383,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_wei_xin.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/wxapi/WXEntryActivity.java" />
         <option value="$PROJECT_DIR$/library_SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/app/SlidingFragmentActivity.java" />
         <option value="$PROJECT_DIR$/library_SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.java" />
@@ -3540,7 +3390,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_create_ghouse_dialog.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/login_background.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/slidemenu/LeftMenuFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SysApplication.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/ImageLoader/FileCache.java" />
@@ -3562,16 +3411,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/zxing/decoding/DecodeHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/zxing/view/ViewfinderView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/zxing/BarCodeTestActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/camera.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/zxing/camera/CameraManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_band_device_dialog.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_band_terminal_dialog.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java" />
@@ -3579,8 +3424,16 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_setting.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateAreaDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" />
       </list>
     </option>
   </component>
@@ -3595,10 +3448,9 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="-8" />
+    <option name="width" value="1932" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -3625,6 +3477,27 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="IAgriculture">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -3729,26 +3602,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="IAgriculture">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
@@ -3768,20 +3621,155 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iagriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iagriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sqlite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IAgriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iagriculture" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="D8YDU16308004931" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_6P_API_17_2" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="SearchEverywhereHistoryKey" value="id&#9;PSI&#9;JAVA://com.ifuture.iagriculture.fragment.FragmentVideo&#10;news&#9;PSI&#9;JAVA://com.ifuture.iagriculture.bottombar.BottomBarPanel#mNewsBtn&#10;kaiti&#9;FILE&#9;file://E:/Projects/IAgriculture/app/src/main/res/kaiti.ttf&#10;feather&#9;FILE&#9;file://E:/Projects/IAgriculture/app/src/main/res/drawable-hdpi/feather.jpeg" />
-    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="576" />
+    <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.WIDTH" value="605" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.WIDTH" value="321" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/libs/zxing.jar" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -3790,6 +3778,22 @@
     <property name="ExportApk.ApkPath" value="E:\Projects\IAgriculture\app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="debug" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="182" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="217" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="75" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="432" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="49" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="74" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="75" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="708" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -4103,26 +4107,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="1" />
+    <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5784543" sideWeight="0.5073145" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.240625" sideWeight="0.5045558" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5775463" sideWeight="0.5052083" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21055381" sideWeight="0.5113438" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18518518" sideWeight="0.18958333" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18518518" sideWeight="0.81041664" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3290398" sideWeight="0.5041797" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12295082" sideWeight="0.80407524" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.2951933" sideWeight="0.87606317" order="8" side_tool="false" content_ui="tabs" x="895" y="92" width="583" height="1022" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3290398" sideWeight="0.49582028" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.028473804" sideWeight="0.48958334" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290398" sideWeight="0.49791014" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25625" sideWeight="0.49544418" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21055381" sideWeight="0.4886562" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32992464" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2796875" sideWeight="0.12393682" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1712963" sideWeight="0.49791667" order="3" side_tool="false" content_ui="tabs" />
@@ -4134,7 +4139,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22257054" sideWeight="0.87606317" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21527778" sideWeight="0.49791667" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -4167,93 +4171,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_create_ghouse_dialog.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53878117">
-          <caret line="38" column="38" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/login_background.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/library_SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/CustomViewAbove.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="478" column="0" selection-start-line="478" selection-start-column="0" selection-end-line="478" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_left_frag.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.547945">
-          <caret line="136" column="36" selection-start-line="136" selection-start-column="29" selection-end-line="136" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/slidemenu/LeftMenuFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0731707">
-          <caret line="56" column="40" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SysApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.navasmdc/MaterialDesign/1.5/8a8a655f3d1f857bc46785ae28f09d0f654fbc86/MaterialDesign-1.5-sources.jar!/com/gc/materialdesign/widgets/Dialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.04054054">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/ImageText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="58" selection-start-line="75" selection-start-column="58" selection-end-line="75" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/BottomBarPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.9041095">
-          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://C:/FeatherTools/Android/sdk/sources/android-23/android/app/FragmentManager.java">
@@ -4267,13 +4189,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="64" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/HeadControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="31" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
         </state>
       </provider>
     </entry>
@@ -4339,13 +4254,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6528571">
-          <caret line="271" column="40" selection-start-line="271" selection-start-column="40" selection-end-line="271" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/zxing/view/ViewfinderView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.03668478">
@@ -4357,13 +4265,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.03930131">
           <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/FeatherTools/Android/sdk/sources/android-23/android/app/Activity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5691412">
-          <caret line="680" column="28" selection-start-line="680" selection-start-column="28" selection-end-line="680" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -4388,13 +4289,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7176128">
           <caret line="43" column="48" selection-start-line="43" selection-start-column="48" selection-end-line="43" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="29" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -4470,17 +4364,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6027397">
-          <caret line="74" column="16" selection-start-line="74" selection-start-column="16" selection-end-line="83" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.7123287">
@@ -4490,23 +4373,6 @@
       </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="21.793722">
-          <caret line="662" column="13" selection-start-line="662" selection-start-column="13" selection-end-line="662" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="54" selection-start-line="54" selection-start-column="54" selection-end-line="54" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml">
@@ -4520,33 +4386,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="132" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1979#1980#0" expanded="false" />
-            <element signature="e#2023#2024#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.4658575">
-          <caret line="443" column="41" selection-start-line="443" selection-start-column="41" selection-end-line="443" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="317" column="88" selection-start-line="317" selection-start-column="88" selection-end-line="317" selection-end-column="88" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4561,46 +4405,339 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="86" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="86" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#5130#5131#0" expanded="false" />
-            <element signature="e#5202#5203#0" expanded="false" />
-            <element signature="e#6827#6828#0" expanded="false" />
-            <element signature="e#6899#6900#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="54" selection-start-line="58" selection-start-column="54" selection-end-line="58" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/SettingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="144" column="71" selection-start-line="144" selection-start-column="71" selection-end-line="144" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/FeatherTools/Android/sdk/sources/android-23/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="680" column="28" selection-start-line="680" selection-start-column="28" selection-end-line="680" selection-end-column="28" />
           <folding>
+            <element signature="e#0#280082#0" expanded="false" />
             <element signature="imports" expanded="false" />
+            <element signature="e#37036#37051#0" expanded="false" />
+            <element signature="e#38135#38136#0" expanded="false" />
+            <element signature="e#38165#38166#0" expanded="false" />
+            <element signature="e#38552#38553#0" expanded="false" />
+            <element signature="e#38587#38588#0" expanded="false" />
+            <element signature="e#38695#38696#0" expanded="false" />
+            <element signature="e#38730#38731#0" expanded="false" />
+            <element signature="e#38833#38834#0" expanded="false" />
+            <element signature="e#38871#38872#0" expanded="false" />
+            <element signature="e#38985#38986#0" expanded="false" />
+            <element signature="e#39015#39016#0" expanded="false" />
+            <element signature="e#39129#39130#0" expanded="false" />
+            <element signature="e#39166#39167#0" expanded="false" />
+            <element signature="e#39514#39515#0" expanded="false" />
+            <element signature="e#39544#39545#0" expanded="false" />
+            <element signature="e#39681#39682#0" expanded="false" />
+            <element signature="e#39733#39734#0" expanded="false" />
+            <element signature="e#40075#40076#0" expanded="false" />
+            <element signature="e#40148#40149#0" expanded="false" />
+            <element signature="e#48983#48984#0" expanded="false" />
+            <element signature="e#49035#49036#0" expanded="false" />
+            <element signature="e#52431#52432#0" expanded="false" />
+            <element signature="e#52461#52462#0" expanded="false" />
+            <element signature="e#55061#55062#0" expanded="false" />
+            <element signature="e#55108#55109#0" expanded="false" />
+            <element signature="e#55966#55967#0" expanded="false" />
+            <element signature="e#56005#56006#0" expanded="false" />
+            <element signature="e#67446#67447#0" expanded="false" />
+            <element signature="e#67474#67475#0" expanded="false" />
+            <element signature="e#68254#68255#0" expanded="false" />
+            <element signature="e#68281#68282#0" expanded="false" />
+            <element signature="e#78226#78227#0" expanded="false" />
+            <element signature="e#78267#78268#0" expanded="false" />
+            <element signature="e#82550#82551#0" expanded="false" />
+            <element signature="e#82577#82578#0" expanded="false" />
+            <element signature="e#84275#84276#0" expanded="false" />
+            <element signature="e#84302#84303#0" expanded="false" />
+            <element signature="e#85757#85758#0" expanded="false" />
+            <element signature="e#85811#85812#0" expanded="false" />
+            <element signature="e#92856#92857#0" expanded="false" />
+            <element signature="e#92907#92908#0" expanded="false" />
+            <element signature="e#99266#99267#0" expanded="false" />
+            <element signature="e#99318#99319#0" expanded="false" />
+            <element signature="e#99488#99489#0" expanded="false" />
+            <element signature="e#99542#99543#0" expanded="false" />
+            <element signature="e#107363#107364#0" expanded="false" />
+            <element signature="e#107391#107392#0" expanded="false" />
+            <element signature="e#108766#108767#0" expanded="false" />
+            <element signature="e#108794#108795#0" expanded="false" />
+            <element signature="e#111490#111491#0" expanded="false" />
+            <element signature="e#111518#111519#0" expanded="false" />
+            <element signature="e#112748#112749#0" expanded="false" />
+            <element signature="e#112776#112777#0" expanded="false" />
+            <element signature="e#117258#117259#0" expanded="false" />
+            <element signature="e#117282#117283#0" expanded="false" />
+            <element signature="e#121787#121788#0" expanded="false" />
+            <element signature="e#121814#121815#0" expanded="false" />
+            <element signature="e#133758#133759#0" expanded="false" />
+            <element signature="e#133795#133796#0" expanded="false" />
+            <element signature="e#138032#138033#0" expanded="false" />
+            <element signature="e#138089#138090#0" expanded="false" />
+            <element signature="e#138425#138426#0" expanded="false" />
+            <element signature="e#138482#138483#0" expanded="false" />
+            <element signature="e#138784#138785#0" expanded="false" />
+            <element signature="e#138822#138823#0" expanded="false" />
+            <element signature="e#140695#140696#0" expanded="false" />
+            <element signature="e#140722#140723#0" expanded="false" />
+            <element signature="e#142424#142425#0" expanded="false" />
+            <element signature="e#142465#142466#0" expanded="false" />
+            <element signature="e#142659#142660#0" expanded="false" />
+            <element signature="e#142704#142705#0" expanded="false" />
+            <element signature="e#144414#144415#0" expanded="false" />
+            <element signature="e#144450#144451#0" expanded="false" />
+            <element signature="e#151513#151514#0" expanded="false" />
+            <element signature="e#151548#151549#0" expanded="false" />
+            <element signature="e#154871#154872#0" expanded="false" />
+            <element signature="e#154917#154918#0" expanded="false" />
+            <element signature="e#156672#156673#0" expanded="false" />
+            <element signature="e#156726#156727#0" expanded="false" />
+            <element signature="e#178899#178900#0" expanded="false" />
+            <element signature="e#178947#178948#0" expanded="false" />
+            <element signature="e#180755#180756#0" expanded="false" />
+            <element signature="e#180801#180802#0" expanded="false" />
+            <element signature="e#196008#196009#0" expanded="false" />
+            <element signature="e#196035#196036#0" expanded="false" />
+            <element signature="e#202194#202195#0" expanded="false" />
+            <element signature="e#202221#202222#0" expanded="false" />
+            <element signature="e#205912#205913#0" expanded="false" />
+            <element signature="e#205944#205945#0" expanded="false" />
+            <element signature="e#206123#206124#0" expanded="false" />
+            <element signature="e#206156#206157#0" expanded="false" />
+            <element signature="e#206720#206721#0" expanded="false" />
+            <element signature="e#206766#206767#0" expanded="false" />
+            <element signature="e#208671#208672#0" expanded="false" />
+            <element signature="e#208700#208701#0" expanded="false" />
+            <element signature="e#210420#210421#0" expanded="false" />
+            <element signature="e#210444#210445#0" expanded="false" />
+            <element signature="e#212615#212616#0" expanded="false" />
+            <element signature="e#212643#212644#0" expanded="false" />
+            <element signature="e#222590#222591#0" expanded="false" />
+            <element signature="e#222623#222624#0" expanded="false" />
+            <element signature="e#224858#224859#0" expanded="false" />
+            <element signature="e#224900#224901#0" expanded="false" />
+            <element signature="e#225492#225493#0" expanded="false" />
+            <element signature="e#225521#225522#0" expanded="false" />
+            <element signature="e#225561#225562#0" expanded="false" />
+            <element signature="e#225595#225596#0" expanded="false" />
+            <element signature="e#232061#232062#0" expanded="false" />
+            <element signature="e#232120#232121#0" expanded="false" />
+            <element signature="e#233529#233530#0" expanded="false" />
+            <element signature="e#233584#233585#0" expanded="false" />
+            <element signature="e#234727#234728#0" expanded="false" />
+            <element signature="e#234754#234755#0" expanded="false" />
+            <element signature="e#246717#246718#0" expanded="false" />
+            <element signature="e#246747#246748#0" expanded="false" />
+            <element signature="e#261243#261244#0" expanded="false" />
+            <element signature="e#261309#261310#0" expanded="false" />
+            <element signature="e#261778#261779#0" expanded="false" />
+            <element signature="e#261810#261811#0" expanded="false" />
+            <element signature="e#270644#270645#0" expanded="false" />
+            <element signature="e#270675#270676#0" expanded="false" />
+            <element signature="e#277465#277466#0" expanded="false" />
+            <element signature="e#277522#277523#0" expanded="false" />
+            <element signature="e#277796#277797#0" expanded="false" />
+            <element signature="e#277841#277842#0" expanded="false" />
+            <element signature="e#278494#278495#0" expanded="false" />
+            <element signature="e#278538#278539#0" expanded="false" />
+            <element signature="e#278605#278606#0" expanded="false" />
+            <element signature="e#278666#278667#0" expanded="false" />
+            <element signature="e#279380#279381#0" expanded="false" />
+            <element signature="e#279430#279431#0" expanded="false" />
+            <element signature="e#279842#279843#0" expanded="false" />
+            <element signature="e#279903#279904#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library_SlidingMenu/src/com/jeremyfeinstein/slidingmenu/lib/SlidingMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1023" column="13" selection-start-line="1023" selection-start-column="13" selection-end-line="1023" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/HeadControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="31" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0353847">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/slidemenu/LeftMenuFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6804979">
+          <caret line="56" column="40" selection-start-line="56" selection-start-column="40" selection-end-line="56" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.983402">
+          <caret line="623" column="43" selection-start-line="623" selection-start-column="43" selection-end-line="623" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandDeviceDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35179642">
-          <caret line="46" column="63" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="63" />
+        <state vertical-scroll-proportion="4.3926473">
+          <caret line="170" column="38" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/BandTerminalDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48547718">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateGHouseDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44813278">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/CreateAreaDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6030429">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="47" selection-start-line="45" selection-start-column="47" selection-end-line="45" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1095891">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.0">
+          <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DayDatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/adapter/HomeListViewAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="74" selection-start-line="52" selection-start-column="74" selection-end-line="52" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.051282">
+          <caret line="164" column="58" selection-start-line="164" selection-start-column="58" selection-end-line="164" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="579" column="20" selection-start-line="579" selection-start-column="20" selection-end-line="579" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_client_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.589041">
+          <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7564655">
+          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/listview/ListViewItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0409684">
+          <caret line="35" column="11" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4073276">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>

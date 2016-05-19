@@ -142,7 +142,7 @@ public class SettingActivity extends Activity {
                 {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(SettingActivity.this);
                     dialog.setTitle("确定更改湿度范围？");
-                    dialog.setMessage("湿度上限："+tempMax+"\n湿度下限："+tempMin);
+                    dialog.setMessage("湿度上限："+humiMax+"\n湿度下限："+humiMin);
                     dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

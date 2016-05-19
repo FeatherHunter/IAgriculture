@@ -45,6 +45,8 @@
     <color name="green6">#85AC23</color>
     <color name="green7">#6D8F17</color>
     <color name="green8">#55710F</color>
+    <color name="greengoogle">#009688</color>
+    <color name="redincorrect">#E5332E</color>
 
     <!-- 橘黄色逐渐加深 -->
     <color name="orange1">#F8E3CB</color>

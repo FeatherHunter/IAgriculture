@@ -36,7 +36,6 @@ public class BandDeviceDialog extends Activity {
     DatabaseOperation databaseOperation = null; //数据库操作类
     private ArrayAdapter<String> adapter = null;
 
-    private int RESULT_OK = -1;
     private int RESULT_ERR = 0;
 
     private int area_number = -1;

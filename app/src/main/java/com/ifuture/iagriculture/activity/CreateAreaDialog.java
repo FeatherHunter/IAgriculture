@@ -42,7 +42,6 @@ public class CreateAreaDialog extends Activity {
 
     DatabaseOperation databaseOperation = null;
 
-    private int RESULT_OK = 1;
     private int RESULT_ERR = 0;
 
     /** ---------------------------------------------------------------------

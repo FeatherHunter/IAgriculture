@@ -4,13 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <!-- ... XML CODE -->
 
+    <LinearLayout
+        android:id="@+id/home_help_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/home_help_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  请先“创建地区”   右下角悬浮按钮进行相关操作"
+            android:textColor="@color/redincorrect"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/home_help_greenhouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  请先“绑定大棚”"
+            android:textColor="@color/redincorrect"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/home_help_terminal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  请先“绑定终端”"
+            android:textColor="@color/redincorrect"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/home_help_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  请先“绑定设备”"
+            android:textColor="@color/redincorrect"
+            android:visibility="gone"/>
+    </LinearLayout>
+    
+    <!-- 地区，大棚的列表 -->
     <com.hb.views.PinnedSectionListView
         android:id="@+id/home_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:layout_below="@id/home_help_layout"
         />
 
     <com.gc.materialdesign.views.ButtonFloat

@@ -32,7 +32,6 @@ public class BandTerminalDialog extends Activity {
     private List<String> arealist = null;
     private ArrayAdapter<String> adapter;
 
-    private int RESULT_OK = -1;
     private int RESULT_ERR = 0;
 
     private int area_number = -1;
