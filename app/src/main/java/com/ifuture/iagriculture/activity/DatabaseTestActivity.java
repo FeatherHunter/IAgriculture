@@ -1,6 +1,7 @@
 package com.ifuture.iagriculture.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import com.ifuture.iagriculture.Calendar.TodayTime;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 import com.ifuture.iagriculture.sqlite.DayDatabaseHelper;
+import com.ifuture.iagriculture.zxing.BarCodeTestActivity;
 
 public class DatabaseTestActivity extends Activity {
 
     Button create, delete, clear, insert, query, queryallday, clearallday, switchButton, clearalltable;
+    Button twoDCode;
     EditText year, month, day, hour, minute, second;
     EditText temp, humi;
     DatabaseOperation databaseOperation;
@@ -33,6 +36,15 @@ public class DatabaseTestActivity extends Activity {
         clearallday = (Button) findViewById(R.id.dbtest_clearallday);
         switchButton = (Button) findViewById(R.id.dbtest_switch);
         clearalltable = (Button) findViewById(R.id.dbtest_clearalltable);
+        twoDCode = (Button) findViewById(R.id.twoDCode_test_button);
+        twoDCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(DatabaseTestActivity.this, BarCodeTestActivity.class);
+                startActivity(intent);
+            }
+        });
 
         year = (EditText) findViewById(R.id.dbtest_year);
         month = (EditText) findViewById(R.id.dbtest_month);

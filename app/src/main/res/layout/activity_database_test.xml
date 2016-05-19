@@ -128,4 +128,17 @@
         android:layout_toRightOf="@id/dbtest_clearallday"
         android:text="清除所有表"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dbtest_clearalltable"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/twoDCode_test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="二维码"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

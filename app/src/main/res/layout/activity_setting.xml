@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ifuture.iagriculture.activity.SettingActivity">
+
+
+    <TextView
+        android:id="@+id/setting_title_text"
+        android:layout_width="match_parent"
+        android:layout_height="20pt"
+        android:background="@color/mygreen4"
+        android:gravity="center"
+        android:text="设置"
+        android:textColor="@color/white"
+        android:textSize="12pt" />
+
+    <TextView
+        android:id="@+id/setting_temp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="11pt"
+        android:layout_below="@id/setting_title_text"
+        android:layout_marginTop="5pt"
+        android:layout_marginLeft="10pt"
+        android:text="智能温度控制(?)"
+        android:textSize="9pt"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/setting_tempmax_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 上限"
+        android:ems="1"
+        android:layout_below="@id/setting_temp_text"
+        android:layout_alignLeft="@id/setting_temp_text"
+        android:layout_marginTop="1pt"
+        />
+
+    <NumberPicker
+        android:id="@+id/setting_tempmax_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="55pt"
+        android:layout_below="@id/setting_temp_text"
+        android:layout_toRightOf="@id/setting_tempmax_text"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+    </NumberPicker>
+
+    <TextView
+        android:id="@+id/setting_tempmin_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 下限"
+        android:ems="1"
+        android:layout_below="@id/setting_temp_text"
+        android:layout_toRightOf="@id/setting_tempmax_picker"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="1pt"
+        />
+
+    <NumberPicker
+        android:id="@+id/setting_tempmin_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="55pt"
+        android:layout_below="@id/setting_temp_text"
+        android:layout_toRightOf="@id/setting_tempmin_text"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+    </NumberPicker>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/setting_temp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:background="#1E88E5"
+        android:text="确定"
+        android:layout_below="@id/setting_temp_text"
+        android:layout_toRightOf="@id/setting_tempmin_picker"
+        android:layout_marginTop="8pt"
+        android:layout_marginLeft="10pt"/>
+
+
+    <TextView
+        android:id="@+id/setting_humi_text"
+        android:layout_width="wrap_content"
+        android:layout_height="11pt"
+        android:layout_below="@id/setting_tempmax_picker"
+        android:layout_marginTop="5pt"
+        android:layout_marginLeft="10pt"
+        android:text="智能湿度控制(?)"
+        android:textSize="9pt"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/setting_humimax_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 上限"
+        android:ems="1"
+        android:layout_below="@id/setting_humi_text"
+        android:layout_alignLeft="@id/setting_humi_text"
+        android:layout_marginTop="1pt"
+        />
+
+    <NumberPicker
+        android:id="@+id/setting_humimax_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="55pt"
+        android:layout_below="@id/setting_humi_text"
+        android:layout_toRightOf="@id/setting_humimax_text"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+    </NumberPicker>
+
+    <TextView
+        android:id="@+id/setting_humimin_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" 下限"
+        android:ems="1"
+        android:layout_below="@id/setting_humi_text"
+        android:layout_toRightOf="@id/setting_humimax_picker"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="1pt"
+        />
+
+    <NumberPicker
+        android:id="@+id/setting_humimin_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="55pt"
+        android:layout_below="@id/setting_humi_text"
+        android:layout_toRightOf="@id/setting_humimin_text"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+    </NumberPicker>
+
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:id="@+id/setting_humi_button"
+        android:layout_width="wrap_content"
+        android:layout_height="25pt"
+        android:background="#1E88E5"
+        android:text="确定"
+        android:layout_below="@id/setting_humi_text"
+        android:layout_toRightOf="@id/setting_humimin_picker"
+        android:layout_marginTop="8pt"
+        android:layout_marginLeft="10pt"/>
+
+
+</RelativeLayout>

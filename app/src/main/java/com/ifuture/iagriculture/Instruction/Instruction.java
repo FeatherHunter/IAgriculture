@@ -1,6 +1,9 @@
 package com.ifuture.iagriculture.Instruction;
 
-/** 
+import android.content.Context;
+import android.content.Intent;
+
+/**
  * @CopyRight: 王辰浩 2015~2025
  * @Author Feather Hunter(猎羽)
  * @qq: 975559549
@@ -28,7 +31,13 @@ public class Instruction {
     public static final char MAN_LOGIN  = 'L';//管理-登录
 
     /*控制类：1.灯具*/
-    public static final char CTRL_LAMP  = 'A';
+    public static final char CTRL_LAMP     = 'a';
+    public static final char CTRL_MOTOR    = 'b';
+    public static final char CTRL_PUMP     = 'c';
+    public static final char CTRL_AUTOTEMP = 'd';
+    public static final char CTRL_SETTEMP  = 'e';
+    public static final char CTRL_AUTOHUMI = 'f';
+    public static final char CTRL_SETHUMI  = 'g';
 
     /*结果类-：1.登录结果 2.温度 3.湿度 4.温湿度 5.终端离线 6.设备离线*/
     public static final char RES_LOGIN  = 'L';//结果-登录
@@ -58,6 +67,12 @@ public class Instruction {
     /*灯开关*/
     public static final char LAMP_ON        = '1';
     public static final char LAMP_OFF       = '0';
+
+    public static final char AUTOTEMP_ON   = '1';
+    public static final char AUTOTEMP_OFF  = '0';
+
+    public static final char AUTOHUMI_ON   = '1';
+    public static final char AUTOHUMI_OFF  = '0';
 
     /** ---------------------------------------------------------------------
      *   @Function:    loginMsg
@@ -141,4 +156,93 @@ public class Instruction {
         String msg = "" + CMD_HEAD + CMD_BAND + BAND_DEVICE + areaNum + CMD_SEP + gHouseNum + CMD_SEP + deviceNum + CMD_END;
         return msg;
     }
+
+    /**-------------------------------------------------------------------
+     * 	 @Function: private void broadcastMsgToServer(Context context,String msg)
+     * 	 @Description: 发送控制等信息给广播
+     * 	 @param msg 需要发送的信息
+     *----------------------------------------------------------------------*/
+    static public void broadcastMsgToServer(Context context, String msg)
+    {
+        Intent intent = new Intent();
+        intent.setAction(intent.ACTION_MAIN);
+        intent.putExtra("type", "send");
+        intent.putExtra("send", msg);
+        context.sendBroadcast(intent);
+    }
+
+    /** ---------------------------------------------------------------------
+     *   @Function:    autoTemp
+     *   @param areaNum   地区号
+     *   @param gHouseNum 大棚号
+     *   @param on        自动温控开/关
+     *   @return string : 绑定设备号
+     * ---------------------------------------------------------------------*/
+    public static String autoTemp(String areaNum, String gHouseNum, boolean on)
+    {
+        String msg = null;
+        if(on)
+        {
+            msg = "" + CMD_HEAD + CMD_CTRL + CTRL_AUTOTEMP + areaNum + CMD_SEP + gHouseNum + CMD_SEP + AUTOTEMP_ON + CMD_END;
+        }
+        else
+        {
+            msg = "" + CMD_HEAD + CMD_CTRL + CTRL_AUTOTEMP + areaNum + CMD_SEP + gHouseNum + CMD_SEP + AUTOTEMP_OFF+ CMD_END;
+        }
+        return msg;
+    }
+
+    /** ---------------------------------------------------------------------
+     *   @Function:    autoHumi
+     *   @param areaNum   地区号
+     *   @param gHouseNum 大棚号
+     *   @param on        自动温控开/关
+     *   @return string : 绑定设备号
+     * ---------------------------------------------------------------------*/
+    public static String autoHumi(String areaNum, String gHouseNum, boolean on)
+    {
+        String msg = null;
+        if(on)
+        {
+            msg = "" + CMD_HEAD + CMD_CTRL + CTRL_AUTOHUMI + areaNum + CMD_SEP + gHouseNum + CMD_SEP + AUTOHUMI_ON + CMD_END;
+        }
+        else
+        {
+            msg = "" + CMD_HEAD + CMD_CTRL + CTRL_AUTOHUMI + areaNum + CMD_SEP + gHouseNum + CMD_SEP + AUTOHUMI_OFF+ CMD_END;
+        }
+        return msg;
+    }
+
+    /** ---------------------------------------------------------------------
+     *   @Function:    setTempLimit
+     *   @描述： 设置大棚温度的范围
+     *   @param areaNum   地区号
+     *   @param gHouseNum 大棚号
+     *   @return string : 指令msg
+     * ---------------------------------------------------------------------*/
+    public static String setTempLimit(String areaNum, String gHouseNum, String max, String min)
+    {
+        String msg = null;
+
+        msg = "" + CMD_HEAD + CMD_CTRL + CTRL_SETTEMP + areaNum + CMD_SEP + gHouseNum + CMD_SEP + max + CMD_SEP + min + CMD_END;
+
+        return msg;
+    }
+
+    /** ---------------------------------------------------------------------
+     *   @Function:    setHumiLimit
+     *   @描述： 设置大棚湿度的范围
+     *   @param areaNum   地区号
+     *   @param gHouseNum 大棚号
+     *   @return string : 指令msg
+     * ---------------------------------------------------------------------*/
+    public static String setHumiLimit(String areaNum, String gHouseNum, String max, String min)
+    {
+        String msg = null;
+
+        msg = "" + CMD_HEAD + CMD_CTRL + CTRL_SETHUMI + areaNum + CMD_SEP + gHouseNum + CMD_SEP + max + CMD_SEP + min + CMD_END;
+
+        return msg;
+    }
+
 }

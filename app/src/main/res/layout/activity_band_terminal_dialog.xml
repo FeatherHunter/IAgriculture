@@ -6,21 +6,45 @@
     tools:context="com.ifuture.iagriculture.activity.BandTerminalDialog"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/bandT_title_text"
+
+    <EditText
+        android:layout_width="0pt"
+        android:layout_height="0pt" />
+
+    <RelativeLayout
+        android:id="@+id/bandT_title_layout"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="20pt"
-        android:background="@color/mygreen4"
-        android:gravity="center"
-        android:text="绑定终端"
-        android:textColor="@color/white"
-        android:textSize="12pt" />
+        android:background="@color/mygreen4">
+
+
+        <TextView
+            android:id="@+id/bandT_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20pt"
+            android:background="@color/mygreen4"
+            android:layout_centerInParent="true"
+            android:text="绑定设备"
+            android:textColor="@color/white"
+            android:textSize="12pt" />
+
+        <Button
+            android:id="@+id/bandT_scan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="20pt"
+            android:layout_toRightOf="@id/bandT_title_text"
+            android:layout_marginLeft="10pt"
+            android:text="二维码扫描"
+            android:textSize="6pt"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/bandT_area_text"
         android:layout_width="50pt"
         android:layout_height="15pt"
-        android:layout_below="@id/bandT_title_text"
+        android:layout_below="@id/bandT_title_layout"
         android:layout_marginLeft="10pt"
         android:text="地区选择"
         android:textColor="@color/dodgerblue"
@@ -30,8 +54,8 @@
         android:id="@+id/bandT_area_spinner"
         android:layout_width="80pt"
         android:layout_height="20pt"
-        android:layout_below="@id/bandT_title_text"
-        android:layout_marginLeft="15pt"
+        android:layout_below="@id/bandT_title_layout"
+        android:layout_marginLeft="10pt"
         android:layout_toRightOf="@id/bandT_area_text"
         android:gravity="center"
         android:textColor="@color/dodgerblue"
@@ -51,7 +75,7 @@
 
     <TextView
         android:id="@+id/bandT_terminal_num_text"
-        android:layout_width="40pt"
+        android:layout_width="50pt"
         android:layout_height="15pt"
         android:layout_below="@id/bandT_area_text"
         android:layout_marginLeft="10pt"
@@ -65,7 +89,7 @@
         android:layout_width="80pt"
         android:layout_height="20pt"
         android:layout_alignTop="@id/bandT_terminal_num_text"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="10pt"
         android:layout_toRightOf="@id/bandT_terminal_num_text" />
 
     <TextView
@@ -73,7 +97,7 @@
         android:layout_height="40pt"
         android:layout_below="@id/bandT_terminal_num"
         android:layout_centerHorizontal="true"
-        android:text="最好不要输入错误，可以直接扫描终端上二维码哦。" />
+        android:text="正确输入或者可以直接扫描终端上二维码哦。" />
 
     <com.gc.materialdesign.views.ButtonRectangle
         android:id="@+id/bandT_check_button"

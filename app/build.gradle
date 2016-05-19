@@ -50,4 +50,5 @@ dependencies {
     compile project(':library_library_pinned_section_listview')
     compile files('libs/libammsdk.jar')
     compile 'com.android.support:support-v4:23.3.0'
+    compile files('libs/zxing.jar')
 }

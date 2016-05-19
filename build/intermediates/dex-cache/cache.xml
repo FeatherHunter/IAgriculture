@@ -1,3 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\IAgriculture\library_SlidingMenu\unspecified\jars\libs\android-support-v7-appcompat.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="fef41e1416a7825d7b976ff48e2422eeef402db7">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\8\android-support-v7-appcompat_2ca46abcb868be2c6115f2ba9b3eb9e2819ce3d5\classes.dex" />
+    </item>
+    <item
+        jar="C:\FeatherTools\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.3.0_817321e71482159fd3ab9ef94457b45c4af48135\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\libs\zxing.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="e88c14e6e7daa0fa65172a62b54ee6a16ff4162d">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\2\zxing_10823c2fe752d229226b268d3286f7de615db14e\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\feather\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\library-2.4.0_8106aa9608754af32d832974a2d1973bf373f37e\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="b66e0ea1f127c9d6fa0f3f1cc9565e2c5d70a262">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_c467d9c73f4634c0c3e601692124e23754de9e8e\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="fe375bf2ecc88c0a1f678fef0808915697978604">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_81cba3ae1b865120fbf0a8ece18a434f275c4dcd\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\feather\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.2.3\f474798fde03291398b1a016118b9809a79550b7\MPAndroidChart-v2.2.3.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="f474798fde03291398b1a016118b9809a79550b7">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\MPAndroidChart-v2.2.3_c3327040dff09e63289822521f1592831ec9de28\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.github.navasmdc\MaterialDesign\1.5\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="12b228574de7977e56e41cbfb385b1463bbdb41a">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.navasmdc-MaterialDesign-1.5_0be273f3aa983e52afbd4463991c7bf7e6044e27\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\libs\libammsdk.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="11b09244aedaa51bfd09269637be7c32c60da314">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\2\libammsdk_8d92c716b24a387c0b8d33873c92efe4877bfcaa\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_70e2f978cd4f56b6bf93c249a435395638deb920\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.3.0_f66e03e00b2fa99fa1b7d4b03809f6f00c220dff\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_35eaf4f3f970dd7b9abceb8e50d87863d1ac76f9\classes.dex" />
+    </item>
+    <item
+        jar="E:\Projects\IAgriculture\app\build\intermediates\exploded-aar\com.pkmmte.view\circularimageview\1.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="c341a7ad32bc2eef9dcfab239262b77ac60788cc">
+        <dex dex="E:\Projects\IAgriculture\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.pkmmte.view-circularimageview-1.1_472e120c513c55cca0d8f80f8de207ee2f1fc3f0\classes.dex" />
+    </item>
+
+</items>

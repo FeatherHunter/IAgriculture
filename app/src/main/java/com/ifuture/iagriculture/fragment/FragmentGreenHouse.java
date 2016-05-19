@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,6 +24,7 @@ import com.ifuture.iagriculture.Device.Device;
 import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.activity.ClientMainActivity;
+import com.ifuture.iagriculture.activity.SettingActivity;
 import com.ifuture.iagriculture.bottombar.BaseFragment;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
 import java.util.ArrayList;
@@ -52,6 +54,9 @@ public class FragmentGreenHouse extends BaseFragment{
 	ImageView videoImageView;
 
 	Button videoImageButton;
+	Button settingButton;
+	android.widget.Switch autoTempSwitch = null;//智能温度开关
+	android.widget.Switch autoHumiSwitch = null;//智能湿度开关
 	boolean video_start = false;
 
 	Boolean videoOkFlag = false;
@@ -129,6 +134,11 @@ public class FragmentGreenHouse extends BaseFragment{
 		tempCurrenAirTextview = (TextView) getActivity().findViewById(R.id.gh_air_ctemp_value);//C当前温度 for air
 		humiCurrenAirTextview = (TextView) getActivity().findViewById(R.id.gh_air_chumi_value);//C当前湿度 for air
 
+		settingButton = (Button) getActivity().findViewById(R.id.gh_setting_button); //进行设置的按钮
+		settingButton.setOnClickListener(new settingButtonListenner()); //设置按钮监听器
+
+		autoTempSwitch = (android.widget.Switch) getActivity().findViewById(R.id.gh_air_autotemp_switch);//温控开关
+		autoHumiSwitch = (android.widget.Switch) getActivity().findViewById(R.id.gh_air_autohumi_switch);//湿控开关
 		/* -----------------------------------------------------------------
 	     *             利用用户名创建or获得数据库
 	     * -----------------------------------------------------------------*/
@@ -278,6 +288,40 @@ public class FragmentGreenHouse extends BaseFragment{
 
 	}
 
+	class switchOnCheckedChangeListenner implements CompoundButton.OnCheckedChangeListener{
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			if(buttonView.getId() == R.id.gh_air_autotemp_switch)//温度
+			{
+				if(isChecked)
+				{
+					//开启自动温控
+					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoTemp(areaNumString, greenHouseNumString, true));
+				}
+				else
+				{
+					//关闭自动温控
+					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoTemp(areaNumString, greenHouseNumString, false));
+				}
+			}
+			else if(buttonView.getId() == R.id.gh_air_autohumi_switch)//温度
+			{
+				if(isChecked)
+				{
+					//开启自动温控
+					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoHumi(areaNumString, greenHouseNumString, true));
+				}
+				else
+				{
+					//关闭自动温控
+					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoHumi(areaNumString, greenHouseNumString, false));
+				}
+			}
+
+		}
+	}
+
 	/**------------------------------------------------------------------------
 	 * @Function: switchWarmOnCheckedChangeListener
 	 * @Description:
@@ -327,12 +371,16 @@ public class FragmentGreenHouse extends BaseFragment{
 		getActivity().sendBroadcast(intent);
 	}
 
-	class staticsButtonListenner implements OnClickListener{
+	class settingButtonListenner implements OnClickListener{
 
 		@Override
 		public void onClick(View v) {
-			Intent tempIntent = new Intent();
+			Intent intent = new Intent();
+			intent.putExtra("area", areaNumString);              //地区
+			intent.putExtra("greenhouse", greenHouseNumString);  //大棚
+			intent.setClass(getActivity(), SettingActivity.class);
 
+			startActivity(intent);//开启设置的activity
 			//getActivity().startActivity(tempIntent);
 		}
 	}

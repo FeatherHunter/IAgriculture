@@ -71,7 +71,7 @@ public class FragmentHome extends BaseFragment{
 	private int REQUEST_TERM   = 1;
 	private int REQUEST_GHOUSE = 2;
 	private int REQUEST_DEVICE = 3;
-	private int RESULT_OK = 1;
+	private int RESULT_OK = -1;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

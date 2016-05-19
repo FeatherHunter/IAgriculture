@@ -6,21 +6,45 @@
     android:background="@color/white"
     tools:context="com.ifuture.iagriculture.activity.BandDeviceDialog">
 
-    <TextView
-        android:id="@+id/bandDevice_title_text"
+    <EditText
+        android:layout_width="0pt"
+        android:layout_height="0pt" />
+
+    <RelativeLayout
+        android:id="@+id/bandDevice_title_layout"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="20pt"
-        android:background="@color/mygreen4"
-        android:gravity="center"
-        android:text="绑定设备"
-        android:textColor="@color/white"
-        android:textSize="12pt" />
+        android:background="@color/mygreen4">
+
+
+        <TextView
+            android:id="@+id/bandDevice_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20pt"
+            android:background="@color/mygreen4"
+            android:layout_centerInParent="true"
+            android:text="绑定设备"
+            android:textColor="@color/white"
+            android:textSize="12pt" />
+
+        <Button
+            android:id="@+id/bandDevice_scan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="20pt"
+            android:layout_toRightOf="@id/bandDevice_title_text"
+            android:layout_marginLeft="10pt"
+            android:text="二维码扫描"
+            android:textSize="6pt"/>
+
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/bandDevice_area_text"
         android:layout_width="35pt"
         android:layout_height="18pt"
-        android:layout_below="@id/bandDevice_title_text"
+        android:layout_below="@id/bandDevice_title_layout"
         android:layout_marginLeft="10pt"
         android:text="地区号"
         android:textColor="@color/dodgerblue"
@@ -30,7 +54,7 @@
         android:id="@+id/bandDevice_area_spinner"
         android:layout_width="80pt"
         android:layout_height="20pt"
-        android:layout_below="@id/bandDevice_title_text"
+        android:layout_below="@id/bandDevice_title_layout"
         android:layout_marginLeft="3pt"
         android:layout_toRightOf="@id/bandDevice_area_text"
         android:gravity="center"
@@ -75,7 +99,7 @@
 
     <TextView
         android:id="@+id/bandDevice_device_num_text"
-        android:layout_width="40pt"
+        android:layout_width="35pt"
         android:layout_height="20pt"
         android:layout_below="@id/bandDevice_ghouse_text"
         android:layout_marginLeft="10pt"

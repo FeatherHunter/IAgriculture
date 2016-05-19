@@ -332,6 +332,10 @@ public class DatabaseOperation {
             ContentValues values = new ContentValues();
             values.put("area",area);
             values.put("greenhouse",ghouseName);
+            values.put("temp_max", 22);
+            values.put("temp_min", 22);
+            values.put("humi_max", 50);
+            values.put("humi_min", 50);
             db.insert(tableGHouseString, null, values);//调用insert方法，就可以将数据插入到数据库当中
         }
     }
@@ -358,6 +362,106 @@ public class DatabaseOperation {
         values.put("area",area);
         values.put("greenhouse",ghouseName);
         db.update(tableGHouseString, values, "area=? and greenhouse=?", new String[]{"" + area, "" + ghouseName});
+    }
+
+    /**-----------------------------------------------------------------------
+     *  @Function:    updateTempLimitGHouse(Context context, int area, String ghouseName, int tempMax, int tempMin)
+     *  @Description: 更新大棚表中某大棚的最高温度和最低温度
+     *                  用于自动控制
+     *  @param area 地区号
+     *  @param ghouseName 大棚号
+     *  @param tempMax  最高温度
+     *  @param tempMin  最低温度
+     *  @return String[] 所有大棚号
+     *--------------------------------------------------------------------------*/
+    public void updateTempLimitGHouse(Context context, int area, String ghouseName, int tempMax, int tempMin)
+    {
+        System.out.println("updateTempLimitGHouse");
+        // TODO Auto-generated method stub
+        //得到一个可写的SQLiteDatabase对象
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("temp_max",tempMax);
+        values.put("temp_min",tempMin);
+        db.update(tableGHouseString, values, "area=? and greenhouse=?", new String[]{"" + area, "" + ghouseName});
+    }
+
+    /**-----------------------------------------------------------------------
+     *  @Function:    updateHumiLimitGHouse(Context context, int area, String ghouseName, int humiMax, int humiMin)
+     *  @Description: 更新大棚表中某大棚的最高温度和最低温度
+     *                  用于自动控制
+     *  @param area 地区号
+     *  @param ghouseName 大棚号
+     *  @param humiMax  最高温度
+     *  @param humiMin  最低温度
+     *  @return String[] 所有大棚号
+     *--------------------------------------------------------------------------*/
+    public void updateHumiLimitGHouse(Context context, int area, String ghouseName, int humiMax, int humiMin)
+    {
+        System.out.println("updateHumiLimitGHouse");
+        // TODO Auto-generated method stub
+        //得到一个可写的SQLiteDatabase对象
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("humi_max",humiMax);
+        values.put("humi_min",humiMin);
+        db.update(tableGHouseString, values, "area=? and greenhouse=?", new String[]{"" + area, "" + ghouseName});
+    }
+
+    /**-----------------------------------------
+     *  @Function:    queryTempLimitPerGHouse(Context context, int area, String ghouseName)
+     *  @Description: 查询某大棚设定温度的范围
+     *  @return int[] int[0]温度上限 int[1]温度下限
+     *---------------------------------------*/
+    public int[] queryTempLimitPerGHouse(Context context, int areaNum, String ghouseNum)
+    {
+        System.out.println("queryTempLimitPerGHouse");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select temp_max,temp_min from greenhouse where area="+areaNum+" and greenhouse="+ghouseNum, null);
+
+
+        int temp[] = new int[2];
+        int i;
+        for(i= 0; i < cursor.getCount(); i++)
+        {
+            cursor.moveToNext();
+            temp[i] = cursor.getInt(0);
+        }
+        if(i == cursor.getCount() )
+            return temp;
+        else
+            return null;
+    }
+
+    /**-----------------------------------------
+     *  @Function:    queryHumiLimitPerGHouse(Context context, int area, String ghouseName)
+     *  @Description: 查询某大棚设定湿度的范围
+     *  @return int[] int[0]湿度上限 int[1]湿度下限
+     *---------------------------------------*/
+    public int[] queryHumiLimitPerGHouse(Context context, int areaNum, String ghouseNum)
+    {
+        System.out.println("queryHumiLimitPerGHouse");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select humi_max,humi_min from greenhouse where area="+areaNum+" and greenhouse="+ghouseNum, null);
+
+
+        int humi[] = new int[2];
+        int i;
+        for(i= 0; i < cursor.getCount(); i++)
+        {
+            cursor.moveToNext();
+            humi[i] = cursor.getInt(0);
+        }
+        if(i == cursor.getCount() )
+            return humi;
+        else
+            return null;
     }
 
     /**-----------------------------------------

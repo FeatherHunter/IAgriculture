@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.gc.materialdesign.views.ButtonRectangle;
 import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
 import com.ifuture.iagriculture.sqlite.DatabaseOperation;
+import com.ifuture.iagriculture.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,14 @@ import java.util.List;
 public class BandTerminalDialog extends Activity {
 
     ButtonRectangle checkButton, cancelButton;
+    Button scanButton;                         //二维码扫描按键
     private Spinner areaSpinner = null;
     private EditText termNumEditText = null;
     DatabaseOperation databaseOperation = null; //数据库操作类
     private List<String> arealist = null;
     private ArrayAdapter<String> adapter;
 
-    private int RESULT_OK = 1;
+    private int RESULT_OK = -1;
     private int RESULT_ERR = 0;
 
     private int area_number = -1;
@@ -45,6 +48,7 @@ public class BandTerminalDialog extends Activity {
         termNumEditText = (EditText) findViewById(R.id.bandT_terminal_num);
         checkButton = (ButtonRectangle) findViewById(R.id.bandT_check_button);
         cancelButton = (ButtonRectangle) findViewById(R.id.bandT_cancel_button);
+        scanButton = (Button) findViewById(R.id.bandT_scan_button); //二维码扫描Button
 
         /* -----------------------------------------------------------------
 	     *             利用用户名创建or获得数据库
@@ -71,6 +75,7 @@ public class BandTerminalDialog extends Activity {
 
         checkButton.setOnClickListener(new buttonListener());
         cancelButton.setOnClickListener(new buttonListener());
+        scanButton.setOnClickListener(new scanListener());         //设置二维码扫描按键监听器
 
 
     }
@@ -146,6 +151,56 @@ public class BandTerminalDialog extends Activity {
                 Intent intent = new Intent();
                 setResult(RESULT_ERR, intent);   //取消绑定
                 finish();
+            }
+        }
+    }
+
+    /**--------------------------------------------------
+     *     扫描二维码监听器的Button监听器
+     *--------------------------------------------*/
+    class scanListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.bandT_scan_button)
+            {
+                //打开扫描界面扫描条形码或二维码
+                Intent openCameraIntent = new Intent(BandTerminalDialog.this,CaptureActivity.class);
+                startActivityForResult(openCameraIntent, 0);
+            }
+        }
+    }
+
+    /**--------------------------------------------------
+     *      处理二维码扫描界面得到的结果
+     *--------------------------------------------*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //处理扫描结果（在界面上显示）
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+
+            termNumEditText.clearFocus();
+            termNumEditText.setSelected(false);
+            if(scanResult.length()  < 3)
+            {
+                Toast.makeText(BandTerminalDialog.this, "不是正确的二维码！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(scanResult.substring(0,2).equals("终端"))
+            {
+                termNumEditText.setText(scanResult.substring(2));
+                Toast.makeText(BandTerminalDialog.this, "扫描成功", Toast.LENGTH_SHORT).show();
+            }
+            else if(scanResult.substring(0,2).equals("设备"))
+            {
+                Toast.makeText(BandTerminalDialog.this, "设备二维码,请在“绑定设备”中进行绑定。或者选择正确的终端二维码。", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(BandTerminalDialog.this, "不是正确的二维码！", Toast.LENGTH_SHORT).show();
             }
         }
     }

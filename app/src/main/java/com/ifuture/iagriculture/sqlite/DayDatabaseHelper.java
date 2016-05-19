@@ -80,7 +80,7 @@ public class DayDatabaseHelper extends SQLiteOpenHelper{
 
     public void createGHouseTable(SQLiteDatabase db)
     {
-        db.execSQL("create table greenhouse(area int, greenhouse varchar(20), primary key(area,greenhouse))");
+        db.execSQL("create table greenhouse(area int, greenhouse varchar(20), temp_max int, temp_min int, humi_max int, humi_min int, primary key(area,greenhouse))");
     }
 
     public void createDeviceTable(SQLiteDatabase db)

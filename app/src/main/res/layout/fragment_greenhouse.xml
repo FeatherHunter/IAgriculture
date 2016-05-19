@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1pt"
                     android:layout_weight="1"
-                    android:weightSum="3">
+                    android:weightSum="4">
 
                     <LinearLayout
                         android:layout_width="1pt"
@@ -43,55 +43,71 @@
                             android:textSize="8pt"
                             android:textColor="@color/white"/>
 
+
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="1pt"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:weightSum="2">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="1pt"
+                        android:orientation="horizontal"
+                        android:layout_weight="2"
+                        android:weightSum="3">
+                        <Button
+                            android:id="@+id/gh_setting_button"
+                            android:layout_width="1pt"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-                            <TextView
-                                android:layout_width="1pt"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:text="智能温控"
-                                android:textColor="@color/white"
-                                android:gravity="center"/>
-                            <TextView
-                                android:id="@+id/gh_air_ctemp_state"
-                                android:layout_width="1pt"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:textColor="@color/white"
-                                android:gravity="center"/>
-                        </LinearLayout>
+                            android:text="设置"/>
+
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="1pt"
-                            android:layout_weight="1"
-                            android:orientation="horizontal"
+                            android:layout_width="1pt"
+                            android:layout_weight="2"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
                             android:weightSum="2">
-                            <TextView
-                                android:layout_width="1pt"
-                                android:layout_height="match_parent"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="1pt"
                                 android:layout_weight="1"
-                                android:text="智能灌溉"
-                                android:textColor="@color/white"
-                                android:gravity="center"/>
-                            <TextView
-                                android:id="@+id/gh_air_chumi_state"
-                                android:layout_width="1pt"
-                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+                                <TextView
+                                    android:layout_width="1pt"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="智能温控"
+                                    android:textColor="@color/white"
+                                    android:gravity="center"/>
+
+                                <Switch
+                                    android:id="@+id/gh_air_autotemp_switch"
+                                    android:layout_width="1pt"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="1pt"
                                 android:layout_weight="1"
-                                android:textColor="@color/white"
-                                android:gravity="center"/>
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+                                <TextView
+                                    android:layout_width="1pt"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:text="智能灌溉"
+                                    android:textColor="@color/white"
+                                    android:gravity="center"/>
+
+                                <Switch
+                                    android:id="@+id/gh_air_autohumi_switch"
+                                    android:layout_width="1pt"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    />
+                            </LinearLayout>
                         </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
