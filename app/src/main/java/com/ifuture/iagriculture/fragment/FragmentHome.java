@@ -84,16 +84,8 @@ public class FragmentHome extends BaseFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view= inflater.inflate(R.layout.fragment_home, container, false); //获得该fragment的布局文件
-		/*--------------------------------------------
-		 *             初始化listview
-		 *----------------------------------------------*/
-		init_listview(view);
-		System.out.println("onCreateView");
 
-		helpArea = (TextView) getActivity().findViewById(R.id.home_help_area); //绑定地区
-		helpGreenhouse = (TextView) getActivity().findViewById(R.id.home_help_greenhouse);//绑定大棚
-		helpTerminal = (TextView) getActivity().findViewById(R.id.home_help_terminal);//绑定终端
-		helpDevice = (TextView) getActivity().findViewById(R.id.home_help_device);//绑定设备
+		init_listview(view);
 
 		return view;
 	}
@@ -112,12 +104,6 @@ public class FragmentHome extends BaseFragment{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			listView.setFastScrollAlwaysVisible(false);
 		}
-		/*-----------------------------------------------
-		 *             配置适配器和按键监听器
-		 *----------------------------------------------*/
-		adapter = new HomeListViewAdapter(getActivity(), ListViewItem.getData(getActivity()));
-		listView.setAdapter(adapter);//设置适配器
-		listView.setOnItemClickListener(getListenerForListView());
 
 		/*-----------------------------------------------
 		 *             设置Listview周围的padding
@@ -127,63 +113,110 @@ public class FragmentHome extends BaseFragment{
 		listView.setPadding(padding, padding, padding, padding);
 	}
 
-	/**
+	/**--------------------------------------------------------------------
 	 *  @author: 王辰浩
-	 *  @function: helpUserWarning()
-	 *  @description: 查询地区，大棚，终端，设备是否全部绑定成功，提示用户进行操作
+	 *  @function: ArrayList<ListViewItem> getListDate()
+	 *  @description:
+	 *  1.获取地区/大棚列表
+	 *  2.查询地区，大棚，终端，设备是否全部绑定成功，提示用户进行操作
 	 *
-	 **/
-	public void helpUserWarning()
+	 *---------------------------------------------------------------------*/
+	public ArrayList<ListViewItem> getListDate()
 	{
+		boolean gHouseIsFind = true;
+		boolean terminalIsFind = true;
+		ArrayList<ListViewItem> list = new ArrayList<ListViewItem>();
+
 		String areaNames[] = databaseOperation.queryAreaName(getActivity());
+		/*--------------------------------------
+		 *  处理是否查询到地区的警告
+		 *--------------------------------------*/
 		if(areaNames[0] == null) //没有查询到地区
 		{
 			helpArea.setTextColor(ContextCompat.getColor(getActivity(),R.color.redincorrect)); //提示错误
 			helpArea.setText("  请先“创建地区”   右下角悬浮按钮进行相关操作");
 			helpArea.setVisibility(View.VISIBLE);//显示
 		}
-//		else//存在地区
-//		{
-//			helpArea.setTextColor(ContextCompat.getColor(getActivity(),R.color.greengoogle)); //正确设置
-//			helpArea.setText("  已经成功“创建地区”");
-//		}
+		else//查询到了
+		{
+			helpArea.setVisibility(View.GONE);//显示
+		}
+		/*--------------------------------------
+		 *  遍历获得每个地区下面的大棚并且检查是否存在终端以及设备
+		 *--------------------------------------*/
+		gHouseIsFind = true;
+		terminalIsFind = true;
 		for(int i = 0; areaNames[i] != null; i++)
 		{
+			String terminal[] = databaseOperation.queryTerminalPerArea(getActivity(), i);//查询该地区是否存在终端
+			/*--------------------------------------
+		     *  处理是否查询到终端的警告
+		     *--------------------------------------*/
+			if(terminal[0] == null)//不存在
+			{
+				list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i], true));//在地区中显示不存在终端的警告
 
+				if(terminalIsFind == true)
+				{
+					helpTerminal.setTextColor(ContextCompat.getColor(getActivity(), R.color.redincorrect)); //提示错误
+					helpTerminal.setText("  请先“绑定终端”   存在地区没有绑定终端");
+					helpTerminal.setVisibility(View.VISIBLE);//显示
+					terminalIsFind = false;
+				}
+			}
+			else
+			{
+				list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i], false));//存在终端、不需要警告
+			}
 			String greenHouseNums[] = databaseOperation.queryGHousePerArea(getActivity(), i); //i就为当前的地区号
+			/*--------------------------------------
+		     *  处理是否在该地区查询到大棚的警告
+		     *--------------------------------------*/
 			if(greenHouseNums[0] == null) //没有查询到地区
 			{
-				helpGreenhouse.setTextColor(ContextCompat.getColor(getActivity(),R.color.redincorrect)); //提示错误
-				helpGreenhouse.setText("  请先“绑定大棚”   存在地区没有绑定大棚");
-				helpGreenhouse.setVisibility(View.VISIBLE);//显示
+				if(gHouseIsFind == true)
+				{
+					helpGreenhouse.setTextColor(ContextCompat.getColor(getActivity(),R.color.redincorrect)); //提示错误
+					helpGreenhouse.setText("  请先“绑定大棚”   存在地区没有绑定大棚");
+					helpGreenhouse.setVisibility(View.VISIBLE);//显示
+					gHouseIsFind = false;
+				}
 			}
-//			else//存在地区
-//			{
-//				helpGreenhouse.setTextColor(ContextCompat.getColor(getActivity(),R.color.greengoogle)); //正确设置
-//				helpGreenhouse.setText("  已经成功“创建地区”");
-//			}
 			for(int j = 0; greenHouseNums[j] != null; j++)
 			{
-				//list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j]));
+				String devices[] = databaseOperation.queryDevicePerGHouse(getActivity(), i, greenHouseNums[j]);//查询该大棚是否存在设备
+				/*--------------------------------------
+		         *  处理是否在该大棚查询到设备
+		         *--------------------------------------*/
+				if(devices[0] == null)//不存在
+				{
+					list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j], true));
+				}
+				else
+				{
+					list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j], false));
+				}
 			}
 		}
+		if(terminalIsFind == true)//所有地区都拥有终端
+		{
+			helpTerminal.setVisibility(View.GONE);//显示
+		}
+		if(gHouseIsFind == true)//所有地区都拥有大棚
+		{
+			helpGreenhouse.setVisibility(View.GONE);//显示
+		}
+		return list;
 	}
-
+	/**
+	 *  @author: 王辰浩
+	 *  @function: refreshListView()
+	 *  @description: 获得地区、大棚表的List的Item用于显示
+	 **/
 	public void refreshListView() {
 		System.out.println("refreshListView");
-		ArrayList<ListViewItem> list = new ArrayList<ListViewItem>();
 
-		String areaNames[] = databaseOperation.queryAreaName(getActivity());
-		for(int i = 0; areaNames[i] != null; i++)
-		{
-			list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i]));
-			String greenHouseNums[] = databaseOperation.queryGHousePerArea(getActivity(), i); //i就为当前的地区号
-			for(int j = 0; greenHouseNums[j] != null; j++)
-			{
-				list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j]));
-			}
-		}
-		adapter.refresh(list);
+		adapter.refresh(getListDate()); //显示列表
 	}
 
 
@@ -222,11 +255,20 @@ public class FragmentHome extends BaseFragment{
 		// TODO Auto-generated method stub
 		super.onStart();
 
+		/*--------------------------------------------
+		 *             初始化数据库
+		 *----------------------------------------------*/
 		SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
 		String accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
 		databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
 		databaseOperation.createDatabase(getActivity());//创建数据库
-
+		/*--------------------------------------------
+		 *             获得warning的texview
+		 *----------------------------------------------*/
+		helpArea = (TextView) getActivity().findViewById(R.id.home_help_area); //绑定地区
+		helpGreenhouse = (TextView) getActivity().findViewById(R.id.home_help_greenhouse);//绑定大棚
+		helpTerminal = (TextView) getActivity().findViewById(R.id.home_help_terminal);//绑定终端
+		helpDevice = (TextView) getActivity().findViewById(R.id.home_help_device);//绑定设备
 		/*---------------------------------------------------------------------------
 		 *                 右下角悬浮按钮 （获取）
 		 *---------------------------------------------------------------------------*/
@@ -249,6 +291,13 @@ public class FragmentHome extends BaseFragment{
 		addDeviceButtonFloatSmall.setOnClickListener(new buttonFloatSmallListenner());   //设置绑定设备按钮
 
 		addAreaButtonRectangle.setOnClickListener(new buttonRectangleListenner());
+
+		/*-----------------------------------------------
+		 *             配置适配器和按键监听器
+		 *----------------------------------------------*/
+		adapter = new HomeListViewAdapter(getActivity(), getListDate());//获得数据
+		listView.setAdapter(adapter);//设置适配器
+		listView.setOnItemClickListener(getListenerForListView());
 
 	}
 
@@ -370,6 +419,20 @@ public class FragmentHome extends BaseFragment{
 		}
 		else if(requestCode == REQUEST_GHOUSE) { //创建大棚的dialog返回值(activity)
 			System.out.println("REQUEST_GHOUSE");
+			if (resultCode == RESULT_OK) { //创建成功
+				System.out.println("RESULT_OK");
+				refreshListView(); //刷新显示
+			}
+		}
+		else if(requestCode == REQUEST_TERM) { //为绑定终端的返回值
+			System.out.println("REQUEST_TERM");
+			if (resultCode == RESULT_OK) { //创建成功
+				System.out.println("RESULT_OK");
+				refreshListView(); //刷新显示
+			}
+		}
+		else if(requestCode == REQUEST_DEVICE) { //为绑定设备的返回值
+			System.out.println("REQUEST_DEVICE");
 			if (resultCode == RESULT_OK) { //创建成功
 				System.out.println("RESULT_OK");
 				refreshListView(); //刷新显示

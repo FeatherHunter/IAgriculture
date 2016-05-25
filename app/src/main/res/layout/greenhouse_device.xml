@@ -122,10 +122,9 @@
                 android:gravity="center"
                 android:textSize="7pt"/>
 
-            <com.gc.materialdesign.views.Switch
+            <Switch
                 android:id="@+id/device_warm_switch"
                 android:layout_width="1pt"
-                android:background="#1E88E5"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 />
@@ -159,11 +158,10 @@
                 android:textSize="7pt"/>
 
 
-            <com.gc.materialdesign.views.Switch
+            <Switch
                 android:id="@+id/device_irrigation_switch"
                 android:layout_width="1pt"
                 android:layout_height="match_parent"
-                android:background="#1E88E5"
                 android:layout_weight="4"
                 />
 

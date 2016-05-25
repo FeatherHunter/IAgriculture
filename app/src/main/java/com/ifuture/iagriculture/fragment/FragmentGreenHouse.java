@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +19,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
-import com.gc.materialdesign.views.Switch;
+
 import com.ifuture.iagriculture.Device.Device;
 import com.ifuture.iagriculture.Instruction.Instruction;
 import com.ifuture.iagriculture.R;
@@ -50,6 +52,22 @@ public class FragmentGreenHouse extends BaseFragment{
 	private String RECV_ACTION = "android.intent.action.ANSWER";
 	TextView tempCurrenAirTextview;//C当前温度 for air
 	TextView humiCurrenAirTextview;//C当前湿度 for air
+
+	TextView deviceWarmSum = null;   		//取暖设备总数
+	TextView deviceWarmOnSum = null; 		//打开取暖设备数量
+	TextView deviceWarmOffSum = null;		//关闭取暖设备数量
+	TextView deviceIrrigationSum = null;	//灌溉设备总数
+	TextView deviceIrrigationOnSum = null;  //打开灌溉设备数量
+	TextView deviceIrrigationOffSum = null; //关闭灌溉设备数量
+
+	boolean autoTempOnFlag = false;
+	boolean autoHumiOnFlag = false;
+
+	//记录各个设备数目
+	int warmSum = 0;
+	int warmOnSum = 0;
+	int irriSum = 0;
+	int irriOnSum = 0;
 
 	ImageView videoImageView;
 
@@ -128,6 +146,17 @@ public class FragmentGreenHouse extends BaseFragment{
 		areaNumString = mainActivity.areaNumString;
 		greenHouseNumString =  mainActivity.greenhouseNumString;
 
+		/* --------------------------------------------------------------------
+	     *                          设备总体情况显示控件获取
+	     * --------------------------------------------------------------------*/
+		deviceWarmSum = (TextView) getActivity().findViewById(R.id.gh_device_warm_totalsum);
+		deviceWarmOnSum = (TextView) getActivity().findViewById(R.id.gh_device_warm_onsum);
+		deviceWarmOffSum = (TextView) getActivity().findViewById(R.id.gh_device_warm_offsum);
+
+		deviceIrrigationSum = (TextView) getActivity().findViewById(R.id.gh_device_irrigation_totalsum);
+		deviceIrrigationOnSum = (TextView) getActivity().findViewById(R.id.gh_device_irrigation_onsum);
+		deviceIrrigationOffSum = (TextView) getActivity().findViewById(R.id.gh_device_irrigation_offsum);
+
 		/* -----------------------------------------------------------------
 	     *             整个大棚当前温度湿度的实时显示，这里用于获取控件
 	     * -----------------------------------------------------------------*/
@@ -139,6 +168,13 @@ public class FragmentGreenHouse extends BaseFragment{
 
 		autoTempSwitch = (android.widget.Switch) getActivity().findViewById(R.id.gh_air_autotemp_switch);//温控开关
 		autoHumiSwitch = (android.widget.Switch) getActivity().findViewById(R.id.gh_air_autohumi_switch);//湿控开关
+
+//		autoTempSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置自动温控监听器
+//		autoHumiSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置自动湿控监听器
+
+		autoTempSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner()); //设置自动温控监听器
+		autoHumiSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner()); //设置自动温控监听器
+
 		/* -----------------------------------------------------------------
 	     *             利用用户名创建or获得数据库
 	     * -----------------------------------------------------------------*/
@@ -157,6 +193,13 @@ public class FragmentGreenHouse extends BaseFragment{
 		{
 			deviceCount++;
 		}
+		warmSum = deviceCount; //取暖设备数目
+		irriSum = deviceCount; //灌溉设备数目
+		warmOnSum = irriOnSum = 0;
+		deviceWarmSum.setText(""+warmSum); //总数
+		deviceIrrigationSum.setText(""+irriSum);
+		deviceWarmOffSum.setText(""+(warmSum-warmOnSum)); //关闭的数量
+		deviceIrrigationOffSum.setText(""+(irriSum-irriOnSum));
 // 获取xml的RelativeLayout
 		RelativeLayout ghLayout = (RelativeLayout) getActivity().findViewById(R.id.gh_device_layout);
 
@@ -191,7 +234,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
 			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
 
-			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
+			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
 			Device device1 = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
 			deviceHashtable.put(devices[i*2],device1);
 
@@ -204,7 +247,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			warmDeviceState = (Switch) view2.findViewById(R.id.device_warm_switch);
 			irriDeviceState = (Switch) view2.findViewById(R.id.device_irrigation_switch);
 
-			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2+1]));
+			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2+1]));
 			Device device2 = new Device(devices[i*2+1], tempValue, humiValue, warmDeviceState, irriDeviceState);
 			deviceHashtable.put(devices[i*2+1],device2);
 
@@ -250,7 +293,7 @@ public class FragmentGreenHouse extends BaseFragment{
 			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
 			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
 
-			warmDeviceState.setOncheckListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
+			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
 			Device device = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
 			deviceHashtable.put(devices[i*2],device);
 
@@ -285,29 +328,36 @@ public class FragmentGreenHouse extends BaseFragment{
 			// TODO: handle exception
 			System.out.println("had been registerReceiver");
 		}
-
 	}
 
-	class switchOnCheckedChangeListenner implements CompoundButton.OnCheckedChangeListener{
+	/**------------------------------------------------------------------------
+	 * @类名: autoSwitchOnCheckedChangeListenner
+	 * @描述:
+	 *      监听“智能开关”的状态，并且发送相应指令
+	 *------------------------------------------------------------------------*/
+	class autoSwitchOnCheckedChangeListenner implements CompoundButton.OnCheckedChangeListener{
 
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			if(buttonView.getId() == R.id.gh_air_autotemp_switch)//温度
 			{
-				if(isChecked)
-				{
-					//开启自动温控
-					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoTemp(areaNumString, greenHouseNumString, true));
-				}
-				else
+				if(autoTempOnFlag)//智能温度已经开启，发送关闭指令
 				{
 					//关闭自动温控
 					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoTemp(areaNumString, greenHouseNumString, false));
 				}
+				else
+				{
+					//开启自动温控
+					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoTemp(areaNumString, greenHouseNumString, true));
+				}
+				autoTempSwitch.setOnCheckedChangeListener(null); //先注销监听器
+				autoTempSwitch.setChecked(autoTempOnFlag);
+				autoTempSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置监听器
 			}
 			else if(buttonView.getId() == R.id.gh_air_autohumi_switch)//温度
 			{
-				if(isChecked)
+				if(autoHumiOnFlag)
 				{
 					//开启自动温控
 					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoHumi(areaNumString, greenHouseNumString, true));
@@ -317,6 +367,9 @@ public class FragmentGreenHouse extends BaseFragment{
 					//关闭自动温控
 					Instruction.broadcastMsgToServer(getActivity(), Instruction.autoHumi(areaNumString, greenHouseNumString, false));
 				}
+				autoHumiSwitch.setOnCheckedChangeListener(null); //先注销监听器
+				autoHumiSwitch.setChecked(autoHumiOnFlag);
+				autoHumiSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置监听器
 			}
 
 		}
@@ -327,7 +380,7 @@ public class FragmentGreenHouse extends BaseFragment{
 	 * @Description:
 	 *      监听各个独立设备的取暖器switch的开关状态
 	 *------------------------------------------------------------------------*/
-	class switchWarmOnCheckedChangeListener implements Switch.OnCheckListener {
+	class switchWarmOnCheckedChangeListener implements Switch.OnCheckedChangeListener {
 
 		String deviceNum = null;
 		public switchWarmOnCheckedChangeListener(String deviceNum)
@@ -336,14 +389,43 @@ public class FragmentGreenHouse extends BaseFragment{
 			this.deviceNum = deviceNum;
 		}
 
+//		@Override
+//		public void onCheck(Switch view, boolean check) {
+//			if(deviceNum == null) return;
+//			/* -----------------------------------------
+//			 *      打开设备（发送指令给服务器，通过Service）
+//			 * -----------------------------------------*/
+//			if(check) {
+//				//Log.d("Debug", "check is true");
+//				warmOnSum++;
+//				deviceWarmOnSum.setText(""+warmOnSum);//设置开启数量
+//				deviceWarmOffSum.setText(""+(warmSum-warmOnSum));//显示已经关闭的取暖器数量
+//				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, true));
+//
+//			}
+//			/* -----------------------------------------
+//			 *      关闭取暖灯
+//			 * -----------------------------------------*/
+//			else {
+//				//Log.d("Debug", "check is false");
+//				warmOnSum--;
+//				deviceWarmOnSum.setText(""+warmOnSum);//已经开启的取暖器数量
+//				deviceWarmOffSum.setText(""+(warmSum-warmOnSum));//显示已经关闭的取暖器数量
+//				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, false));
+//			}
+//		}
+
 		@Override
-		public void onCheck(Switch view, boolean check) {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			if(deviceNum == null) return;
 			/* -----------------------------------------
 			 *      打开设备（发送指令给服务器，通过Service）
 			 * -----------------------------------------*/
-			if(check) {
+			if(isChecked) {
 				//Log.d("Debug", "check is true");
+				warmOnSum++;
+				deviceWarmOnSum.setText(""+warmOnSum);//设置开启数量
+				deviceWarmOffSum.setText(""+(warmSum-warmOnSum));//显示已经关闭的取暖器数量
 				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, true));
 
 			}
@@ -352,6 +434,9 @@ public class FragmentGreenHouse extends BaseFragment{
 			 * -----------------------------------------*/
 			else {
 				//Log.d("Debug", "check is false");
+				warmOnSum--;
+				deviceWarmOnSum.setText(""+warmOnSum);//已经开启的取暖器数量
+				deviceWarmOffSum.setText(""+(warmSum-warmOnSum));//显示已经关闭的取暖器数量
 				broadcastMsgToServer(Instruction.ctrlLamp(areaNumString, greenHouseNumString, deviceNum, false));
 			}
 		}
@@ -426,6 +511,24 @@ public class FragmentGreenHouse extends BaseFragment{
 						{
 							String humiString = intent.getStringExtra("humi");
 							humiCurrenAirTextview.setText(humiString);
+						}
+						else if(typeString.equals("autohumi")) //返回“智能湿度控制”状态
+						{
+							boolean switchState = intent.getBooleanExtra("switch", autoHumiOnFlag);
+							autoHumiOnFlag = switchState;
+
+							autoHumiSwitch.setOnCheckedChangeListener(null); //先注销监听器
+							autoHumiSwitch.setChecked(autoHumiOnFlag); //开关 开/关
+							autoHumiSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置监听器
+						}
+						else if(typeString.equals("autotemp"))//返回“智能湿度控制”状态
+						{
+							boolean switchState = intent.getBooleanExtra("switch", autoTempOnFlag);
+							autoTempOnFlag = switchState;
+
+							autoTempSwitch.setOnCheckedChangeListener(null); //先注销监听器
+							autoTempSwitch.setChecked(autoTempOnFlag); //开关 开/关
+							autoTempSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner());//设置监听器
 						}
 					}
 				}//end of 地区号，大棚号

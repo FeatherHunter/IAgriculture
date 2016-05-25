@@ -19,6 +19,7 @@ public class ListViewItem {
 
     public static final int ITEM = 0;
     public static final int SECTION = 1;
+    private boolean isWarning = true; //是否进行警告提示
 
     public final int type;
     public final String text;
@@ -28,15 +29,17 @@ public class ListViewItem {
     public String areaNum = null;
     public String greenhouseNum = null;
 
-    public ListViewItem(int type, String text) {
+    public ListViewItem(int type, String text, boolean isWarning) {
         this.type = type;
         this.text = text;
+        this.isWarning = isWarning;
     }
 
-    public ListViewItem(int type, String text, String areaNum, String greenhouseNum) {
+    public ListViewItem(int type, String text, String areaNum, String greenhouseNum, boolean isWarning) {
         super();
         this.type = type;
         this.text = text;
+        this.isWarning = isWarning;
         if(type == ITEM)
         {
             this.areaNum = areaNum;
@@ -77,11 +80,27 @@ public class ListViewItem {
         String areaNames[] = databaseOperation.queryAreaName(context);
         for(int i = 0; areaNames[i] != null; i++)
         {
-            list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i]));
+            String terminal[] = databaseOperation.queryTerminalPerArea(context, Integer.parseInt(areaNames[i]));//查询该地区是否存在终端
+            if(terminal[0] == null)//不存在
+            {
+                list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i], true));//不存在终端
+            }
+            else
+            {
+                list.add(new ListViewItem(ListViewItem.SECTION, areaNames[i], false));//存在终端、不需要警告
+            }
             String greenHouseNums[] = databaseOperation.queryGHousePerArea(context, i); //i就为当前的地区号
             for(int j = 0; greenHouseNums[j] != null; j++)
             {
-                list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j]));
+                String devices[] = databaseOperation.queryDevicePerGHouse(context, Integer.parseInt(areaNames[i]), greenHouseNums[j]);//查询该大棚是否存在设备
+                if(devices[0] == null)//不存在
+                {
+                    list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j], true));
+                }
+                else
+                {
+                    list.add(new ListViewItem(ListViewItem.ITEM, "大棚"+greenHouseNums[j], ""+i, greenHouseNums[j], false));
+                }
             }
         }
 
@@ -102,5 +121,14 @@ public class ListViewItem {
 
     public void setListPosition(int listPosition) {
         this.listPosition = listPosition;
+    }
+
+
+    public boolean getWarning() {
+        return isWarning;
+    }
+
+    public void setWarning(boolean warning) {
+        isWarning = warning;
     }
 }

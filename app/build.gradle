@@ -46,7 +46,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile project(':library_SlidingMenu')
-    compile files('libs/android-support-v4.jar')
     compile project(':library_library_pinned_section_listview')
     compile files('libs/libammsdk.jar')
     compile 'com.android.support:support-v4:23.3.0'

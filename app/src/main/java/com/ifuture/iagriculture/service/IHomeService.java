@@ -566,11 +566,13 @@ public class IHomeService extends Service{
 					index += 1;  //跳过第一个CMD_HEAD字节
 					if(index >= msgLength) break;
 
-					/**
+					/**---------------------------------------------
 					 * 结果大类指令:
 					 * 	分为如下小类指令：
 					 * 	   1. 登录结果指令 RES_LOGIN
-					 **/
+					 * 	   2. 返回温度 RES_TEMP
+					 * 	   3. 返回湿度 RES_HUMI
+					 *------------------------------------------------*/
 					if(message.charAt(index) == Instruction.CMD_RES) //检查主要大类指令
 					{
 						index += 1;
@@ -639,6 +641,48 @@ public class IHomeService extends Service{
 							{
 								System.out.println("为-1 " + res);
 							}
+							//res = -1, 指令不全，什么都不做等待下一部分
+						}
+						else if(message.charAt(index) == Instruction.RES_AUTOTEMP)//智能温控开关是否开启的返回结果
+						{
+							index += 1;
+							if(index >= msgLength) break;
+							int res = dealResAutoTemp(message, index); //处理返回的“智能温控开关”信息
+							if(res > 0)//正确返回截短
+							{
+								System.out.println("正确返回截短 " + res);
+								index += res;
+								message = message.substring(index);
+							}
+							else if(res == 0)//正好处理完
+							{
+								System.out.println("正好处理完 " + res);
+								message = "";
+								break; //结束
+							}
+							else if(res == -2) break;
+							else
+							{
+								System.out.println("为-1 " + res);
+							}
+							//res = -1, 指令不全，什么都不做等待下一部分
+						}
+						else if(message.charAt(index) == Instruction.RES_AUTOHUMI)//“智能湿度控制”开关是否开启的返回结果
+						{
+							index += 1;
+							if(index >= msgLength) break;
+							int res = dealResAutoHumi(message, index); //处理返回的“智能湿度控制”开关信息
+							if(res > 0)//正确返回截短
+							{
+								index += res;
+								message = message.substring(index);
+							}
+							else if(res == 0)//正好处理完
+							{
+								message = "";
+								break; //结束
+							}
+							else if(res == -2) break;
 							//res = -1, 指令不全，什么都不做等待下一部分
 						}
 						else
@@ -974,6 +1018,140 @@ public class IHomeService extends Service{
 		return i - index;
 	}
 
+	/**
+	 * 	 @Function: private int dealResAutoTemp(String msg, int index)
+	 * 	 @Description:
+	 * 	 			处理返回的智能温控的状态
+	 * 	 @Input:  String msg:需要处理的信息
+	 * 	           int dex:   msg中的偏移量
+	 *   @Return: -1: 指令不全 0: 正好处理完全 >0：在String中偏移的值
+	 * */
+	private int dealResAutoTemp(String msg, int index)
+	{
+		String areaString;
+		String greenHouseString;
+
+		int i = index;
+		int msgLength = msg.length();
+		int startIndex;
+
+		/*=======获取地区号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		areaString = msg.substring(startIndex, i-1); //获取地区号
+		System.out.println("get areaString："+areaString);
+		/*=======获取大棚号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
+		System.out.println("get greenHouseString："+greenHouseString);
+
+		/*=======获取开关状态值===============*/
+		if(msg.charAt(i) == Instruction.AUTOTEMP_ON)
+		{
+			broadcastUpdateAutoTemp(areaString, greenHouseString, true);//自动温控已经打开
+		}
+		else if(msg.charAt(i) == Instruction.AUTOTEMP_OFF)
+		{
+			broadcastUpdateAutoTemp(areaString, greenHouseString, false);//自动温控关闭
+		}
+		i++; //此时 为END
+		i++; //跳转到下一个指令开头
+//
+//			/* -------------------------------------------------------
+//	     	 *  通过SharedPreferences保存实时温度数据
+//	     	 *  用于fragment切换时候的数据保存
+//		     * -------------------------------------------------------*/
+//			apSharedPreferences = getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
+//			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+//			editor.putString("temperature", tempString);
+//			editor.commit();
+		if(i > msgLength) return -1; //越界
+		if(i == msgLength) return 0; //正好处理结束
+		return i - index;
+	}
+
+	/**
+	 * 	 @Function: private int dealResAutoHumi(String msg, int index)
+	 * 	 @Description:
+	 * 	 			处理返回的智能湿度控制的状态
+	 * 	 @Input:  String msg:需要处理的信息
+	 * 	           int dex:   msg中的偏移量
+	 *   @Return: -1: 指令不全 0: 正好处理完全 >0：在String中偏移的值
+	 * */
+	private int dealResAutoHumi(String msg, int index)
+	{
+		String areaString;
+		String greenHouseString;
+
+		int i = index;
+		int msgLength = msg.length();
+		int startIndex;
+
+		/*=======获取地区号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		areaString = msg.substring(startIndex, i-1); //获取地区号
+		System.out.println("get areaString："+areaString);
+		/*=======获取大棚号===============*/
+		startIndex = i;
+		while(i < msgLength)
+		{
+			if(msg.charAt(i) == Instruction.CMD_SEP) break;
+			if(msg.charAt(i) == Instruction.CMD_HEAD) return i - index; //又找到一个头，说明之前数据无效
+			i++;
+		}
+		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
+		i++;
+		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
+		System.out.println("get greenHouseString："+greenHouseString);
+
+		/*=======获取开关状态值===============*/
+		if(msg.charAt(i) == Instruction.AUTOHUMI_ON)
+		{
+			broadcastUpdateAutoHumi(areaString, greenHouseString, true);//自动温控已经打开
+		}
+		else if(msg.charAt(i) == Instruction.AUTOHUMI_OFF)
+		{
+			broadcastUpdateAutoHumi(areaString, greenHouseString, false);//自动温控关闭
+		}
+		i++; //此时 为END
+		i++; //跳转到下一个指令开头
+//
+//			/* -------------------------------------------------------
+//	     	 *  通过SharedPreferences保存实时温度数据
+//	     	 *  用于fragment切换时候的数据保存
+//		     * -------------------------------------------------------*/
+//			apSharedPreferences = getSharedPreferences("tempdata", Activity.MODE_PRIVATE);
+//			SharedPreferences.Editor editor = apSharedPreferences.edit();//用putString的方法保存数据
+//			editor.putString("temperature", tempString);
+//			editor.commit();
+		if(i > msgLength) return -1; //越界
+		if(i == msgLength) return 0; //正好处理结束
+		return i - index;
+	}
+
 	/**-------------------------------------------------------------------
 	 * 	 @Function: private void broadcastUpdateTemp(String areaNum, String greenHouseNum, String deviceString, String tempString)
 	 * 	 @Description: 广播需要更新的温度给Fragment
@@ -988,6 +1166,38 @@ public class IHomeService extends Service{
 		intent.putExtra("greenhouse", greenHouseNum);
 		intent.putExtra("device", deviceString);
 		intent.putExtra("temp", tempString);
+		sendBroadcast(intent);
+	}
+
+	/**-------------------------------------------------------------------
+	 * 	 @Function: private void broadcastUpdateAutoTemp(String areaNum, String greenHouseNum, boolean tempSwitchState)
+	 * 	 @Description: 更新“智能温控”开关状态
+	 * 	 @param tempSwitchState 开关状态
+	 *----------------------------------------------------------------------*/
+	private void broadcastUpdateAutoTemp(String areaNum, String greenHouseNum, boolean tempSwitchState)
+	{
+		Intent intent = new Intent();
+		intent.setAction(intent.ACTION_ANSWER);
+		intent.putExtra("update", "autotemp");
+		intent.putExtra("area", areaNum);
+		intent.putExtra("greenhouse", greenHouseNum);
+		intent.putExtra("switch", tempSwitchState);
+		sendBroadcast(intent);
+	}
+
+	/**-------------------------------------------------------------------
+	 * 	 @Function: private void broadcastUpdateAutoHumi(String areaNum, String greenHouseNum, boolean humiSwitchState)
+	 * 	 @Description: 更新“智能湿度控制”开关状态
+	 * 	 @param humiSwitchState 开关状态
+	 *----------------------------------------------------------------------*/
+	private void broadcastUpdateAutoHumi(String areaNum, String greenHouseNum, boolean humiSwitchState)
+	{
+		Intent intent = new Intent();
+		intent.setAction(intent.ACTION_ANSWER);
+		intent.putExtra("update", "autohumi");
+		intent.putExtra("area", areaNum);
+		intent.putExtra("greenhouse", greenHouseNum);
+		intent.putExtra("switch", humiSwitchState);
 		sendBroadcast(intent);
 	}
 
@@ -1059,8 +1269,8 @@ public class IHomeService extends Service{
 		}
 		else if(msg.charAt(i) == Instruction.LOGIN_FAILED)//登录失败
 		{
-			if(isAuthed)//如果已经认证成功，则失败
-			{
+//			if(isAuthed)//如果已经认证成功，则失败
+//			{
 				Intent intent = new Intent();
 				intent.setAction(intent.ACTION_ANSWER);
 
@@ -1069,7 +1279,7 @@ public class IHomeService extends Service{
 
 				sendBroadcast(intent);
 				isAuthed = false; //登录失败
-			}
+//			}
 		}
 		for(int count = 2; count > 0; count--)
 		{

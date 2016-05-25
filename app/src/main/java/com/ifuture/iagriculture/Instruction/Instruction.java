@@ -50,6 +50,14 @@ public class Instruction {
     public static final char RES_BGHOU  = 'C';
     public static final char RES_BDEVC  = 'D';
 
+    public static final char RES_AUTOTEMP = 'e';
+    public static final char RES_SETTEMP  =  'f';
+    public static final char RES_AUTOHUMI =  'g';
+    public static final char RES_SETHUMI  =  'h';
+    public static final char RES_LAMP     =  'l';
+    public static final char RES_MOTOR    =  'm';
+    public static final char RES_PUMP     =  'P';
+
     /*绑定指令*/
     public static final char BAND_AREA   =   'A';
     public static final char BAND_TERM   =   'T';

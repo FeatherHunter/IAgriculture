@@ -7,27 +7,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="20">
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/listview_item_imageView"
             android:layout_width="20pt"
             android:layout_height="20pt"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:contentDescription="@string/action_settings"
-            android:src="@drawable/greenhouse_selected" />
+            android:src="@drawable/greenhouse_selected"
+            android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:id="@+id/listview_item_title"
+            android:layout_width="1pt"
             android:layout_height="20pt"
             android:gravity="center_vertical|left"
             android:paddingLeft="10dp"
             android:layout_gravity="center"
             android:singleLine="true"
             android:textColor="#827f7f"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_weight="13"/>
+
+
+        <TextView
+            android:id="@+id/listview_item_warning"
+            android:layout_width="1pt"
+            android:layout_height="20pt"
+            android:layout_weight="7"
+            android:text="未绑定设备"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/redincorrect"
+            android:singleLine="true"/>
+
+
     </LinearLayout>
 </LinearLayout>
 

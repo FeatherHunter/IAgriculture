@@ -512,6 +512,29 @@ public class DatabaseOperation {
         }
     }
 
+    /**
+     * =============================================================================================
+     * @Description
+     *                       查询某地区下的终端号
+     * =============================================================================================
+     * */
+
+    public String[] queryTerminalPerArea    (Context context, int areaNum){
+        dbHelper = new DayDatabaseHelper(context,databaseName);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select terminal from terminal where area="+areaNum, null);
+
+        String terminal[] = new String[51];
+        int i = 0;
+        while(cursor.moveToNext())
+        {
+            terminal[i] = cursor.getString(0);
+            i++;
+        }
+        terminal[i] = null;
+        return terminal;
+    }
+
     private boolean recordExitsTerminal(SQLiteDatabase db, int area, String terminalNum)
     {
         Cursor cursor = db.rawQuery("select * from terminal where area=? and terminal=?", new String[]{"" + area, "" + terminalNum});
@@ -1070,7 +1093,7 @@ public class DatabaseOperation {
 
     /**------------------------------------------------------------------
      * @Description:
-     *      按地区号查询年表中某天的某小时温湿度是多少
+     *      按"地区号"查询年表中"某天的某小时温湿度"是多少
      * @param hour
      * @return 查询到的温度，湿度
      *------------------------------------------------------------------*/
@@ -1081,20 +1104,20 @@ public class DatabaseOperation {
         dbHelper = new DayDatabaseHelper(context, databaseName);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select avg(temperature), avg(humidity) from "+tableAlldayString+
+        Cursor cursor = db.rawQuery("select temperature, humidity from "+tableAlldayString+
                 " where device in (select device from device where area="+areaNum+") " +
-                "and hour="+hour+
-                "and year="+year+
-                "and month="+month+
-                "and day="+day, null);
+                " and hour="+hour+
+                " and year="+year+
+                " and month="+month+
+                " and day="+day, null);
         if(cursor.getCount() == 0) return null;//检测是否有数据，没有数据直接返回null，防止求avg得到0值
 
         cursor = db.rawQuery("select avg(temperature), avg(humidity) from "+tableAlldayString+
                 " where device in (select device from device where area="+areaNum+") " +
-                "and hour="+hour+
-                "and year="+year+
-                "and month="+month+
-                "and day="+day, null);
+                " and hour="+hour+
+                " and year="+year+
+                " and month="+month+
+                " and day="+day, null);
 
         if(cursor.getCount() == 0) return null;//没有查询到，返回null
         for(int i = 0; i < cursor.getCount(); i++)
@@ -1124,6 +1147,42 @@ public class DatabaseOperation {
         Cursor cursor = db.query(tableAlldayString, new String[]{"avg(temperature), avg(humidity)"},  null, null,
                 "device, year, month, day", deviceString+"="+deviceNum+" and "+yearString+"="+year +" and "+ monthString+"="+month +" and "+ dayString+"="+day, null);
         if(cursor.getCount() == 0) return null;
+        for(int i = 0; i < cursor.getCount(); i++)
+        {
+            cursor.moveToNext();
+            f[i] = cursor.getFloat(0);
+        }
+        System.out.println("temp:" + f[0] + " humi:" + f[1]);
+        return f;
+    }
+
+    /**------------------------------------------------------------------
+     * @Description:
+     *      按“地区号”查询年表中某天的“平均温湿度“是多少
+     * @param day
+     * @return 查询到的温度，湿度
+     *------------------------------------------------------------------*/
+    public float[] queryDayPerYearByArea(Context context, String areaNum, int year, int month, int day)
+    {
+        float f[] = new float[2];
+        System.out.println("queryDayPerYearByArea");
+        dbHelper = new DayDatabaseHelper(context, databaseName);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select temperature, humidity from "+tableAlldayString+
+                " where device in (select device from device where area="+areaNum+") " +
+                " and year="+year+
+                " and month="+month+
+                " and day="+day, null);
+        if(cursor.getCount() == 0) return null;//检测是否有数据，没有数据直接返回null，防止求avg得到0值
+
+        cursor = db.rawQuery("select avg(temperature), avg(humidity) from "+tableAlldayString+
+                " where device in (select device from device where area="+areaNum+") " +
+                " and year="+year+
+                " and month="+month+
+                " and day="+day, null);
+
+        if(cursor.getCount() == 0) return null;//没有查询到，返回null
         for(int i = 0; i < cursor.getCount(); i++)
         {
             cursor.moveToNext();

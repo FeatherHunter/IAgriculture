@@ -14,14 +14,14 @@ public class Constant {
     public static final String FRAGMENT_FLAG_GREENHOUSE    = "大棚数据";
     public static final String FRAGMENT_FLAG_AREA_STATICS  = "统计";
     public static final String FRAGMENT_FLAG_GHOUSE_STATICS= "大棚统计";
-    public static final String FRAGMENT_FLAG_VIDEO         = "控制";
+    public static final String FRAGMENT_FLAG_VIDEO         = "监控";
     public static final String FRAGMENT_FLAG_CSERVICE      = "服务";
 
     //底部各个Fragment显示文字
     public static final String FRAGMENT_TEXT_HOME          = "农场";
     public static final String FRAGMENT_TEXT_AREA_STATICS  = "统计";
     public static final String FRAGMENT_TEXT_GHOUSE_STATICS= "大棚统计";
-    public static final String FRAGMENT_TEXT_VIDEO         = "控制";
+    public static final String FRAGMENT_TEXT_VIDEO         = "监控";
     public static final String FRAGMENT_TEXT_CSERVICE      = "服务";
 
 

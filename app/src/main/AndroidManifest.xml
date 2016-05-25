@@ -69,16 +69,17 @@
             android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity
             android:name=".activity.BandDeviceDialog"
-            android:theme="@android:style/Theme.Holo.Light.Dialog"></activity>
+            android:theme="@android:style/Theme.Holo.Light.Dialog" />
         <activity android:name=".WeiXin.WeiXinActivity" />
         <activity
             android:name=".zxing.activity.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".zxing.BarCodeTestActivity" />
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.TestActivity"></activity>
     </application>
 
 </manifest>

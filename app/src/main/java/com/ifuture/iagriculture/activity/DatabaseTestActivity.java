@@ -19,6 +19,7 @@ public class DatabaseTestActivity extends Activity {
 
     Button create, delete, clear, insert, query, queryallday, clearallday, switchButton, clearalltable;
     Button twoDCode;
+    Button text2Button;
     EditText year, month, day, hour, minute, second;
     EditText temp, humi;
     DatabaseOperation databaseOperation;
@@ -37,11 +38,21 @@ public class DatabaseTestActivity extends Activity {
         switchButton = (Button) findViewById(R.id.dbtest_switch);
         clearalltable = (Button) findViewById(R.id.dbtest_clearalltable);
         twoDCode = (Button) findViewById(R.id.twoDCode_test_button);
+
         twoDCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(DatabaseTestActivity.this, BarCodeTestActivity.class);
+                startActivity(intent);
+            }
+        });
+        text2Button = (Button)findViewById(R.id.test2button);
+        text2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(DatabaseTestActivity.this, TestActivity.class);
                 startActivity(intent);
             }
         });

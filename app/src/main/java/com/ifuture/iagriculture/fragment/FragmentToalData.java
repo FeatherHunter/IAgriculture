@@ -341,12 +341,14 @@ public class FragmentToalData extends BaseFragment{
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			int radioButtonId = group.getCheckedRadioButtonId();
 			System.out.println("ID:" + radioButtonId+" "+R.id.rb_temp_day+"/"+R.id.rb_temp_week);
+			TodayTime todayTime = new TodayTime();
+			todayTime.update();
 			switch(radioButtonId){
 				case R.id.rb_temp_day:
-					//showTodayTemp();
+					showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
 					break;
 				case R.id.rb_temp_week:
-					showWeekTemp();
+					showWeekTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
 					break;
 				default:break;
 			}
@@ -389,9 +391,9 @@ public class FragmentToalData extends BaseFragment{
 	 * @Function: private void showTodayTemp()
 	 * @Description: 显示今天温度的折线图
 	 */
-	private void showWeekTemp()
+	private void showWeekTemp(int year, int month, int day)
 	{
-		LineData weekLineData = getWeekTempLineData();
+		LineData weekLineData = getWeekTempLineData(year, month, day); //获取规定日期往前本周的温度
 		LineChartShow lineChartShow = new LineChartShow(10, "一周温度");
 		showChart(tempLineChart, weekLineData, ContextCompat.getColor(getActivity(), R.color.whitesmoke), lineChartShow);
 	}
@@ -735,13 +737,15 @@ public class FragmentToalData extends BaseFragment{
 	 * @Description: 获取一周温度的数据集
 	 * @return 数据集
 	 */
-	private LineData getWeekTempLineData() {
+	private LineData getWeekTempLineData(int year, int month, int day) {
 
 		int count = 7;
-		TodayTime todayTime = new TodayTime();
-		todayTime.update();
-		int todayOfWeek = todayTime.getWeek(); //当前星期几
-		System.out.println("今天是星期："+todayOfWeek);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK); //规定日期是星期几
+
+		System.out.println("这天是星期："+dayOfWeek);
 
 		/* -------------------------------------------------------------------
 		 *  设置周表X轴的内容
@@ -763,13 +767,13 @@ public class FragmentToalData extends BaseFragment{
 		ArrayList<Entry> yWeekMinValues = new ArrayList<>();
 
 		Calendar c = null; // 日期和时间
-		int day; // 需要更改的天数
 		float value[] = null;
-		for(int i = 0; i < todayOfWeek; i++)
+		for(int i = 0; i < dayOfWeek; i++)
 		{
-			c = Calendar.getInstance(); // 当时的日期和时间
-			day = c.get(Calendar.DAY_OF_MONTH) - (todayOfWeek-1) + i;
-			c.set(Calendar.DAY_OF_MONTH, day);
+			c = Calendar.getInstance(); // 规定日期的日期和时间
+			c.set(year, month, day);
+			int daytemp = c.get(Calendar.DAY_OF_MONTH) - (dayOfWeek-1) + i;// 需要更改的天数
+			c.set(Calendar.DAY_OF_MONTH, daytemp);
 			/* -------------------------------------------------------------
 			 *  查询到max,min,avg的温度，year需要%100，因为只保存十位个位
 			 * -------------------------------------------------------------*/
@@ -777,8 +781,8 @@ public class FragmentToalData extends BaseFragment{
 //			if(value != null) yWeekMaxValues.add(new Entry(value[0], i));
 //			value = databaseOperation.queryMinDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 //			if(value != null) yWeekMinValues.add(new Entry(value[0], i));
-//			value = databaseOperation.queryDayPerYear(getActivity(), c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-//			if(value != null) yWeekAvgValues.add(new Entry(value[0], i));
+			value = databaseOperation.queryDayPerYearByArea(getActivity(), areaNumString,c.get(Calendar.YEAR)%100, c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			if(value != null) yWeekAvgValues.add(new Entry(value[0], i));
 		}
 
 		// create a dataset and give it a type

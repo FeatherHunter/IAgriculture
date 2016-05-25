@@ -51,8 +51,9 @@ public class HomeListViewAdapter extends BaseAdapter implements PinnedSectionLis
         if(converView==null){
             viewHolder = new ViewHolder();
             converView=LayoutInflater.from(context).inflate(R.layout.home_listview, null);
-            viewHolder.textView=(TextView)converView.findViewById(R.id.title);
-            viewHolder.imageView=(ImageView)converView.findViewById(R.id.imageView1);
+            viewHolder.textView=(TextView)converView.findViewById(R.id.listview_item_title);
+            viewHolder.imageView=(ImageView)converView.findViewById(R.id.listview_item_imageView);
+            viewHolder.warningView = (TextView)converView.findViewById(R.id.listview_item_warning);//警告信息
             converView.setTag(viewHolder);
         }else{
             viewHolder=(ViewHolder) converView.getTag();
@@ -67,9 +68,29 @@ public class HomeListViewAdapter extends BaseAdapter implements PinnedSectionLis
             viewHolder.textView.setTextColor(Color.WHITE);               //字为白色
             viewHolder.imageView.setVisibility(View.GONE);               //不显示图片
 
+            viewHolder.warningView.setBackgroundResource(R.color.mygreen4);//设置警告背景色
+            if(item.getWarning() == true)//地区需要警告
+            {
+                viewHolder.warningView.setText("未\"绑定终端\"");
+            }
+            else
+            {
+                viewHolder.warningView.setText("");
+            }
+
         }else{                                  //为大棚号
             viewHolder.textView.setBackgroundResource(R.color.white);
             viewHolder.imageView.setVisibility(View.VISIBLE);
+
+            viewHolder.warningView.setBackgroundResource(R.color.white);//设置警告背景色
+            if(item.getWarning() == true)//地区需要警告
+            {
+                viewHolder.warningView.setText("未\"绑定设备\"");
+            }
+            else
+            {
+                viewHolder.warningView.setText("");
+            }
         }
         return converView;
     }
