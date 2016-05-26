@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -69,16 +70,10 @@ public class FragmentGreenHouse extends BaseFragment{
 	int irriSum = 0;
 	int irriOnSum = 0;
 
-	ImageView videoImageView;
-
-	Button videoImageButton;
 	Button settingButton;
 	android.widget.Switch autoTempSwitch = null;//智能温度开关
 	android.widget.Switch autoHumiSwitch = null;//智能湿度开关
-	boolean video_start = false;
 
-	Boolean videoOkFlag = false;
-	private ContrlReceiver contrlReceiver;
 	private String CONTRL_ACTION = "android.intent.action.EDIT";
 
 	/* -----------------------------------------
@@ -175,136 +170,9 @@ public class FragmentGreenHouse extends BaseFragment{
 		autoTempSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner()); //设置自动温控监听器
 		autoHumiSwitch.setOnCheckedChangeListener(new autoSwitchOnCheckedChangeListenner()); //设置自动温控监听器
 
-		/* -----------------------------------------------------------------
-	     *             利用用户名创建or获得数据库
-	     * -----------------------------------------------------------------*/
-		SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
-		String accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
-		databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
-		databaseOperation.createDatabase(getActivity());//创建数据库
+		LoadDeviceAsyncTask loadDeviceAsyncTask = new LoadDeviceAsyncTask();//显示设备列表
+		loadDeviceAsyncTask.execute();
 
-		DisplayMetrics dm = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-		int width = dm.widthPixels;
-
-		String devices[] = databaseOperation.queryDevicePerGHouse(getActivity(), Integer.parseInt(areaNumString), greenHouseNumString); //查询设备号
-		int deviceCount = 0;
-		for(int i = 0; devices[i]!=null; i++)
-		{
-			deviceCount++;
-		}
-		warmSum = deviceCount; //取暖设备数目
-		irriSum = deviceCount; //灌溉设备数目
-		warmOnSum = irriOnSum = 0;
-		deviceWarmSum.setText(""+warmSum); //总数
-		deviceIrrigationSum.setText(""+irriSum);
-		deviceWarmOffSum.setText(""+(warmSum-warmOnSum)); //关闭的数量
-		deviceIrrigationOffSum.setText(""+(irriSum-irriOnSum));
-// 获取xml的RelativeLayout
-		RelativeLayout ghLayout = (RelativeLayout) getActivity().findViewById(R.id.gh_device_layout);
-
-		int i;
-		for (i = 0; i < deviceCount/2; i++) {
-			// 每行都有一个linearlayout
-			LinearLayout linearLayout = new LinearLayout(getActivity());
-			linearLayout.setId(i + 10);
-			linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-			LinearLayout.LayoutParams lLayoutlayoutParams = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-			linearLayout.setLayoutParams(lLayoutlayoutParams);
-
-			View view1 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
-			View view2 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
-
-			//每一个设备框的大小
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
-			//将linearLayout加入到relative布局中
-			RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-			view1.setLayoutParams(layoutParams);
-			view2.setLayoutParams(layoutParams);
-
-			/* -----------------------------------------------------------------
-	         *             获取设备1加入到HashTable中
-	         *             获取温度、湿度switch并且设置监听器
-	         * -----------------------------------------------------------------*/
-			TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
-			TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
-			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
-			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
-
-			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
-			Device device1 = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
-			deviceHashtable.put(devices[i*2],device1);
-
-			/* -----------------------------------------------------------------
-	         *             获取设备1加入到HashTable中
-	         *             获取温度、湿度switch并且设置监听器
-	         * -----------------------------------------------------------------*/
-			tempValue = (TextView) view2.findViewById(R.id.device_temp);
-			humiValue = (TextView) view2.findViewById(R.id.device_humi);
-			warmDeviceState = (Switch) view2.findViewById(R.id.device_warm_switch);
-			irriDeviceState = (Switch) view2.findViewById(R.id.device_irrigation_switch);
-
-			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2+1]));
-			Device device2 = new Device(devices[i*2+1], tempValue, humiValue, warmDeviceState, irriDeviceState);
-			deviceHashtable.put(devices[i*2+1],device2);
-
-			// 添加到每行的linearlayout中
-			linearLayout.addView(view1);
-			linearLayout.addView(view2);
-
-			// 每个linearlayout都在前一个的下面，第一个在顶,不处理
-			if (i > 0) {
-				relativeParams.addRule(RelativeLayout.BELOW, i + 10 - 1);
-			}
-
-			// 把每个linearlayout加到relativelayout中
-			ghLayout.addView(linearLayout, relativeParams);
-		}
-		if(deviceCount%2 == 1)
-		{
-			// 每行的linearlayout
-			LinearLayout linearLayout = new LinearLayout(getActivity());
-			linearLayout.setId(i + 10);
-			linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-			LinearLayout.LayoutParams lLayoutlayoutParams = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-			linearLayout.setLayoutParams(lLayoutlayoutParams);
-
-			View view1 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
-
-			//每一个设备框的大小
-			LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
-			//将linearLayout加入到relative布局中
-			RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-			view1.setLayoutParams(layoutParams);
-
-			/*将第一个设备加入到list中*/
-			TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
-			TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
-
-			/* -----------------------------------------------------------------
-	         *             获取设备的switch并且设置监听器
-	         * -----------------------------------------------------------------*/
-			Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
-			Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
-
-			warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
-			Device device = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
-			deviceHashtable.put(devices[i*2],device);
-
-			// 添加到每行的linearlayout中
-			linearLayout.addView(view1);
-			relativeParams.addRule(RelativeLayout.BELOW, i + 10 - 1);
-			// 把每个linearlayout加到relativelayout中
-			ghLayout.addView(linearLayout, relativeParams);
-		}
-
-		video_start = false; //默认视频关闭
 		/* -------------------------------------------------------
 		 *  动态注册receiver
 		 * -------------------------------------------------------*/
@@ -318,15 +186,149 @@ public class FragmentGreenHouse extends BaseFragment{
 			System.out.println("fragmentIHome registerReceiver");
 		}
 
-		try {
-			/*动态注册receiver*/
-			contrlReceiver = new ContrlReceiver();
-			IntentFilter filter = new IntentFilter();
-			filter.addAction(CONTRL_ACTION);
-			getActivity().registerReceiver(contrlReceiver, filter);//注册
-		} catch (IllegalArgumentException  e) {
-			// TODO: handle exception
-			System.out.println("had been registerReceiver");
+	}
+
+
+	private class LoadDeviceAsyncTask extends AsyncTask{
+
+		int deviceCount = 0;
+		String devices[];
+		@Override
+		protected Object doInBackground(Object[] params) {
+		/* -----------------------------------------------------------------
+	     *             利用用户名创建or获得数据库
+	     * -----------------------------------------------------------------*/
+			SharedPreferences apSharedPreferences = getActivity().getSharedPreferences("saved", Activity.MODE_PRIVATE);
+			String accountString  = apSharedPreferences.getString("account", ""); // 使用getString方法获得value，注意第2个参数是value的默认值
+			databaseOperation = new DatabaseOperation(accountString); //使用用户名创建数据库
+			databaseOperation.createDatabase(getActivity());//创建数据库
+
+			devices = databaseOperation.queryDevicePerGHouse(getActivity(), Integer.parseInt(areaNumString), greenHouseNumString); //查询设备号
+			deviceCount = 0;
+			for(int i = 0; devices[i]!=null; i++)
+			{
+				deviceCount++;
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Object o) {
+			super.onPostExecute(o);
+			DisplayMetrics dm = new DisplayMetrics();
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+			int width = dm.widthPixels;
+
+			warmSum = deviceCount; //取暖设备数目
+			irriSum = deviceCount; //灌溉设备数目
+			warmOnSum = irriOnSum = 0;
+			deviceWarmSum.setText(""+warmSum); //总数
+			deviceIrrigationSum.setText(""+irriSum);
+			deviceWarmOffSum.setText(""+(warmSum-warmOnSum)); //关闭的数量
+			deviceIrrigationOffSum.setText(""+(irriSum-irriOnSum));
+// 获取xml的RelativeLayout
+			RelativeLayout ghLayout = (RelativeLayout) getActivity().findViewById(R.id.gh_device_layout);
+
+			int i;
+			for (i = 0; i < deviceCount/2; i++) {
+				// 每行都有一个linearlayout
+				LinearLayout linearLayout = new LinearLayout(getActivity());
+				linearLayout.setId(i + 10);
+				linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+				LinearLayout.LayoutParams lLayoutlayoutParams = new LinearLayout.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+				linearLayout.setLayoutParams(lLayoutlayoutParams);
+
+				View view1 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
+				View view2 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
+
+				//每一个设备框的大小
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
+				//将linearLayout加入到relative布局中
+				RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+				view1.setLayoutParams(layoutParams);
+				view2.setLayoutParams(layoutParams);
+
+			/* -----------------------------------------------------------------
+	         *             获取设备1加入到HashTable中
+	         *             获取温度、湿度switch并且设置监听器
+	         * -----------------------------------------------------------------*/
+				TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
+				TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
+				Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
+				Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
+
+				warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
+				Device device1 = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
+				deviceHashtable.put(devices[i*2],device1);
+
+			/* -----------------------------------------------------------------
+	         *             获取设备1加入到HashTable中
+	         *             获取温度、湿度switch并且设置监听器
+	         * -----------------------------------------------------------------*/
+				tempValue = (TextView) view2.findViewById(R.id.device_temp);
+				humiValue = (TextView) view2.findViewById(R.id.device_humi);
+				warmDeviceState = (Switch) view2.findViewById(R.id.device_warm_switch);
+				irriDeviceState = (Switch) view2.findViewById(R.id.device_irrigation_switch);
+
+				warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2+1]));
+				Device device2 = new Device(devices[i*2+1], tempValue, humiValue, warmDeviceState, irriDeviceState);
+				deviceHashtable.put(devices[i*2+1],device2);
+
+				// 添加到每行的linearlayout中
+				linearLayout.addView(view1);
+				linearLayout.addView(view2);
+
+				// 每个linearlayout都在前一个的下面，第一个在顶,不处理
+				if (i > 0) {
+					relativeParams.addRule(RelativeLayout.BELOW, i + 10 - 1);
+				}
+
+				// 把每个linearlayout加到relativelayout中
+				ghLayout.addView(linearLayout, relativeParams);
+			}
+			if(deviceCount%2 == 1)
+			{
+				// 每行的linearlayout
+				LinearLayout linearLayout = new LinearLayout(getActivity());
+				linearLayout.setId(i + 10);
+				linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+				LinearLayout.LayoutParams lLayoutlayoutParams = new LinearLayout.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+				linearLayout.setLayoutParams(lLayoutlayoutParams);
+
+				View view1 = View.inflate(getActivity(), R.layout.greenhouse_device, null);
+
+				//每一个设备框的大小
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width/2 - 10, 500);
+				//将linearLayout加入到relative布局中
+				RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
+						ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+				view1.setLayoutParams(layoutParams);
+
+			/*将第一个设备加入到list中*/
+				TextView tempValue = (TextView) view1.findViewById(R.id.device_temp);
+				TextView humiValue = (TextView) view1.findViewById(R.id.device_humi);
+
+			/* -----------------------------------------------------------------
+	         *             获取设备的switch并且设置监听器
+	         * -----------------------------------------------------------------*/
+				Switch warmDeviceState = (Switch) view1.findViewById(R.id.device_warm_switch);
+				Switch irriDeviceState = (Switch) view1.findViewById(R.id.device_irrigation_switch);
+
+				warmDeviceState.setOnCheckedChangeListener(new switchWarmOnCheckedChangeListener(devices[i*2]));
+				Device device = new Device(devices[i*2], tempValue, humiValue, warmDeviceState, irriDeviceState);
+				deviceHashtable.put(devices[i*2],device);
+
+				// 添加到每行的linearlayout中
+				linearLayout.addView(view1);
+				relativeParams.addRule(RelativeLayout.BELOW, i + 10 - 1);
+				// 把每个linearlayout加到relativelayout中
+				ghLayout.addView(linearLayout, relativeParams);
+			}
 		}
 	}
 
@@ -536,50 +538,5 @@ public class FragmentGreenHouse extends BaseFragment{
 		}//onReceive
 	}
 
-	/**
-	 * @Function: private class ContrlReceiver extends BroadcastReceiver
-	 * @Description:
-	 *      接受来自Service的信息，并且转发给相应fragment来改变相应组件内容
-	 **/
-	private class ContrlReceiver extends BroadcastReceiver {
-
-		public ContrlReceiver() {
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-//			String typeString = intent.getStringExtra("type");
-//			/* -----------------------------------------
-//			 * 处理主activity接收到的广播
-//			 * -----------------------------------------*/
-//			if (typeString.equals("wifi_internet")) {
-//				String stateString = intent.getStringExtra("wifi_internet");
-//				if (stateString.equals("disconnect")) {
-//					videoOkFlag = false;
-//					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.color.black));
-//				} else if (stateString.equals("connect")) {
-//				} else if (stateString.equals("error")) {
-//					videoOkFlag = false;
-//					videoImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(),R.color.black));
-//				} else if (stateString.equals("authed")) {
-//					videoOkFlag = true;
-//					/* -------------------------------------------------------
-//	     			 *  demo
-//		 			 * -------------------------------------------------------*/
-//					SharedPreferences demotemp = getActivity().getSharedPreferences("demo", Activity.MODE_PRIVATE);
-//					if(demotemp.getString("demo", "").equals("on"))
-//					{
-//						videoImageView.setImageResource(R.drawable.demo_on8);
-//					}
-//					else
-//					{
-//						videoImageView.setImageResource(R.drawable.demo_on1);
-//					}
-//				}
-//			}
-		}
-	}
 	
 }

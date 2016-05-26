@@ -348,7 +348,7 @@ public class FragmentToalData extends BaseFragment{
 					showTodayTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
 					break;
 				case R.id.rb_temp_week:
-					showWeekTemp(todayTime.getYear(),todayTime.getMonth(),todayTime.getDay());
+					showWeekTemp(todayTime.getYear(),todayTime.getMonth()-1,todayTime.getDay());
 					break;
 				default:break;
 			}

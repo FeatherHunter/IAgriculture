@@ -51,64 +51,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f0e29b3-0790-4382-b653-9cc60e18f370" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse1.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse3.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse4.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse_1.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse_2.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse_3.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/video_greenhouse_4.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/TestActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_activityest.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/classes.jar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/libs/android-support-v7-appcompat.jar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/bundles/release/libs/android-support-v7-appcompat.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/outputs/aar/library_SlidingMenu-release.aar" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/outputs/aar/library_SlidingMenu-release.aar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_SlidingMenu_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_SlidingMenu_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_SlidingMenu_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_SlidingMenu_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_library_pinned_section_listview_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_library_pinned_section_listview_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_library_pinned_section_listview_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_library_library_pinned_section_listview_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Device/Device.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Device/Device.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/adapter/HomeListViewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/adapter/HomeListViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/Constant.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/Constant.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/listview/ListViewItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/listview/ListViewItem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/listview/ViewHolder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/listview/ViewHolder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build.gradle" afterPath="$PROJECT_DIR$/library_SlidingMenu/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseAssets/merger.xml" afterPath="$PROJECT_DIR$/library_SlidingMenu/build/intermediates/incremental/mergeReleaseAssets/merger.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" afterPath="$PROJECT_DIR$/library_SlidingMenu/library_SlidingMenu.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_library_pinned_section_listview/build.gradle" afterPath="$PROJECT_DIR$/library_library_pinned_section_listview/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" afterPath="$PROJECT_DIR$/library_library_pinned_section_listview/library_library_pinned_section_listview.iml" />
     </list>
     <ignored path="IAgriculture.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,46 +99,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="greenhouse_device.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.6119404">
-              <caret line="126" column="42" selection-start-line="126" selection-start-column="42" selection-end-line="126" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="FragmentGreenHouse.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.151515">
-              <caret line="249" column="110" selection-start-line="249" selection-start-column="110" selection-end-line="249" selection-end-column="110" />
+            <state vertical-scroll-proportion="-6.029412">
+              <caret line="231" column="18" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2918#2934#0" expanded="true" />
+                <element signature="method#onCreateView#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="docComment;method#onAttach#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="method#onAttach#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="e#6298#6363#0" expanded="false" />
+                <element signature="docComment;class#autoSwitchOnCheckedChangeListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="class#autoSwitchOnCheckedChangeListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="docComment;class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="method#onCheckedChanged#0;class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="docComment;method#broadcastMsgToServer#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="method#broadcastMsgToServer#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="class#settingButtonListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="docComment;class#RecvReceiver#0;class#FragmentGreenHouse#0" expanded="false" />
+                <element signature="class#RecvReceiver#0;class#FragmentGreenHouse#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompoundButton.java" pinned="false" current-in-tab="false">
-        <entry file="file://C:/FeatherTools/Android/sdk/sources/android-23/android/widget/CompoundButton.java">
+      <file leaf-file-name="ClientMainActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="171" column="16" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
+            <state vertical-scroll-proportion="-5.1630435">
+              <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IHomeService.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IHomeService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4117647">
-              <caret line="1278" column="0" selection-start-line="1278" selection-start-column="0" selection-end-line="1278" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1090" column="18" selection-start-line="1090" selection-start-column="18" selection-end-line="1090" selection-end-column="18" />
               <folding>
                 <element signature="docComment;class#IHomeService#0" expanded="false" />
                 <element signature="method#onBind#0;class#IHomeService#0" expanded="false" />
@@ -194,14 +159,13 @@
                 <element signature="docComment;field#serverConnectRunnable#0;class#IHomeService#0" expanded="false" />
                 <element signature="docComment;field#connectOvertimeRunnable#0;class#IHomeService#0" expanded="false" />
                 <element signature="docComment;method#dealResHumi#0;class#IHomeService#0" expanded="false" />
-                <element signature="method#dealResHumi#0;class#IHomeService#0" expanded="false" />
-                <element signature="e#25618#25660#0" expanded="false" />
+                <element signature="e#25665#25707#0" expanded="false" />
                 <element signature="docComment;method#dealResTemp#0;class#IHomeService#0" expanded="false" />
-                <element signature="e#29486#29528#0" expanded="false" />
-                <element signature="e#29644#29728#0" expanded="false" />
-                <element signature="e#29793#29805#0" expanded="false" />
-                <element signature="e#29871#29885#0" expanded="false" />
-                <element signature="e#32066#32108#0" expanded="false" />
+                <element signature="e#29580#29622#0" expanded="false" />
+                <element signature="e#29738#29822#0" expanded="false" />
+                <element signature="e#29887#29899#0" expanded="false" />
+                <element signature="e#29965#29979#0" expanded="false" />
+                <element signature="e#32160#32202#0" expanded="false" />
                 <element signature="docComment;method#broadcastUpdateHumi#0;class#IHomeService#0" expanded="false" />
                 <element signature="method#broadcastUpdateHumi#0;class#IHomeService#0" expanded="false" />
                 <element signature="docComment;method#dealResLogin#0;class#IHomeService#0" expanded="false" />
@@ -212,12 +176,67 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="FragmentVideo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="71" column="51" selection-start-line="71" selection-start-column="51" selection-end-line="71" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fragment_video.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.970149">
+              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FragmentToalData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.5714286">
+              <caret line="350" column="75" selection-start-line="350" selection-start-column="75" selection-end-line="350" selection-end-column="75" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TodayTime.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Calendar/TodayTime.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatabaseOperation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1187" column="32" selection-start-line="1187" selection-start-column="32" selection-end-line="1187" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="FragmentHome.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="438" column="13" selection-start-line="438" selection-start-column="13" selection-end-line="438" selection-end-column="13" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -226,58 +245,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Device.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Device/Device.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="14.149254">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slidemenu_left_frag.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_left_frag.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="57.0597">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slidemenu_right_frag.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_right_frag.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.597015">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <caret line="45" column="3" selection-start-line="45" selection-start-column="3" selection-end-line="45" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -3511,7 +3479,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/adapter/HomeListViewAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_database_test.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/DatabaseTestActivity.java" />
@@ -3520,25 +3487,25 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/login_background.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_video_gridview.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/gridview_items.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/bottombar/Constant.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Device/Device.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -3566,7 +3533,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -3584,38 +3551,6 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -3647,94 +3582,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="iagriculture" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wxapi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WeiXin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sqlite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="slidemenu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -3756,28 +3603,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="listview" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3843,72 +3668,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Device" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Calendar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bottombar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="IAgriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iagriculture" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="adapter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -3937,8 +3696,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4239,7 +3998,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
+    <frame x="-8" y="0" width="1936" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -4248,8 +4007,8 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36903375" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11456103" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09540636" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11414791" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32945284" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -4257,7 +4016,8 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24197002" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24222937" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
@@ -4270,7 +4030,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="91" y="91" width="1738" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -4284,9 +4043,21 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="v0.9.8 继续完善" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.9.8 继续完善" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java</url>
+          <line>119</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -4295,7 +4066,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4303,7 +4073,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4311,7 +4080,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="137" column="38" selection-start-line="137" selection-start-column="38" selection-end-line="137" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4319,15 +4087,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4335,7 +4094,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4343,7 +4101,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4351,7 +4108,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="54" column="71" selection-start-line="54" selection-start-column="71" selection-end-line="54" selection-end-column="71" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4359,7 +4115,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4367,7 +4122,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4375,7 +4129,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="57" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4383,7 +4136,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="84" selection-start-line="70" selection-start-column="84" selection-end-line="70" selection-end-column="84" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4391,7 +4143,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4399,7 +4150,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4407,7 +4157,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4415,7 +4164,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4423,7 +4171,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4431,15 +4178,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Calendar/TodayTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4447,25 +4185,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="98" selection-start-line="92" selection-start-column="98" selection-end-line="92" selection-end-column="98" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4473,7 +4192,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4481,7 +4199,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4489,7 +4206,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4497,15 +4213,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1095" column="34" selection-start-line="1095" selection-start-column="34" selection-end-line="1095" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4521,7 +4228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4529,7 +4235,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4537,151 +4242,139 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_activityest.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.850746">
           <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_greenhouse.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="6.3134327">
           <caret line="438" column="52" selection-start-line="438" selection-start-column="52" selection-end-line="438" selection-end-column="52" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="57.80597">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_totaldata.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="168.25374">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml">
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="30.567163">
-          <caret line="34" column="45" selection-start-line="34" selection-start-column="45" selection-end-line="34" selection-end-column="45" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_video_gridview.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.37313432">
           <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/gridview_items.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/gridview_items.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.8955224">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/head_panel_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="20.119404">
           <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_listview.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.2686567">
           <caret line="40" column="32" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/imagetext.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/imagetext.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="14.149254">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_left_frag.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="57.0597">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_right_frag.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/slidemenu_right_frag.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.597015">
+        <state vertical-scroll-proportion="0.0">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Device/Device.java">
@@ -4689,7 +4382,23 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#676#677#0" expanded="false" />
+            <element signature="e#708#709#0" expanded="false" />
+            <element signature="e#760#761#0" expanded="false" />
+            <element signature="e#802#803#0" expanded="false" />
+            <element signature="e#840#841#0" expanded="false" />
+            <element signature="e#872#873#0" expanded="false" />
+            <element signature="e#924#925#0" expanded="false" />
+            <element signature="e#966#967#0" expanded="false" />
+            <element signature="e#1002#1003#0" expanded="false" />
+            <element signature="e#1034#1035#0" expanded="false" />
+            <element signature="e#1084#1085#0" expanded="false" />
+            <element signature="e#1126#1127#0" expanded="false" />
+            <element signature="e#1168#1169#0" expanded="false" />
+            <element signature="e#1206#1207#0" expanded="false" />
+            <element signature="e#1364#1365#0" expanded="false" />
+            <element signature="e#1402#1403#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4698,51 +4407,68 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="171" column="16" selection-start-line="171" selection-start-column="16" selection-end-line="171" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.151515">
-          <caret line="249" column="110" selection-start-line="249" selection-start-column="110" selection-end-line="249" selection-end-column="110" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#17799#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2455#2456#0" expanded="false" />
+            <element signature="e#2490#2491#0" expanded="false" />
+            <element signature="e#2556#2557#0" expanded="false" />
+            <element signature="e#2595#2596#0" expanded="false" />
+            <element signature="e#3931#3932#0" expanded="false" />
+            <element signature="e#3968#3969#0" expanded="false" />
+            <element signature="e#4416#4417#0" expanded="false" />
+            <element signature="e#4447#4448#0" expanded="false" />
+            <element signature="e#8601#8602#0" expanded="false" />
+            <element signature="e#8639#8640#0" expanded="false" />
+            <element signature="e#9683#9684#0" expanded="false" />
+            <element signature="e#9721#9722#0" expanded="false" />
+            <element signature="e#10673#10674#0" expanded="false" />
+            <element signature="e#10711#10712#0" expanded="false" />
+            <element signature="e#11463#11464#0" expanded="false" />
+            <element signature="e#11516#11517#0" expanded="false" />
+            <element signature="e#16086#16087#0" expanded="false" />
+            <element signature="e#16127#16128#0" expanded="false" />
+            <element signature="e#16927#16928#0" expanded="false" />
+            <element signature="e#16984#16985#0" expanded="false" />
+            <element signature="e#17038#17039#0" expanded="false" />
+            <element signature="e#17097#17098#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/greenhouse_device.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.6119404">
+        <state vertical-scroll-proportion="0.0">
           <caret line="126" column="42" selection-start-line="126" selection-start-column="42" selection-end-line="126" selection-end-column="42" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
-          <folding />
-        </state>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentHome.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="438" column="13" selection-start-line="438" selection-start-column="13" selection-end-line="438" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Instruction/Instruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="3" selection-start-line="45" selection-start-column="3" selection-end-line="45" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/service/IHomeService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4117647">
-          <caret line="1278" column="0" selection-start-line="1278" selection-start-column="0" selection-end-line="1278" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1090" column="18" selection-start-line="1090" selection-start-column="18" selection-end-line="1090" selection-end-column="18" />
           <folding>
             <element signature="docComment;class#IHomeService#0" expanded="false" />
             <element signature="method#onBind#0;class#IHomeService#0" expanded="false" />
@@ -4761,20 +4487,95 @@
             <element signature="docComment;field#serverConnectRunnable#0;class#IHomeService#0" expanded="false" />
             <element signature="docComment;field#connectOvertimeRunnable#0;class#IHomeService#0" expanded="false" />
             <element signature="docComment;method#dealResHumi#0;class#IHomeService#0" expanded="false" />
-            <element signature="method#dealResHumi#0;class#IHomeService#0" expanded="false" />
-            <element signature="e#25618#25660#0" expanded="false" />
+            <element signature="e#25665#25707#0" expanded="false" />
             <element signature="docComment;method#dealResTemp#0;class#IHomeService#0" expanded="false" />
-            <element signature="e#29486#29528#0" expanded="false" />
-            <element signature="e#29644#29728#0" expanded="false" />
-            <element signature="e#29793#29805#0" expanded="false" />
-            <element signature="e#29871#29885#0" expanded="false" />
-            <element signature="e#32066#32108#0" expanded="false" />
+            <element signature="e#29580#29622#0" expanded="false" />
+            <element signature="e#29738#29822#0" expanded="false" />
+            <element signature="e#29887#29899#0" expanded="false" />
+            <element signature="e#29965#29979#0" expanded="false" />
+            <element signature="e#32160#32202#0" expanded="false" />
             <element signature="docComment;method#broadcastUpdateHumi#0;class#IHomeService#0" expanded="false" />
             <element signature="method#broadcastUpdateHumi#0;class#IHomeService#0" expanded="false" />
             <element signature="docComment;method#dealResLogin#0;class#IHomeService#0" expanded="false" />
             <element signature="class#ServiceReceiver#0;class#IHomeService#0" expanded="false" />
             <element signature="method#onReceive#0;class#ServiceReceiver#0;class#IHomeService#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentVideo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="51" selection-start-line="71" selection-start-column="51" selection-end-line="71" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.970149">
+          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/sqlite/DatabaseOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1187" column="32" selection-start-line="1187" selection-start-column="32" selection-end-line="1187" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/Calendar/TodayTime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentToalData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5714286">
+          <caret line="350" column="75" selection-start-line="350" selection-start-column="75" selection-end-line="350" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/fragment/FragmentGreenHouse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.029412">
+          <caret line="231" column="18" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2918#2934#0" expanded="true" />
+            <element signature="method#onCreateView#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="docComment;method#onAttach#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="method#onAttach#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="e#6298#6363#0" expanded="false" />
+            <element signature="docComment;class#autoSwitchOnCheckedChangeListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="class#autoSwitchOnCheckedChangeListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="docComment;class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="method#onCheckedChanged#0;class#switchWarmOnCheckedChangeListener#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="docComment;method#broadcastMsgToServer#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="method#broadcastMsgToServer#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="class#settingButtonListenner#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="docComment;class#RecvReceiver#0;class#FragmentGreenHouse#0" expanded="false" />
+            <element signature="class#RecvReceiver#0;class#FragmentGreenHouse#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ifuture/iagriculture/activity/ClientMainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1630435">
+          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>

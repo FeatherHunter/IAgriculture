@@ -727,6 +727,7 @@ public class IHomeService extends Service{
 	 * */
 	private int dealResHumi(String msg, int index)
 	{
+		System.out.println("dealResHumi");
 		String areaString;
 		String greenHouseString;
 		String deviceString;
@@ -747,7 +748,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		areaString = msg.substring(startIndex, i-1); //获取地区号
-		System.out.println("get areaString："+areaString);
+//		System.out.println("get areaString："+areaString);
 		/*=======获取大棚号===============*/
 		startIndex = i;
 		while(i < msgLength)
@@ -759,7 +760,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
-		System.out.println("get greenHouseString："+greenHouseString);
+//		System.out.println("get greenHouseString："+greenHouseString);
 
 		/*=======获取设备号===============*/
 		startIndex = i;
@@ -772,7 +773,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		deviceString = msg.substring(startIndex, i-1); //获取设备号
-		System.out.println("get deviceString："+deviceString);
+//		System.out.println("get deviceString："+deviceString);
 
 		/*=======获取温度值===============*/
 		startIndex = i;
@@ -785,7 +786,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		humiString = msg.substring(startIndex, i-1); //获取温度值
-		System.out.println("get humiString："+humiString);
+//		System.out.println("get humiString："+humiString);
 		/*=======获取时间===============*/
 		startIndex = i;
 		while(i < msgLength)
@@ -795,7 +796,7 @@ public class IHomeService extends Service{
 			i++;
 		}
 		timeString = msg.substring(startIndex, i); //获取时间
-		System.out.println("timeString："+timeString.length());
+//		System.out.println("timeString："+timeString.length());
 		/* -------------------------------------------------------
 		 *  拆解事件数据，保存到数据库中
 		 * -------------------------------------------------------*/
@@ -860,6 +861,7 @@ public class IHomeService extends Service{
 	 * */
 	private int dealResTemp(String msg, int index)
 	{
+		System.out.println("dealResTemp");
 		String areaString;
 		String greenHouseString;
 		String deviceString;
@@ -880,7 +882,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		areaString = msg.substring(startIndex, i-1); //获取地区号
-		System.out.println("get areaString："+areaString);
+//		System.out.println("get areaString："+areaString);
 		/*=======获取大棚号===============*/
 		startIndex = i;
 		while(i < msgLength)
@@ -892,7 +894,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		greenHouseString = msg.substring(startIndex, i-1); //获取设备ID号
-		System.out.println("get greenHouseString："+greenHouseString);
+//		System.out.println("get greenHouseString："+greenHouseString);
 
 		/*=======获取设备号===============*/
 		startIndex = i;
@@ -905,7 +907,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		deviceString = msg.substring(startIndex, i-1); //获取设备号
-		System.out.println("get deviceString："+deviceString);
+//		System.out.println("get deviceString："+deviceString);
 
 		/*=======获取温度值===============*/
 		startIndex = i;
@@ -918,7 +920,7 @@ public class IHomeService extends Service{
 		if((i >= msgLength) || (i+1 >= msgLength)) return - 1; //错误
 		i++;
 		tempString = msg.substring(startIndex, i-1); //获取温度值
-		System.out.println("get tempString："+tempString);
+//		System.out.println("get tempString："+tempString);
 		/*=======获取时间===============*/
 		startIndex = i;
 		while(i < msgLength)
@@ -928,7 +930,7 @@ public class IHomeService extends Service{
 			i++;
 		}
 		timeString = msg.substring(startIndex, i); //获取时间
-		System.out.println("timeString："+timeString.length());
+//		System.out.println("timeString："+timeString.length());
 		/* -------------------------------------------------------
 		 *  拆解事件数据，保存到数据库中
 		 * -------------------------------------------------------*/

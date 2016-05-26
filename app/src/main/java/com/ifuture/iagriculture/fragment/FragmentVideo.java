@@ -203,7 +203,6 @@ public class FragmentVideo extends BaseFragment implements ViewSwitcher.ViewFact
 				Toast.makeText(getActivity(), "当前视频：大棚"+v.getId(), Toast.LENGTH_SHORT).show();
 			}
 		});
-
 		return imageView;
 	}
 
